@@ -1,2 +1,14 @@
-# demo
-amazeUI + bootStrap + angularjs + nodejs + redisDB +mongoDB
+##########  这是一个cms基于 amazeui nodejs mysql 的响应式后台框架
+            1、这是一个快速开发的框架,有代码自动生成。
+                通过界面配置
+                ①、配置数据表名及字段，生成数据库表及项目代码。
+                ②、可通过数据库表直接生成项目代码。
+                ③、可自由选择界面模板。（待想好再开发）
+            2、这是一个拥有可配置流程的项目框架。
+                先进行项目配置，再进行流程配置。
+
+##########  nodejs 配置（项目框架配置）
+
+##########  bower  配置（js 应用配置）  https://bower.io/search/ 下载查询
+
+##########  mysql  配置
