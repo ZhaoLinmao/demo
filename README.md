@@ -12,3 +12,23 @@
 ##########  bower  配置（js 应用配置）  https://bower.io/search/ 下载查询
 
 ##########  mysql  配置
+
+
+###########  github 配置 
+               1、安装git
+               2、git init
+               3、git add .
+               4、git commit -m "注释语句"
+               5、git remote add origin https://github.com/hanhailong/CustomRatingBar
+               6、git pull origin master
+               7、git push -u origin master
+
+
+
+
+
+
+
+
+
+
