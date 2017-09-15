@@ -3,8 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
   <title>Amaze UI Admin index Examples</title>
   <meta name="description" content="这是一个 index 页面">
+
   <meta name="keywords" content="index">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="renderer" content="webkit">
@@ -52,8 +54,10 @@
   <div class="admin-sidebar am-offcanvas" id="admin-offcanvas">
     <div class="am-offcanvas-bar admin-offcanvas-bar">
       <!--左侧 菜单-->
-      <ul class="am-list admin-sidebar-list">
-        <li><a href="admin-index.html"><span class="am-icon-home"></span> 首页</a></li>
+      <ul id="treeView" class="am-list admin-sidebar-list">
+        <li><a href="/"><span class="am-icon-home"></span> 首页</a></li>
+
+        <!-- menu content -->
         <li class="admin-parent">
           <a class="am-cf" data-am-collapse="{target: '#collapse-nav'}"><span class="am-icon-file"></span> 页面模块 <span class="am-icon-angle-right am-fr am-margin-right"></span></a>
           <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav">
@@ -67,6 +71,8 @@
         <li><a href="admin-table.html"><span class="am-icon-table"></span> 表格</a></li>
         <li><a href="admin-form.html"><span class="am-icon-pencil-square-o"></span> 表单</a></li>
         <li><a href="#"><span class="am-icon-sign-out"></span> 注销</a></li>
+
+
       </ul>
 
       <div class="am-panel am-panel-default admin-sidebar-panel">
@@ -354,5 +360,6 @@
 <!--<![endif]-->
 <script src="assets/js/amazeui.min.js"></script>
 <script src="assets/js/app.js"></script>
+<script src="javascripts/tooljs/tool.js"></script>
 </body>
 </html>

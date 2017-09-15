@@ -1,8 +1,12 @@
-var express = require('express');
-var router = express.Router();
-var Users = require("../dao/Users");
+var express = require('express'),
+     router = express.Router(),
+     Users = require("../dao/Users");
 
-/* 登录 */
+/**
+ * 登录验证。
+ * url: /index
+ * type: post
+ */
 router.post('/', function(req, res, next) {
     var username = req.body.username;
     var password = req.body.password;
@@ -21,28 +25,6 @@ router.post('/', function(req, res, next) {
             }
         });
     }
-});
-
-/* 获取数据 */
-router.post('/data', function(req, res, next) {
-    console.log(JSON.stringify(req.body));
-    var params = {};
-        params.limit = req.body.limit||10;
-        params.offset = req.body.offset||0;
-    var cells = 16;
-    var rows = params.limit;
-    var data = [];
-    var page = {};
-    for (i = 0; i < rows; i++) {
-        row = {};
-        for (j = 0; j < cells; j++) {
-          row['field' + j] = '行-' + params.offset+1 + '列-' + j;
-        }
-        data.push(row);
-    }
-    page.total = "128";
-    page.rows = JSON.parse(JSON.stringify(data));
-    res.send(page);
 });
 
 module.exports = router;
