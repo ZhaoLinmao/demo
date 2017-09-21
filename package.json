@@ -1,31 +1,31 @@
 {
-  "name": "nodeproject",
-  "version": "0.0.0",
-  "private": true,
-  "scripts": {
-    "start": "node ./bin/www"
-  },
-  "dependencies": {
-    "body-parser": "~1.15.2",
-    "cookie-parser": "~1.4.3",
-    "debug": "~2.2.0",
-    "ejs": "^2.5.2",
-    "express": "~4.14.0",
-    "jade": "~1.11.0",
-    "morgan": "~1.7.0",
-    "serve-favicon": "~2.3.0",
-    "mysql":"~2.12.0",
-    "log4js":"~1.1.0",
-    "express-mysql-session":"~1.2.0",
-    "formidable":"~1.0.17",
-    "nodemailer":"~2.7.0",
-    "nodemailer-smtp-transport":"~2.7.4",
-    "node-xlsx ":"~0.7.4",
-    "sha1":"~1.1.1",
-    "weixin-api":"~0.1.7",
-    "node-wechat":"~0.3.0",
-    "express-xml-bodyparser":"~0.3.0",
-    "wechat-api":"~1.32.0"
-
-  }
+    "name": "nodeproject",
+    "version": "0.0.0",
+    "private": true,
+    "scripts": {
+        "start": "node ./bin/www"
+    },
+    "dependencies": {
+        "body-parser": "~1.15.2"
+        ,"cookie-parser": "~1.4.3"
+        ,"debug": "~2.2.0"
+        ,"ejs": "^2.5.2"
+        ,"express": "~4.14.0"
+        ,"jade": "~1.11.0"
+        ,"morgan": "~1.7.0"
+        ,"serve-favicon": "~2.3.0"
+        ,"mysql":"~2.12.0"
+        ,"log4js":"~1.1.0"
+        ,"express-mysql-session":"~1.2.0"
+        ,"formidable":"~1.0.17"
+        ,"nodemailer":"~2.7.0"
+        ,"nodemailer-smtp-transport":"~2.7.4"
+        ,"node-xlsx ":"~0.7.4"
+        ,"sha1":"~1.1.1"
+        ,"weixin-api":"~0.1.7"
+        ,"node-wechat":"~0.3.0"
+        ,"express-xml-bodyparser":"~0.3.0"
+        ,"wechat-api":"~1.32.0"
+        ,"amazeui-tree":"~1.32.0"
+    }
 }

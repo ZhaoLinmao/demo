@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0ce2d082-7a0d-4628-bbd5-8f9a6f7dbe32" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="demo.iws" />
@@ -25,11 +25,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6449086">
+            <state vertical-scroll-proportion="0.0">
               <caret line="27" column="49" selection-start-line="27" selection-start-column="49" selection-end-line="27" selection-end-column="49" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="package.json" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/package.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="1.5521127">
+              <caret line="29" column="5" selection-start-line="29" selection-start-column="5" selection-end-line="29" selection-end-column="5" />
               <folding />
             </state>
           </provider>
@@ -149,7 +159,6 @@
         <option value="$PROJECT_DIR$/routes/index.js" />
         <option value="$PROJECT_DIR$/routes/fileUpload.js" />
         <option value="$PROJECT_DIR$/util/excleExport.js" />
-        <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/public/javascripts/tooljs/tool.js" />
         <option value="$PROJECT_DIR$/public/javascripts/modernizr-2.8.3.js" />
         <option value="$PROJECT_DIR$/dao/users.js" />
@@ -159,6 +168,7 @@
         <option value="$PROJECT_DIR$/views/admin-menu.html" />
         <option value="$PROJECT_DIR$/bower.json" />
         <option value="$PROJECT_DIR$/app.js" />
+        <option value="$PROJECT_DIR$/package.json" />
       </list>
     </option>
   </component>
@@ -545,7 +555,7 @@
       <workItem from="1505696740052" duration="3226000" />
       <workItem from="1505891734358" duration="3702000" />
       <workItem from="1505896819561" duration="1298000" />
-      <workItem from="1505972217280" duration="11814000" />
+      <workItem from="1505972217280" duration="11962000" />
     </task>
     <task id="LOCAL-00001" summary="第一">
       <created>1505112195416</created>
@@ -595,11 +605,17 @@
       <option name="project" value="LOCAL" />
       <updated>1505985378296</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="menu菜单功能添加">
+      <created>1505985428611</created>
+      <option name="number" value="00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1505985428611</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="86541000" />
+    <option name="totallyTimeSpent" value="86689000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -909,14 +925,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.1774648">
-          <caret line="22" column="23" selection-start-line="22" selection-start-column="23" selection-end-line="22" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/routes/fileUpload.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.21529745">
@@ -1073,8 +1081,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6449086">
+        <state vertical-scroll-proportion="0.0">
           <caret line="27" column="49" selection-start-line="27" selection-start-column="49" selection-end-line="27" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.5521127">
+          <caret line="29" column="5" selection-start-line="29" selection-start-column="5" selection-end-line="29" selection-end-column="5" />
           <folding />
         </state>
       </provider>
