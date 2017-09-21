@@ -19,11 +19,11 @@
     "express-mysql-session":"~1.2.0",
     "formidable":"~1.0.17",
     "nodemailer":"~2.7.0",
-    "nodemailer-smtp-transport":"~3.3.2",
+    "nodemailer-smtp-transport":"~2.7.4",
     "node-xlsx ":"~0.7.4",
     "sha1":"~1.1.1",
-    "weixin-api":"~0.3.0",
-    "node-wechat":"~0.1.7",
+    "weixin-api":"~0.1.7",
+    "node-wechat":"~0.3.0",
     "express-xml-bodyparser":"~0.3.0",
     "wechat-api":"~1.32.0"
 

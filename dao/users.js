@@ -30,7 +30,6 @@ Users.prototype.login = function(params,callback){
                 result.status = "SUCCEED";
                 result.msg = rows[0];
             }
-            console.log(result);
             callback(result);
         }
     });

@@ -1,21 +1,4 @@
-/**
- * Created by zlm on 2017/9/11.
- * 这是基于jQuery拓展的插件
- * 多用于框架的拓展
- */
 
-$.extend({
-    postRedirect : function(table){
-        var thisTable = $("#" + table);
-
-        $(thisTable).find("tr").bind("mouseover", function () {
-            $(this).css({ color: "#ff0011", background: "blue" });
-        });
-        $(thisTable).find("tr").bind("mouseout", function () {
-            $(this).css({ color: "#000000", background: "white" });
-        });
-    }
-});
 
 /**
  * 获取菜单树插件编写
@@ -33,7 +16,7 @@ $.extend({
                 if(checkChildTree(_id,treeData)){
                     treeHtml += getChildTreeData(_id,treeData,treeData[i]);
                 }else{
-                    treeHtml += "<li><a href='admin-table.html'><span class='am-icon-table'></span>"+treeData[i].id+"</a></li>";
+                    treeHtml += "<li><a  href='#' class='am-cf' onclick='postRedirect(\""+treeData[i].url+"\")'><span class='am-icon-table'></span>"+treeData[i].name+"</a></li>";
                 }
             }
         }
@@ -62,7 +45,7 @@ $.extend({
      */
     var treeHtml = "";
     function getChildTreeData(parentId,treeData,treeJson){
-        var tempHtml = "<li class='admin-parent'><a class='am-cf' data-am-collapse='{target: \"#collapse-nav\"}'><span class='am-icon-file'></span>"+treeJson.id+"<span class='am-icon-star admin-icon-yellow am-margin-right am-fr'></span></a><ul class='am-list am-collapse admin-sidebar-sub am-in' id='collapse-nav'>";
+        var tempHtml = "<li class='admin-parent'><a class='am-cf' data-am-collapse='{target: \"#collapse-nav\"}'><span class='am-icon-file'></span>"+treeJson.name+"<span class='am-icon-star admin-icon-yellow am-margin-right am-fr'></span></a><ul class='am-list am-collapse admin-sidebar-sub am-in' id='collapse-nav'>";
         for(var i in treeData){
             var _parentId = treeData[i].parentId,
                 _id = treeData[i].id;
@@ -70,7 +53,8 @@ $.extend({
                 if(checkChildTree(_id,treeData)){
                     tempHtml += getChildTreeData(_id,treeData,treeData[i]);
                 }else{
-                    tempHtml += "<li href='admin-user.html' class='am-cf'>"+treeData[i].id+"</li>";
+                    tempHtml += "<li><a href='#' class='am-cf' onclick='postRedirect(\""+treeData[i].url+"\")'><span class='am-icon-check'></span>"+treeData[i].name+"</a></li>";
+
                 }
             }
         }
@@ -78,3 +62,18 @@ $.extend({
         return tempHtml;
     }
 })(jQuery);
+
+/**
+ * Created by zlm on 2017/9/11.
+ * 这是基于jQuery拓展的插件
+ * 多用于框架的拓展
+ */
+function postRedirect(url,bodyDiv,param){
+    var url = url||"/",
+        bodyDiv = bodyDiv||"#admin-content-body",
+        param = param||{};
+
+    $.post(url,param,function(data){
+        $(bodyDiv).empty().append(data);
+    });
+}

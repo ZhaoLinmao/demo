@@ -2,7 +2,7 @@
  * Created by zlm on 2016/12/22.
  */
 var fs = require('fs');
-var xlsx = require('node-xlsx');
+var xlsx = require('xlsx');
 
 /**
  * excle 导出
