@@ -3,7 +3,9 @@
  */
 
 var db    = {},
+    util = require('../../util/Util')(),
      mysql = require('mysql');
+
 
 db.settings = {
     connectionLimit: 10,
@@ -49,6 +51,84 @@ db.query = function(sql,params, callback){
         }
 
         callback(null,rows, fields);
+    });
+};
+
+db.insert = function(tableName,params, callback){
+    if (!params) {
+        callback();
+        return;
+    }
+
+    var tableColum = "",
+        tableColumCnt = "",
+        tableValue = [],
+        paramArr = params.param.split(",");
+    params.id = util.getUuid();
+
+    for(var colum in paramArr){
+        var columValue = paramArr[colum];
+        tableColum+=columValue+",";
+        tableColumCnt+="?,";
+        tableValue.push(params[columValue]);
+    }
+    tableColum = tableColum.substring(0,tableColum.length-1);
+    tableColumCnt = tableColumCnt.substring(0,tableColumCnt.length-1);
+    var sql = "insert into "+tableName+"("+tableColum+")values("+tableColumCnt+")";
+
+    pool.query(sql,tableValue,function(err, result) {
+        if (err) {
+            callback(err, null);
+            return;
+        }
+        callback(null,result);
+    });
+};
+
+db.update = function(tableName,params,where,callback){
+    if (!params) {
+        callback();
+        return;
+    }
+
+    var tableColum = "",
+         tableValue = [],
+         paramArr = params.param.split(",");
+    for(var colum in paramArr){
+        var columValue = paramArr[colum];
+        tableColum+=columValue+"=?,";
+        tableValue.push(params[columValue]);
+    }
+    tableColum = tableColum.substring(0,tableColum.length-1);
+
+    var sql = "update "+tableName+" set "+tableColum+" where "+ where ;
+
+    pool.query(sql,tableValue,function(err, result) {
+        if (err) {
+            console.log(result);
+            callback(err, null);
+            return;
+        }
+        callback(null,result);
+    });
+};
+
+db.delete = function(tableName,where,callback){
+    if (!params) {
+        callback();
+        return;
+    }
+
+
+    var sql = "delete from "+tableName+" where "+ where ;
+
+    pool.query(sql,[],function(err, result) {
+        if (err) {
+            callback(err, null);
+            return;
+        }
+        console.log(result);
+        callback(null,result);
     });
 };
 

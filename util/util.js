@@ -144,6 +144,19 @@ Util.prototype.getData = function (data){
     return msg;
 };
 
+/**
+ * javascript UUID 代码
+ * @param data
+ * @returns {{}}
+ */
+Util.prototype.getUuid = function (data){
+    var date = "",
+        v = (Math.random()*16).toString(16) ;
+        v = v.substring(v.length-6,v.length);
+        date+=v+new Date().getTime();
+    return date;
+};
+
 module.exports = Util;
 
 

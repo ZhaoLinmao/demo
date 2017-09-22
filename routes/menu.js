@@ -26,4 +26,52 @@ router.post('/', function(req, res, next) {
     res.render("admin-menu",result);
 });
 
+/**
+ *  菜单新增或修改.
+ */
+router.post('/save', function(req, res, next) {
+    var result = {};
+    var menu = new Menu(req,res);
+    var id = req.body.id;
+    if(id!=null&&id!=""){
+        menu.upd(menu,function(data){
+            if(data.status=="SUCCEED"){
+                result.status = "保存成功";
+            }else{
+                result.status = "保存失败";
+            }
+            res.send(result);
+        });
+    }else{
+        menu.add(menu,function(data){
+            if(data.status=="SUCCEED"){
+                result.status = "保存成功";
+            }else{
+                result.status = "保存失败";
+            }
+            res.send(result);
+        });
+    }
+});
+
+/**
+ *  菜单新增或修改.
+ */
+router.post('/del', function(req, res, next) {
+    var result = {};
+    var menu = new Menu(req,res);
+    var id = req.body.id;
+    if(id!=null&&id!=""){
+        menu.del(menu,function(data){
+            if(data.status=="success"){
+                result.status="删除成功"
+            }else{
+                result.status="删除失败"
+            }
+            res.send(result);
+        });
+    }
+});
+
+
 module.exports = router;

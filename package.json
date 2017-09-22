@@ -26,6 +26,5 @@
         ,"node-wechat":"~0.3.0"
         ,"express-xml-bodyparser":"~0.3.0"
         ,"wechat-api":"~1.32.0"
-        ,"amazeui-tree":"~1.32.0"
     }
 }
