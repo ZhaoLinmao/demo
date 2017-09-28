@@ -23,9 +23,9 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'bower_components')));
-app.use(express.static(path.join(__dirname, 'node_components')));
 
 
 //session管理
@@ -44,6 +44,12 @@ app.use(session({
 
 //中间件
 app.use(middleware);
+
+//前台使用session
+app.use(function(req, res, next){
+  res.locals.session = req.session;
+  next();
+});
 
 //自定义路由器位置
 controller.routes(app);

@@ -1,5 +1,5 @@
 var express = require('express'),
-     Menu = require("../dao/Menu"),
+     Menu = require("../dao/system/Menu"),
      router = express.Router();
 
 /**

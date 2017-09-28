@@ -1,6 +1,6 @@
 var express = require('express'),
      router = express.Router(),
-     Users = require("../dao/Users");
+     Users = require("../dao/system/Users");
 
 /**
  * 登录验证。

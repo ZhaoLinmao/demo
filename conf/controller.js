@@ -1,9 +1,9 @@
-var index = require("../routes/index"),
-     login = require("../routes/login"),
-     fileUpload = require("../routes/fileUpload"),
-     three = require("../routes/three"),
-     check = require("../routes/check"),
-     menu = require("../routes/menu");
+var index = require("../routes/system/index"),
+     login = require("../routes/system/login"),
+     fileUpload = require("../routes/system/fileUpload"),
+     three = require("../routes/system/three"),
+     check = require("../routes/system/check"),
+     menu = require("../routes/system/menu");
 
 var Controller = function (){
     if(!(this instanceof Controller)){
