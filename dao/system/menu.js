@@ -1,7 +1,7 @@
 /**
  * Created by zlm on 2016/12/22.
  */
-var conn = require("../conf/mysql/db");
+var conn = require("../../conf/mysql/db");
 
 var Menu = function (req,res,next){
     this.param = "id,url,name,icon,parentId,pName";

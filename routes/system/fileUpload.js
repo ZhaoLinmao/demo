@@ -3,9 +3,9 @@ var router = express.Router();
 var formidable = require('formidable');
 var fs = require('fs');
 var xlsx = require('xlsx');
-var config = require('../config');
-var excleExport = require('../util/excleExport');
-var sendEmail = require('../util/sendEmail');
+var config = require('../../config');
+var excleExport = require('../../util/excleExport');
+var sendEmail = require('../../util/sendEmail');
 /* POST users listing. */
 router.post('/', function(req, res, next) {
   res.render('fileUpload');

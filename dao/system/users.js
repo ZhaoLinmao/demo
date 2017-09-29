@@ -1,9 +1,10 @@
 /**
  * Created by zlm on 2016/12/22.
  */
-var conn = require("../conf/mysql/db");
+var conn = require("../../conf/mysql/db");
 
 var Users = function (req,res,next){
+    this.param = "username,password";
     this.username = req.body.username||"";
     this.password = req.body.password||"";
 };
@@ -18,7 +19,9 @@ Users.prototype.login = function(params,callback){
     conn.query(sql,[params.username],function(err,rows,fileds){
         var result = {};
         result.status = "FAILURE";
+            console.log(22222222)
         if(err){
+            console.log(1111111)
             console.log(err);
             result.msg = err;
         }else{

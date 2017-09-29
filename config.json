@@ -15,5 +15,8 @@
     "port":6688,
     "serverHost":"127.0.0.1",
     "serverPort":6666
+  },
+  "moudle":{
+    "dirPath":"../moudle/"
   }
 }

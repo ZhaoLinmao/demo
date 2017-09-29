@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var wechat = require("../util/util")("tk328517snowforest");
+var wechat = require("../../util/util")("tk328517snowforest");
 var xmlparser = require("express-xml-bodyparser");
 
 /* 微信用户传来的数据 一定要进行xml 拦截 nodejs 不能直接解析xml */
