@@ -39,10 +39,10 @@ db.conf = {
 var pool  = mysql.createPool(db.conf);
 
 /**
- * ��ݲ�ѯ
- * @param sql ��ݲ�ѯsql
- * @param params ��ѯ����
- * @param callback �ص�function
+ * 数据查询
+ * @param sql 查询sql
+ * @param params 查询参数
+ * @param callback 回调函数function
  */
 db.query = function(sql,params, callback){
     if (!sql) {
@@ -60,11 +60,11 @@ db.query = function(sql,params, callback){
 };
 
 /**
- * ��ҳ��ݲ�ѯ
- * @param tableName �����
- * @param params ��ѯ����
- * @param where ��ѯ����
- * @param callback �ص�function
+ * 分页数据查询
+ * @param tableName 查询表名
+ * @param params 查询参数
+ * @param where 查询条件
+ * @param callback 回调函数function
  */
 db.pageQuery = function(tableName,params,where,callback){
 	if (!tableName&&!params&&!where) {
@@ -92,10 +92,10 @@ db.pageQuery = function(tableName,params,where,callback){
 };
 
 /**
- * �������
- * @param tableName �����
- * @param params ��ѯ����
- * @param callback �ص�function
+ * 数据新增
+ * @param tableName 查询表名
+ * @param params 查询参数
+ * @param callback 回调函数function
  */
 db.insert = function(tableName,params, callback){
 	if (!tableName&&!params) {
@@ -129,11 +129,11 @@ db.insert = function(tableName,params, callback){
 };
 
 /**
- * ��ݸ���
- * @param tableName �����
- * @param params ��ѯ����
- * @param where ��ѯ����
- * @param callback �ص�function
+ * 数据更新
+ * @param tableName 查询表名
+ * @param params 查询参数
+ * @param where 查询条件
+ * @param callback 回调函数function
  */
 db.update = function(tableName,params,where,callback){
     if (!tableName&&!params&&!where) {
@@ -164,10 +164,10 @@ db.update = function(tableName,params,where,callback){
 };
 
 /**
- * ���ɾ��
- * @param tableName �����
- * @param where ��ѯ����
- * @param callback �ص�function
+ * 数据删除
+ * @param tableName 查询表名
+ * @param where 查询条件
+ * @param callback 回调函数function
  */
 db.delete = function(tableName,where,callback){
 	if (!tableName&&!where) {
