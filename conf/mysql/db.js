@@ -39,10 +39,10 @@ db.conf = {
 var pool  = mysql.createPool(db.conf);
 
 /**
- * Êý¾Ý²éÑ¯
- * @param sql Êý¾Ý²éÑ¯sql
- * @param params ²éÑ¯²ÎÊý
- * @param callback »Øµ÷function
+ * ï¿½ï¿½Ý²ï¿½Ñ¯
+ * @param sql ï¿½ï¿½Ý²ï¿½Ñ¯sql
+ * @param params ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½
+ * @param callback ï¿½Øµï¿½function
  */
 db.query = function(sql,params, callback){
     if (!sql) {
@@ -60,11 +60,11 @@ db.query = function(sql,params, callback){
 };
 
 /**
- * ·ÖÒ³Êý¾Ý²éÑ¯
- * @param tableName ±íÃû³Æ
- * @param params ²éÑ¯²ÎÊý
- * @param where ²éÑ¯Ìõ¼þ
- * @param callback »Øµ÷function
+ * ï¿½ï¿½Ò³ï¿½ï¿½Ý²ï¿½Ñ¯
+ * @param tableName ï¿½ï¿½ï¿½ï¿½ï¿½
+ * @param params ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½
+ * @param where ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½
+ * @param callback ï¿½Øµï¿½function
  */
 db.pageQuery = function(tableName,params,where,callback){
 	if (!tableName&&!params&&!where) {
@@ -87,15 +87,15 @@ db.pageQuery = function(tableName,params,where,callback){
                 return;
             }
         	callback(null,rows,count,fields);
-        }
+        })
     });
 };
 
 /**
- * Êý¾ÝÐÂÔö
- * @param tableName ±íÃû³Æ
- * @param params ²éÑ¯²ÎÊý
- * @param callback »Øµ÷function
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ * @param tableName ï¿½ï¿½ï¿½ï¿½ï¿½
+ * @param params ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½
+ * @param callback ï¿½Øµï¿½function
  */
 db.insert = function(tableName,params, callback){
 	if (!tableName&&!params) {
@@ -129,11 +129,11 @@ db.insert = function(tableName,params, callback){
 };
 
 /**
- * Êý¾Ý¸üÐÂ
- * @param tableName ±íÃû³Æ
- * @param params ²éÑ¯²ÎÊý
- * @param where ²éÑ¯Ìõ¼þ
- * @param callback »Øµ÷function
+ * ï¿½ï¿½Ý¸ï¿½ï¿½ï¿½
+ * @param tableName ï¿½ï¿½ï¿½ï¿½ï¿½
+ * @param params ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½
+ * @param where ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½
+ * @param callback ï¿½Øµï¿½function
  */
 db.update = function(tableName,params,where,callback){
     if (!tableName&&!params&&!where) {
@@ -164,10 +164,10 @@ db.update = function(tableName,params,where,callback){
 };
 
 /**
- * Êý¾ÝÉ¾³ý
- * @param tableName ±íÃû³Æ
- * @param where ²éÑ¯Ìõ¼þ
- * @param callback »Øµ÷function
+ * ï¿½ï¿½ï¿½É¾ï¿½ï¿½
+ * @param tableName ï¿½ï¿½ï¿½ï¿½ï¿½
+ * @param where ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½
+ * @param callback ï¿½Øµï¿½function
  */
 db.delete = function(tableName,where,callback){
 	if (!tableName&&!where) {
