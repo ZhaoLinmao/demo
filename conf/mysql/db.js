@@ -38,6 +38,12 @@ db.conf = {
 };
 var pool  = mysql.createPool(db.conf);
 
+/**
+ * 数据查询
+ * @param sql 数据查询sql
+ * @param params 查询参数
+ * @param callback 回调function
+ */
 db.query = function(sql,params, callback){
     if (!sql) {
         callback();
@@ -49,13 +55,50 @@ db.query = function(sql,params, callback){
             callback(err, null);
             return;
         }
-
         callback(null,rows, fields);
     });
 };
 
+/**
+ * 分页数据查询
+ * @param tableName 表名称
+ * @param params 查询参数
+ * @param where 查询条件
+ * @param callback 回调function
+ */
+db.pageQuery = function(tableName,params,where,callback){
+	if (!tableName&&!params&&!where) {
+        callback();
+        return;
+    }
+	var sql = "select * from "+ tableName +" where "+ where +" "+ params.offset*params.limit +","+ params.limit;
+	var sqlTotle = "select count(*) from "+tableName;
+    var result = {};
+	pool.query(sql,params,function(err, rows, fields) {
+        if (err) {
+            console.log(err);
+            callback(err, null);
+            return;
+        }
+        pool.query(sqlTotle,params,function(err, count, fields1) {
+        	if (err) {
+                console.log(err);
+                callback(err, null);
+                return;
+            }
+        	callback(null,rows,count,fields);
+        }
+    });
+};
+
+/**
+ * 数据新增
+ * @param tableName 表名称
+ * @param params 查询参数
+ * @param callback 回调function
+ */
 db.insert = function(tableName,params, callback){
-    if (!params) {
+	if (!tableName&&!params) {
         callback();
         return;
     }
@@ -85,8 +128,15 @@ db.insert = function(tableName,params, callback){
     });
 };
 
+/**
+ * 数据更新
+ * @param tableName 表名称
+ * @param params 查询参数
+ * @param where 查询条件
+ * @param callback 回调function
+ */
 db.update = function(tableName,params,where,callback){
-    if (!params) {
+    if (!tableName&&!params&&!where) {
         callback();
         return;
     }
@@ -113,12 +163,17 @@ db.update = function(tableName,params,where,callback){
     });
 };
 
+/**
+ * 数据删除
+ * @param tableName 表名称
+ * @param where 查询条件
+ * @param callback 回调function
+ */
 db.delete = function(tableName,where,callback){
-    if (!params) {
+	if (!tableName&&!where) {
         callback();
         return;
     }
-
 
     var sql = "delete from "+tableName+" where "+ where ;
 

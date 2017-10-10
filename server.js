@@ -1,0 +1,143 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+var app = require('./app');
+var debug = require('debug')('nodeproject:server');
+var http = require('http');
+var config = require('./config');
+/**
+ * Get port from environment and store in Express.
+ */
+
+var port = normalizePort(process.env.PORT || config.webServerPort);
+app.set('port', port);
+
+/**
+ * Create HTTP server.
+ */
+
+var server = http.createServer(app);
+console.log("已启动 http://127.0.0.1:"+port+"/login");
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+  var port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  var bind = typeof port === 'string'
+    ? 'Pipe ' + port
+    : 'Port ' + port;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+  var addr = server.address();
+  var bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port;
+  debug('Listening on ' + bind);
+}
+
+
+/**
+ * create tcp server
+ */
+//var tcp = require('../util/tcp');
+//tcp(config.tcpServerPort,config.tcpServerHost);
+
+/**
+ * create udp server
+ */
+//var udp = require('../util/udp');
+//udp(config.udpServerPort,config.udpServerHost,config.udpServerSendPort,config.udpServerSendHost);
+
+///**
+// * 微信菜单定义
+// */
+//(function(){
+//  var API = require('wechat-api');
+//
+//
+//  var api = new API("wx729336346ffea1aa", "b61a2a7a0a67e9f8ea4ab91af80f8f1b");
+//  /*null
+//   { accessToken: 'bMawBdyY5idQLeX_-ODTWZVhOd51yIklU3oYPeeLTg_8BmqrmUAEEvszsKGDLconZxHOx6Nwd32W50X7ThzBWzgOCQanOeg4Vwv3xMhN7KU',
+//   expireTime: 1445244891114 }
+//   { errcode: 0, errmsg: 'ok' }*/
+//  api.getAccessToken(function (err, token) {
+//    console.log(token);
+//  });
+//
+//  var menu = {
+//    "button":[
+//      {
+//        "name":"用户操作",
+//        "sub_button":[{
+//          "type":"view",
+//          "name":"登录",
+//          "url":"http://snowforest.6655.la/login"
+//        }]
+//      },
+//      {
+//        "type":"click",
+//        "name":"平台简介",
+//        "key":"V1001_TODAY_INTRODUCTION"
+//      }
+//    ]
+//  };
+//  api.createMenu(menu, function (err, result) {
+//    console.log(result);
+//  });
+//})();
+
+
