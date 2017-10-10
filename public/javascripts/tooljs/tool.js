@@ -16,7 +16,7 @@
                 if(checkChildTree(_id,treeData)){
                     treeHtml += getChildTreeData(_id,treeData,treeData[i]);
                 }else{
-                    treeHtml += "<li><a  href='#' class='am-cf' onclick='postRedirect(\""+treeData[i].url+"\")'><span class='am-icon-table'></span>"+treeData[i].name+"</a></li>";
+                    treeHtml += "<li><a  href='#' class='am-cf' onclick='postRedirect(\""+treeData[i].url+"\")'><span class='am-icon-table'></span> "+treeData[i].name+"</a></li>";
                 }
             }
         }
@@ -45,7 +45,7 @@
      */
     var treeHtml = "";
     function getChildTreeData(parentId,treeData,treeJson){
-        var tempHtml = "<li class='admin-parent'><a class='am-cf' data-am-collapse='{target: \"#collapse-nav\"}'><span class='am-icon-file'></span>"+treeJson.name+"<span class='am-icon-star admin-icon-yellow am-margin-right am-fr'></span></a><ul class='am-list am-collapse admin-sidebar-sub am-in' id='collapse-nav'>";
+        var tempHtml = "<li class='admin-parent'><a class='am-cf' data-am-collapse='{target: \"#collapse-nav\"}'><span class='am-icon-file'></span> "+treeJson.name+"<span class='am-icon-star admin-icon-yellow am-margin-right am-fr'></span></a><ul class='am-list am-collapse admin-sidebar-sub am-in' id='collapse-nav'>";
         for(var i in treeData){
             var _parentId = treeData[i].parentId,
                 _id = treeData[i].id;
@@ -53,7 +53,7 @@
                 if(checkChildTree(_id,treeData)){
                     tempHtml += getChildTreeData(_id,treeData,treeData[i]);
                 }else{
-                    tempHtml += "<li><a href='#' class='am-cf' onclick='postRedirect(\""+treeData[i].url+"\")'><span class='am-icon-check'></span>"+treeData[i].name+"</a></li>";
+                    tempHtml += "<li><a href='#' class='am-cf' onclick='postRedirect(\""+treeData[i].url+"\")'><span class='am-icon-check'></span> "+treeData[i].name+"</a></li>";
 
                 }
             }

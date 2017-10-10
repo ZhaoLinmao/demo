@@ -115,7 +115,7 @@
 
         $.post("/menu/save",data,function(data){
             alert(data.status);
-            $("#firstTree").treeview(options);
+            $("#firstTree").treeview("remove").treeview(options);
             $("#firstTree li:first-child").trigger("click");
         });
     });
@@ -137,7 +137,7 @@
             data.id = $("#id").val();
         $.post("/menu/del",data,function(data){
             alert(data.status);
-            $("#firstTree").treeview(options);
+            $("#firstTree").treeview("remove").treeview(options);
             $("#firstTree li:first-child").trigger("click");
         });
     });

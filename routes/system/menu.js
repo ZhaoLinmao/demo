@@ -63,7 +63,7 @@ router.post('/del', function(req, res, next) {
     var id = req.body.id;
     if(id!=null&&id!=""){
         menu.del(menu,function(data){
-            if(data.status=="success"){
+            if(data.status=="SUCCEED"){
                 result.status="删除成功"
             }else{
                 result.status="删除失败"
