@@ -1,13 +1,16 @@
 var fs = require("fs"),
 	path = require("path");
 
-var confJson = JSON.parse(fs.readFileSync("Desktop/codeConf.json"));
+//var confJson = {"dirPath":"C:/Users/zlm/Desktop/vuejs/generator/moudle/","outPath":"moduleNew/"};
 
-//var fsConf = {"a":"kkkk","b":"gggg"};
+//var fsConf = {"name":"≤Àµ•π‹¿Ì","username":"admin","now":"2017-10-11 09:37:56","className":"Menu","classLowerName":"menu","tableName":"system_menu","path":"business"};
 
 //var column = ["z","x","c","v","b"];
 
+//GeneratorCode(fsConf,column);
+
 var GeneratorCode = function(fsConf,column){
+	
 	productMoudleFile(confJson.dirPath,fsConf,column);
 }
 
@@ -19,7 +22,7 @@ function productMoudleFile(dirPath,fsConf,column) {
             if (stat.isDirectory()) {
             	productMoudleFile(dirPath+itm+"/",fsConf,column)
             } else {
-                readMoudleFile(dirPath+"/"+itm,itm,fsConf,column);
+                readMoudleFile(dirPath+itm,itm,fsConf,column);
             }
         })
     });
@@ -45,16 +48,25 @@ function readMoudleFile(fileName,itm,fsConf,column){
 	readerStream.on('data', function(chunk) {
 		var preArr = chunk.split("#{{list}}");
 		for(var p=0;p<preArr.length-1;p++){
-			data += preArr[0];
+			if(p==0){
+				data += preArr[p];
+			}
 			var after = preArr[p+1].split("#{{/list}}");
 			for(var c in column){
-				data += after[0].replace(new RegExp("#{key}","gm"),c).replace(new RegExp("#{value}","gm"),column[c]);
-				if(c!=column.length-1){
-					data+=",";
+				if(after[0].indexOf(",")>0){
+					if(c<column.length-1){
+						data += after[0].replace(/,/gm,"").replace(new RegExp("#{value}","gm"),column[c]+",");
+					}else{
+						data += after[0].replace(/,/gm,"").replace(new RegExp("#{value}","gm"),column[c]);
+					}
+				}else{
+					data += after[0].replace(new RegExp("#{key}","gm"),c).replace(new RegExp("#{value}","gm"),column[c]);
 				}
 			}
 			data += after[1];
 		}
+
+		if(data==null||data==""){data=chunk}
 		for(var obj in fsConf){
 			data = data.replace(new RegExp("#{"+obj+"}","gm"),fsConf[obj]);
 		}
@@ -79,5 +91,7 @@ function readMoudleFile(fileName,itm,fsConf,column){
 	   console.log(err.stack);
 	});
 }
+
+
 
 module.exports = GeneratorCode;

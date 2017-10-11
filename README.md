@@ -23,7 +23,10 @@
                6、git pull origin master
                7、git push -u origin master
 
-
+###########  代码生成器 generatorCode 工具
+              1、json ：{"name":"菜单管理","username":"admin","now":"2017-10-11 09:37:56","className":"Menu","classLowerName":"menu","tableName":"system_menu","path":"business"}
+              2、column:table的json信息 ["z","x","c","v","b"]
+              
 
 
 
