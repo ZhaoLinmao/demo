@@ -11,8 +11,8 @@ db.settings = {
     connectionLimit: 10,
     host: 'localhost',
     user: 'root',
-    password : 'jadite',
-    port: '3366',
+    password : '',
+    port: '3306',
     database: 'demo',
     checkExpirationInterval: 900000,// How frequently expired sessions will be cleared; milliseconds.
     expiration: 86400000,// The maximum age of a valid session; milliseconds.
@@ -32,8 +32,8 @@ db.conf = {
     connectionLimit : 100,
     host            : 'localhost',
     user            : 'root',
-    password        : 'jadite',
-    port        : '3366',
+    password        : '',
+    port        : '3306',
     database        : 'demo'
 };
 var pool  = mysql.createPool(db.conf);
