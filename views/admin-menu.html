@@ -86,20 +86,40 @@
 </div>
 
 <script>
-
-
-    var options = {
-        bootstrap2: false,
-        showTags: true,
-        levels: 2,
-        enableLinks:true,
-        data: buildDomTree()
-    };
+    var treeData;
 
     $(function() {
-        $("#firstTree").treeview(options);
+        getTree();
         $("#firstTree li:first-child").trigger("click");
     });
+
+    function getTree(){
+        treeData = buildDomTree();
+        $("#firstTree").treeview({
+            bootstrap2: false,
+            showTags: true,
+            levels: 2,
+            enableLinks:true,
+            data: treeData
+        });
+        /**
+         * 树节点选中点击事件
+         */
+        $("#firstTree").on("nodeSelected", function(event, data) {
+            $.each(data,function(i,e){
+                $("#"+i).val(e);
+            });
+        });
+
+        /**
+         * 树节点取消选中点击事件
+         */
+        $("#firstTree").on("nodeUnselected", function(event, data) {
+            $("#formSubmitData :input").val("");
+            $("#parentId").val("0");
+            $("#pName").val("")
+        });
+    }
 
     /**
      * 保存提交
@@ -115,7 +135,7 @@
 
         $.post("/menu/save",data,function(data){
             alert(data.status);
-            $("#firstTree").treeview("remove").treeview(options);
+            getTree();
             $("#firstTree li:first-child").trigger("click");
         });
     });
@@ -137,7 +157,7 @@
             data.id = $("#id").val();
         $.post("/menu/del",data,function(data){
             alert(data.status);
-            $("#firstTree").treeview("remove").treeview(options);
+            getTree();
             $("#firstTree li:first-child").trigger("click");
         });
     });
@@ -161,21 +181,5 @@
         return [treeData];
     }
 
-    /**
-     * 树节点选中点击事件
-     */
-    $("#firstTree").on("nodeSelected", function(event, data) {
-        $.each(data,function(i,e){
-            $("#"+i).val(e);
-        });
-    });
 
-    /**
-     * 树节点取消选中点击事件
-     */
-    $("#firstTree").on("nodeUnselected", function(event, data) {
-        $("#formSubmitData :input").val("");
-        $("#parentId").val("0");
-        $("#pName").val("")
-    });
 </script>
