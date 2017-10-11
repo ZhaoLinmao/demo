@@ -1,10 +1,11 @@
-/**
- * Created by zlm on 2016/12/22.
+/*
+ *  create by #{username}
+ *  create date #{now} 
  */
 var conn = require("../conf/mysql/db");
 
 var #{className} = function (req,res,next){
-    this.param = "#{{list}}#{value}#{{/list}}";
+    this.param = "#{{list}}#{value},#{{/list}}";
     #{{list}}
     this.#{value} = req.body.#{value}||"";
     #{{/list}}
