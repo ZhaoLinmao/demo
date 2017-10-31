@@ -139,11 +139,10 @@
         $("#formSubmitData :input").each(function(i,e){
             var name = $(e).attr("id");
             if(name!=null&&name!=undefined){
-                alert(name+"====="+$(e).val());
                 data[name] = $(e).val();
             }
         });
-    alert(JSON.stringify(data));
+
         $.post("/menu/save",data,function(data){
             alert(data.status);
             getTree();
