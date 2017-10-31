@@ -11,7 +11,7 @@ var Menu = function (req,res,next){
     this.icon = req.body.icon||"";
     this.pid = req.body.pid||"";
     this.pName = req.body.pName||"";
-    this.newpage = req.body.newpage||"";
+    this.newpage = req.body.newpage||0;
 };
 
 /**
