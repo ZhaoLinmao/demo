@@ -63,6 +63,15 @@
                   </div>
 
                   <div class="am-form-group">
+                      <label for="icon" class="am-u-sm-3 am-form-label">是否新页面打开</label>
+                      <div class="am-u-sm-9">
+                          <input type="hidden" id="newpage" value="0" >
+                          <input type="radio" name="newpage" onchange="changeRadio(this,'newpage')" value="0"  checked >否
+                          <input type="radio" name="newpage" onchange="changeRadio(this,'newpage')" value="1" >是
+                      </div>
+                  </div>
+
+                  <div class="am-form-group">
                       <label for="icon" class="am-u-sm-3 am-form-label">菜单图标</label>
                       <div class="am-u-sm-9">
                           <div class="form-inline">
@@ -116,6 +125,7 @@
          */
         $("#firstTree").on("nodeUnselected", function(event, data) {
             $("#formSubmitData :input").val("");
+            $("#newpage").val("0");
             $("#parentId").val("0");
             $("#pName").val("")
         });
@@ -127,12 +137,13 @@
     $("#subButton").on("click",function(){
         var data = {};
         $("#formSubmitData :input").each(function(i,e){
-            var name = $(e).attr("name");
+            var name = $(e).attr("id");
             if(name!=null&&name!=undefined){
+                alert(name+"====="+$(e).val());
                 data[name] = $(e).val();
             }
         });
-
+    alert(JSON.stringify(data));
         $.post("/menu/save",data,function(data){
             alert(data.status);
             getTree();
@@ -146,7 +157,7 @@
     $("#addButton").on("click",function(){
         $("#pName").val($("#name").val());
         $("#parentId").val($("#id").val());
-        $("#formSubmitData :input").not("#parentId,#pName").val("");
+        $("#formSubmitData :input").not("#parentId,#pName,#newpage").val("");
     });
 
     /**

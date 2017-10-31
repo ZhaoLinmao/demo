@@ -3,15 +3,14 @@
  */
 var conn = require("../../conf/mysql/db");
 
-var Menu = function (req,res,next){
-    this.param = "id,url,name,icon,parentId,pName,newpage";
+var Customform = function (req,res,next){
+    this.param = "id,url,name,icon,parentId,pName";
     this.id = req.body.id||"";
     this.url = req.body.url||"";
     this.name = req.body.name||"";
     this.icon = req.body.icon||"";
     this.parentId = req.body.parentId||"";
     this.pName = req.body.pName||"";
-    this.newpage = req.body.newpage||"";
 };
 
 /**
@@ -19,7 +18,7 @@ var Menu = function (req,res,next){
  * @param params
  * @param callback
  */
-Menu.prototype.getMenuList = function(params,callback){
+Customform.prototype.getMenuList = function(params,callback){
     var sql = "select * from sys_menu";
     conn.query(sql,[params.username],function(err,rows,fileds){
         var result = {};
@@ -41,7 +40,7 @@ Menu.prototype.getMenuList = function(params,callback){
  * @param params
  * @param callback
  */
-Menu.prototype.add = function(params,callback){
+Customform.prototype.add = function(params,callback){
     var table="sys_menu";
     conn.insert(table,params,function(err,rows){
         var result = {};
@@ -62,7 +61,7 @@ Menu.prototype.add = function(params,callback){
  * @param params
  * @param callback
  */
-Menu.prototype.upd = function(params,callback){
+Customform.prototype.upd = function(params,callback){
     var table="sys_menu",
          where="id='"+params.id+"'";
     conn.update(table,params,where,function(err,rows){
@@ -84,7 +83,7 @@ Menu.prototype.upd = function(params,callback){
  * @param params
  * @param callback
  */
-Menu.prototype.del = function(params,callback){
+Customform.prototype.del = function(params,callback){
     var table="sys_menu",
         where="id='"+params.id+"'";
     conn.delete(table,where,function(err,result){
@@ -100,4 +99,4 @@ Menu.prototype.del = function(params,callback){
     });
 };
 
-module.exports = Menu;
+module.exports = Customform;

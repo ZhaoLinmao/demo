@@ -1,6 +1,6 @@
 var index = require("../routes/system/index"),
      login = require("../routes/system/login"),
-     fileUpload = require("../routes/system/fileUpload"),
+     customform = require("../routes/system/customform"),
      three = require("../routes/system/three"),
      check = require("../routes/system/check"),
      //# #{classLowerName} = require("../routes/#{path}/#{classLowerName}")//#{now} #//;
@@ -16,9 +16,9 @@ Controller.prototype.routes = function (app) {
     //# app.use('/#{classLowerName}', #{classLowerName})//#{now} #//;
     app.use('/index', index);
     app.use('/menu', menu);
+    app.use('/customform', customform);
 
     app.use('/login', login);
-    app.use('/upload', fileUpload);
     app.use('/three', three);
     app.use('/check', check);
     

@@ -78,7 +78,7 @@
             if(_parentId==0){
                 if(checkChildTree(_id,data)){
                     data[i].nodes = [];
-                    data[i].nodes.push(getChildTreeData(_id,data));
+                    data[i].nodes = getChildTreeData(_id,data);
                 }
                 data[i].text = data[i].name;
                 treeData.push(data[i]);
@@ -109,7 +109,7 @@
      * @type object {}  树形html代码
      */
     function getChildTreeData(parentId,data){
-        var treeData = {};
+        var treeData = [];
         for(var i in data){
             var _parentId = data[i].parentId,
                 _id = data[i].id;
@@ -119,7 +119,7 @@
                     data[i].nodes.push(getChildTreeData(_id,data));
                 }
                 data[i].text = data[i].name;
-                treeData=data[i];
+                treeData.push(data[i]);
             }
         }
         return treeData;
@@ -212,4 +212,9 @@ function initBootstrapTable(tableName,toolbar,url,columns){
         exportDataType: "selected",//导出文件 basic 是本页信息、all是所有信息、selected被选中信息
         columns: columns
     });
+}
+
+//改变radio的选择重新给隐藏属性赋值
+function changeRadio($this,_id){
+    $("#"+_id).val($($this).val());
 }
