@@ -4,12 +4,12 @@
 var conn = require("../../conf/mysql/db");
 
 var Menu = function (req,res,next){
-    this.param = "id,url,name,icon,parentId,pName,newpage";
+    this.param = "id,url,name,icon,pid,pName,newpage";
     this.id = req.body.id||"";
     this.url = req.body.url||"";
     this.name = req.body.name||"";
     this.icon = req.body.icon||"";
-    this.parentId = req.body.parentId||"";
+    this.pid = req.body.pid||"";
     this.pName = req.body.pName||"";
     this.newpage = req.body.newpage||"";
 };

@@ -10,9 +10,9 @@
     $.fn.menuNav = function(treeData){
         var treeHtml = "";
         for(var i in treeData){
-            var _parentId = treeData[i].parentId;
+            var _pid = treeData[i].pid;
             var _id = treeData[i].id;
-            if(_parentId==0){
+            if(_pid==0){
                 if(checkChildTree(_id,treeData)){
                     treeHtml += getChildTreeData(_id,treeData,treeData[i]);
                 }else{
@@ -25,14 +25,14 @@
 
     /**
      * 判断节点中是否包含子节点
-     * @param parentId  父节点的id
+     * @param pid  父节点的id
      * @param treeData  传入列表数据
      * @returns {boolean}  存在子节点返回 true 不存在子节点返回 false
      */
-    function checkChildTree(parentId,treeData){
+    function checkChildTree(pid,treeData){
         for(var i in treeData){
-            var _parentId = treeData[i].parentId;
-            if(_parentId==parentId){
+            var _pid = treeData[i].pid;
+            if(_pid==pid){
                 return true;
             }
         }
@@ -44,12 +44,12 @@
      * @type {string}  树形html代码
      */
     var treeHtml = "";
-    function getChildTreeData(parentId,treeData,treeJson){
+    function getChildTreeData(pid,treeData,treeJson){
         var tempHtml = "<li class='admin-parent'><a class='am-cf' data-am-collapse='{target: \"#collapse-nav\"}'><span class='am-icon-file'></span> "+treeJson.name+"<span class='am-icon-star admin-icon-yellow am-margin-right am-fr'></span></a><ul class='am-list am-collapse admin-sidebar-sub am-in' id='collapse-nav'>";
         for(var i in treeData){
-            var _parentId = treeData[i].parentId,
+            var _pid = treeData[i].pid,
                 _id = treeData[i].id;
-            if(_parentId==parentId){
+            if(_pid==pid){
                 if(checkChildTree(_id,treeData)){
                     tempHtml += getChildTreeData(_id,treeData,treeData[i]);
                 }else{
@@ -73,9 +73,9 @@
     $.getTreeData = function (data){
         var treeData = [];
         for(var i in data){
-            var _parentId = data[i].parentId;
+            var _pid = data[i].pid;
             var _id = data[i].id;
-            if(_parentId==0){
+            if(_pid==0){
                 if(checkChildTree(_id,data)){
                     data[i].nodes = [];
                     data[i].nodes = getChildTreeData(_id,data);
@@ -90,14 +90,14 @@
 
     /**
      * 判断节点中是否包含子节点
-     * @param parentId  父节点的id
+     * @param pid  父节点的id
      * @param treeData  传入列表数据
      * @returns {boolean}  存在子节点返回 true 不存在子节点返回 false
      */
-    function checkChildTree(parentId,data){
+    function checkChildTree(pid,data){
         for(var i in data){
-            var _parentId = data[i].parentId;
-            if(_parentId==parentId){
+            var _pid = data[i].pid;
+            if(_pid==pid){
                 return true;
             }
         }
@@ -108,12 +108,12 @@
      * 获取子节点的树形结构
      * @type object {}  树形html代码
      */
-    function getChildTreeData(parentId,data){
+    function getChildTreeData(pid,data){
         var treeData = [];
         for(var i in data){
-            var _parentId = data[i].parentId,
+            var _pid = data[i].pid,
                 _id = data[i].id;
-            if(_parentId==parentId){
+            if(_pid==pid){
                 if(checkChildTree(_id,data)){
                     data[i].nodes = [];
                     data[i].nodes.push(getChildTreeData(_id,data));

@@ -39,7 +39,7 @@
               <!--内容-->
               <div class="am-form am-form-horizontal" id="formSubmitData">
                   <input type="hidden" id="id" name="id"/>
-                  <input type="hidden" id="parentId" name="parentId" value="0"/>
+                  <input type="hidden" id="pid" name="pid" value="0"/>
 
                   <div class="am-form-group">
                       <label for="name" class="am-u-sm-3 am-form-label">父菜单名称</label>
@@ -126,7 +126,7 @@
         $("#firstTree").on("nodeUnselected", function(event, data) {
             $("#formSubmitData :input").val("");
             $("#newpage").val("0");
-            $("#parentId").val("0");
+            $("#pid").val("0");
             $("#pName").val("")
         });
     }
@@ -156,8 +156,8 @@
      */
     $("#addButton").on("click",function(){
         $("#pName").val($("#name").val());
-        $("#parentId").val($("#id").val());
-        $("#formSubmitData :input").not("#parentId,#pName,#newpage").val("");
+        $("#pid").val($("#id").val());
+        $("#formSubmitData :input").not("#pid,#pName,#newpage").val("");
     });
 
     /**
@@ -181,7 +181,7 @@
         $.ajax({url:"/menu/list",data:{},async:false,type:"post",dataType:"json",
             success:function(data) {
                 treeData.id = "0";
-                treeData.parentId = "";
+                treeData.pid = "";
                 treeData.text = "菜单配置";
                 treeData.name = "菜单配置";
                 treeData.pName = "";
