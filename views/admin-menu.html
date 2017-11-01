@@ -5,6 +5,18 @@
     </div>
 </div>
 
+<div class="am-popup" id="my-popup" style="top:375px;height:85%;">
+    <div class="am-popup-inner">
+        <div class="am-popup-hd">
+            <h4 class="am-popup-title">请选择图标</h4>
+            <span data-am-modal-close class="am-close">&times;</span>
+        </div>
+        <div class="am-popup-bd">
+            <%include ./sys-icon.html%>
+        </div>
+    </div>
+</div>
+
 <hr>
 
 <div class="am-g">
@@ -75,11 +87,18 @@
                       <label for="icon" class="am-u-sm-3 am-form-label">菜单图标</label>
                       <div class="am-u-sm-9">
                           <div class="form-inline">
-                              <div class="form-group input-group">
-                                  <div class="input-group-addon"> <span class="am-icon-eyedropper"></span></div>
-                                  <input type="text" id="icon" name="icon" placeholder="请选择菜单图标" />
+                              <div class="form-group input-group" >
+                                  <div class="input-group-addon" data-am-modal="{target: '#my-popup'}"> <span class="am-icon-eyedropper"></span></div>
+                                  <input type="text" id="icon" name="icon" placeholder="请选择菜单图标" readonly="readonly" />
                               </div>
                           </div>
+                      </div>
+                  </div>
+
+                  <div class="am-form-group">
+                      <label for="icon" class="am-u-sm-3 am-form-label">顺序</label>
+                      <div class="am-u-sm-9">
+                          <input type="text" id="turn" name="turn" placeholder="请填写顺序"/>
                       </div>
                   </div>
 
@@ -100,6 +119,10 @@
     $(function() {
         getTree();
         $("#firstTree li:first-child").trigger("click");
+
+        $("#fontIcon a").on("click",function(){
+            $("#icon").val($(this).find("i").attr("class"));
+        });
     });
 
     function getTree(){
@@ -135,6 +158,11 @@
      * 保存提交
      */
     $("#subButton").on("click",function(){
+        var $btn = $(this)
+        $btn.button('loading');
+        setTimeout(function(){
+            $btn.button('reset');
+        }, 1000);
         var data = {};
         $("#formSubmitData :input").not("button").each(function(i,e){
             var name = $(e).attr("id");
@@ -166,11 +194,17 @@
     $("#delButton").on("click",function(){
         var data = {};
             data.id = $("#id").val();
-        $.post("/menu/del",data,function(data){
-            alert(data.status);
-            getTree();
-            $("#firstTree li:first-child").trigger("click");
-        });
+        $.post("/menu/check",data,function(result) {
+            if(result.msg>0){
+                alert("该菜单中含有子菜单,无法删除!");
+                return false;
+            }
+            $.post("/menu/del", data, function (result) {
+                alert(result.status);
+                getTree();
+                $("#firstTree li:first-child").trigger("click");
+            });
+        })
     });
 
     /**
@@ -191,6 +225,5 @@
         });
         return [treeData];
     }
-
 
 </script>

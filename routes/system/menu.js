@@ -73,5 +73,16 @@ router.post('/del', function(req, res, next) {
     }
 });
 
+/**
+ *  菜单新增或修改.
+ */
+router.post('/check', function(req, res, next) {
+    var result = {};
+    var menu = new Menu(req,res);
+    menu.check(menu,function(data){
+        result = data;
+        res.send(result);
+    });
+});
 
 module.exports = router;

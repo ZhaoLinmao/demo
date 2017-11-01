@@ -60,6 +60,28 @@ db.query = function(sql,params, callback){
 };
 
 /**
+ * 数据查询
+ * @param sql 查询sql
+ * @param params 查询参数
+ * @param callback 回调函数function
+ */
+db.checkSize = function(tableName,params,where,callback){
+    if (!where) {
+        callback();
+        return;
+    }
+    var sql = " select count(*) as cnt from "+tableName+" where "+where;
+    pool.query(sql,{},function(err, count, fields) {
+        if (err) {
+            console.log(err);
+            callback(err, null);
+            return;
+        }
+        callback(null,count[0].cnt, fields);
+    });
+};
+
+/**
  * 分页数据查询
  * @param tableName 查询表名
  * @param params 查询参数
