@@ -5,11 +5,62 @@
 /**
  * 日期处理工具
  */
-var dateUtil = function(){
+var DateUtil = function(){
 
 };
 
-dateUtil.prototype = {
+DateUtil.prototype = {
+    /**
+     * 获取日期时间 年月日
+     * @returns {{}}
+     */
+    getYYMMDD:function(){
+        var date,
+            year,
+            month,
+            day,
+        year = new Date().getYear();
+        month = new Date().getMonth();
+        day = new Date().getDay();
+        date = year+"-"+month+"-"+day;
+        return date;
+    },
+    /**
+     * 获取日期时间 时分秒
+     * @returns {{}}
+     */
+    getHHMISS:function(){
+        var date,
+            hour,
+            minutes,
+            second;
+        hour = new Date().getHours();
+        minutes = new Date().getMinutes;
+        second = new Date().getSeconds;
+        date = hour+":"+minutes+":"+second;
+        return date;
+    },
+    /**
+     * 获取日期时间 年月日 时分秒
+     * @returns {{}}
+     */
+    getYYMMDDHHMISS:function(){
+        var date,
+            year,
+            month,
+            day,
+            hour,
+            minutes,
+            second;
+        year = new Date().getYear();
+        month = new Date().getMonth();
+        day = new Date().getDay();
+        hour = new Date().getHours();
+        minutes = new Date().getMinutes;
+        second = new Date().getSeconds;
+        date = year+"-"+month+"-"+day+" "+hour+":"+minutes+":"+second;
+        return date;
+    },
     /**
      * 获取两个 日期相差的天数
      * @param params  params.startDate 与 params.endDate 两个参数
@@ -36,7 +87,7 @@ dateUtil.prototype = {
 
 };
 
-module.exports = dateUtil;
+module.exports = DateUtil;
 
 
 

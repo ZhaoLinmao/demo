@@ -1,21 +1,17 @@
-var fs = require("fs"),
-	path = require("path");
+var fs = require("fs")
+	,path = require("path")
+	,confJson = JSON.parse(fs.readFileSync("config.json"));
 
-//var confJson = {"dirPath":"C:/Users/zlm/Desktop/vuejs/generator/moudle/","outPath":"moduleNew/"};
-
-//var fsConf = {"name":"²Ëµ¥¹ÜÀí","username":"admin","now":"2017-10-11 09:37:56","className":"Menu","classLowerName":"menu","tableName":"system_menu","path":"business"};
+//var fsConf = {"name":"ï¿½Ëµï¿½ï¿½ï¿½ï¿½ï¿½","username":"admin","now":"2017-10-11 09:37:56","className":"Menu","classLowerName":"menu","tableName":"system_menu","path":"business"};
 
 //var column = ["z","x","c","v","b"];
 
-//GeneratorCode(fsConf,column);
 
 var GeneratorCode = function(fsConf,column){
-	
 	productMoudleFile(confJson.dirPath,fsConf,column);
-}
+};
 
 function productMoudleFile(dirPath,fsConf,column) {
-	
     var files = fs.readdir(dirPath,function(err,files){
     	files.forEach(function (itm, index) {
             var stat = fs.statSync(dirPath+itm);
@@ -26,24 +22,16 @@ function productMoudleFile(dirPath,fsConf,column) {
             }
         })
     });
-
 }
 
 function readMoudleFile(fileName,itm,fsConf,column){
-
 	var data = "";
-	
 	var outFilePath = confJson.outPath +itm;
-
 	var readerStream = fs.createReadStream(fileName);
-	
 	var writerStream = fs.createWriteStream(outFilePath);
-	
 	readerStream.setEncoding('UTF8');
-	
 	console.log("process start!");
-	
-	
+
 	//#{{list}} #{key} #{value} #{{/list}}
 	readerStream.on('data', function(chunk) {
 		var preArr = chunk.split("#{{list}}");
@@ -91,7 +79,5 @@ function readMoudleFile(fileName,itm,fsConf,column){
 	   console.log(err.stack);
 	});
 }
-
-
 
 module.exports = GeneratorCode;
