@@ -33,15 +33,18 @@ router.post('/createCode', function(req, res, next) {
       confJson = {},
       column = [],
       type = [],
-      comment = [];
+      comment = [],
+      className;
+  className = req.body.className;
+  className = className.substring(0,1).toUpperCase()+className.substring(1);
 
   confJson.name=req.body.name||"demo";
   confJson.username=req.session.user.username;
   confJson.now=dateUtil.getYYMMDDHHMISS();
-  confJson.className=req.body.className||"demo";
+  confJson.className=className||"demo";
   confJson.classLowerName=req.body.className||"demo";
-  confJson.tableName=req.body.tableName||"demo";
-  confJson.path=req.body.className||"demo";
+  confJson.tableName=req.body.tableName;
+  confJson.path=req.body.path||"demo";
 
   var generate = new Generate(req,res);
   generate.getColumnList(generate,function(data){
@@ -52,8 +55,8 @@ router.post('/createCode', function(req, res, next) {
            type.push(result[ind].data_type);
            comment.push(result[ind].column_comment);
         }
-        new GeneratorCode();
-        res.send(111);
+        result = new GeneratorCode(confJson,column);
+        res.send(result);
      }
   });
 });
