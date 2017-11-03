@@ -1,7 +1,7 @@
 var express = require('express')
     ,Generate = require("../../dao/system/Generate")
     ,GeneratorCode = require("../../util/GeneratorCode")
-    ,dateUtil = require("../../util/DateUtil")()
+    ,dateUtil = require("../../util/DateUtil")
     ,router = express.Router();
 
 /**
@@ -29,36 +29,40 @@ router.post('/getTableList', function(req, res, next) {
  * 获取数据库中所有表名称.
  */
 router.post('/createCode', function(req, res, next) {
-  var result = {},
-      confJson = {},
-      column = [],
-      type = [],
-      comment = [],
-      className;
-  className = req.body.className;
-  className = className.substring(0,1).toUpperCase()+className.substring(1);
+  try{
+      var result = {},
+          confJson = {},
+          column = [],
+          type = [],
+          comment = [],
+          className;
+      className = req.body.className;
+      className = className.substring(0,1).toUpperCase()+className.substring(1);
 
-  confJson.name=req.body.name||"demo";
-  confJson.username=req.session.user.username;
-  confJson.now=dateUtil.getYYMMDDHHMISS();
-  confJson.className=className||"demo";
-  confJson.classLowerName=req.body.className||"demo";
-  confJson.tableName=req.body.tableName;
-  confJson.path=req.body.path||"demo";
+      confJson.name=req.body.name||"demo";
+      confJson.username=req.session.user.username;
+      confJson.now=dateUtil.getYYMMDDHHMISS;
+      confJson.className=className||"demo";
+      confJson.classLowerName=req.body.className||"demo";
+      confJson.tableName=req.body.tableName;
+      confJson.path=req.body.path||"demo";
 
-  var generate = new Generate(req,res);
-  generate.getColumnList(generate,function(data){
-     if(data.status=="SUCCEED"){
-        result = data.msg;
-        for(var ind in result){
-           column.push(result[ind].column_name);
-           type.push(result[ind].data_type);
-           comment.push(result[ind].column_comment);
-        }
-        result = new GeneratorCode(confJson,column);
-        res.send(result);
-     }
-  });
+      var generate = new Generate(req,res);
+      generate.getColumnList(generate,function(data){
+         if(data.status=="SUCCEED"){
+            result = data.msg;
+            for(var ind in result){
+               column.push(result[ind].column_name);
+               type.push(result[ind].data_type);
+               comment.push(result[ind].column_comment);
+            }
+            result = new GeneratorCode(confJson,column);
+            res.send(result);
+         }
+      });
+  }catch(e){
+    console.log(e);
+  }
 });
 
 module.exports = router;

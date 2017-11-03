@@ -2,7 +2,7 @@ var fs = require("fs")
 	,path = require("path")
 	,confJson = JSON.parse(fs.readFileSync("config.json"));
 
-//var fsConf = {"name":"�˵�����","username":"admin","now":"2017-10-11 09:37:56","className":"Menu","classLowerName":"menu","tableName":"system_menu","path":"business"};
+//var fsConf = {"name":"这是一个","username":"admin","now":"2017-10-11 09:37:56","className":"Menu","classLowerName":"menu","tableName":"system_menu","path":"business"};
 
 //var column = ["z","x","c","v","b"];
 

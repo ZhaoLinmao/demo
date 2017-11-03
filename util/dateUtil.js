@@ -35,8 +35,8 @@ DateUtil.prototype = {
             minutes,
             second;
         hour = new Date().getHours();
-        minutes = new Date().getMinutes;
-        second = new Date().getSeconds;
+        minutes = new Date().getMinutes();
+        second = new Date().getSeconds();
         date = hour+":"+minutes+":"+second;
         return date;
     },
@@ -56,8 +56,8 @@ DateUtil.prototype = {
         month = new Date().getMonth();
         day = new Date().getDay();
         hour = new Date().getHours();
-        minutes = new Date().getMinutes;
-        second = new Date().getSeconds;
+        minutes = new Date().getMinutes();
+        second = new Date().getSeconds();
         date = year+"-"+month+"-"+day+" "+hour+":"+minutes+":"+second;
         return date;
     },
