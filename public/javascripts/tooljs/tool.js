@@ -45,7 +45,7 @@
      */
     var treeHtml = "";
     function getChildTreeData(pid,treeData,treeJson){
-        var tempHtml = "<li class='admin-parent'><a class='am-cf' data-am-collapse='{target: \"#collapse-nav\"}'><span class='"+treeJson.icon+"'></span> "+treeJson.name+"<span class='am-icon-star admin-icon-yellow am-margin-right am-fr'></span></a><ul class='am-list am-collapse admin-sidebar-sub am-in' id='collapse-nav'>";
+        var tempHtml = "<li class='admin-parent'><a class='am-cf' data-am-collapse='{target: \"#collapse-nav"+treeJson.id+"\"}'><span class='"+treeJson.icon+"'></span> "+treeJson.name+"<span class='am-icon-star admin-icon-yellow am-margin-right am-fr'></span></a><ul class='am-list am-collapse admin-sidebar-sub am-in' id='collapse-nav"+treeJson.id+"'>";
         for(var i in treeData){
             var _pid = treeData[i].pid,
                 _id = treeData[i].id;
