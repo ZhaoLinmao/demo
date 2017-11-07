@@ -3,7 +3,7 @@
  *  create date #{now} 
  */
 var express = require('express'),
-	#{className} = require("../dao/#{path}/#{className}"),
+	#{className} = require("../../dao/#{path}/#{className}"),
     router = express.Router();
 
 

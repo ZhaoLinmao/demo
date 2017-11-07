@@ -2,7 +2,7 @@
  *  create by #{username}
  *  create date #{now} 
  */
-var conn = require("../conf/mysql/db");
+var conn = require("../../conf/mysql/db");
 
 var #{className} = function (req,res,next){
     this.param = "#{{list}}#{value},#{{/list}}";

@@ -44,11 +44,10 @@
                   <input type="hidden" id="parentId" name="parentId" value="0"/>
                   
                   #{{list}}
-                    this.#{value} = req.body.#{value}||"";
                     <div class="am-form-group">
-                      <label for="name" class="am-u-sm-3 am-form-label">#{value}</label>
+                      <label for="#{value}" class="am-u-sm-3 am-form-label">#{value}</label>
                       <div class="am-u-sm-9">
-                          <input type="text" id="#{key}" name="#{key}" placeholder="输入#{value}" disabled="disabled">
+                          <input type="text" id="#{value}" name="#{value}" placeholder="输入#{value}" disabled="disabled">
                       </div>
                     </div>
                   #{{/list}}

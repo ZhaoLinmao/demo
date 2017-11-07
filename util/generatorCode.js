@@ -2,13 +2,8 @@ var fs = require("fs")
 	,path = require("path")
 	,confJson = JSON.parse(fs.readFileSync("config.json"));
 
-//var fsConf = {"name":"这是一个","username":"admin","now":"2017-10-11 09:37:56","className":"Menu","classLowerName":"menu","tableName":"system_menu","path":"business"};
-
-//var column = ["z","x","c","v","b"];
-
-
 var GeneratorCode = function(fsConf,column){
-	productMoudleFile(confJson.dirPath,fsConf,column);
+	productMoudleFile(confJson.moudle.dirPath,fsConf,column);
 };
 
 function productMoudleFile(dirPath,fsConf,column) {
@@ -26,11 +21,27 @@ function productMoudleFile(dirPath,fsConf,column) {
 
 function readMoudleFile(fileName,itm,fsConf,column){
 	var data = "";
-	var outFilePath = confJson.outPath +itm;
+	var outFilePath = itm;
+	var path = "";
+	/**
+	 * 根据文件类型生成对应的文件路径
+	 */
+	if(itm.indexOf("html")>-1){
+		outFilePath = "views/"+fsConf.path+"/"+fsConf.classLowerName+".html";
+		path = "views/"+fsConf.path+"/";
+	}else if(itm.indexOf("Dao")>-1){
+		outFilePath = "dao/"+fsConf.path+"/"+fsConf.classLowerName+".js";
+		path = "dao/"+fsConf.path+"/";
+	}else if(itm.indexOf("Route")>-1){
+		outFilePath = "routes/"+fsConf.path+"/"+fsConf.classLowerName+".js";
+		path = "routes/"+fsConf.path+"/";
+	}
+	if (!fs.existsSync(path)) {
+		fs.mkdirSync(path);
+	}
 	var readerStream = fs.createReadStream(fileName);
 	var writerStream = fs.createWriteStream(outFilePath);
 	readerStream.setEncoding('UTF8');
-	console.log("process start!");
 
 	//#{{list}} #{key} #{value} #{{/list}}
 	readerStream.on('data', function(chunk) {
@@ -62,7 +73,6 @@ function readMoudleFile(fileName,itm,fsConf,column){
 	});
 	
 	readerStream.on('end',function(){
-		console.log("read finish");
 		writerStream.write(data,'UTF8');
 		writerStream.end();
 	});

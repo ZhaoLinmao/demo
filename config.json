@@ -17,6 +17,6 @@
     ,"serverPort":6666
   },
   "moudle":{
-    "dirPath":"../moudle/treeMoudle/"
+    "dirPath":"moudle/treeMoudle/"
   }
 }

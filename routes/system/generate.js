@@ -8,7 +8,7 @@ var express = require('express')
  * 代码生成工具页面跳转.
  */
 router.post('/', function(req, res, next) {
-  res.render('admin-generate');
+  res.render('sys/admin-generate');
 });
 
 /**
@@ -56,12 +56,13 @@ router.post('/createCode', function(req, res, next) {
                type.push(result[ind].data_type);
                comment.push(result[ind].column_comment);
             }
-            result = new GeneratorCode(confJson,column);
-            res.send(result);
+            new GeneratorCode(confJson,column);
+            res.send("代码生成成功!");
          }
       });
   }catch(e){
     console.log(e);
+    res.send("代码生成失败!");
   }
 });
 
