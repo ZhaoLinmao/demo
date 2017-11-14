@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50022
 File Encoding         : 65001
 
-Date: 2017-11-01 14:54:39
+Date: 2017-11-14 12:43:40
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -48,10 +48,6 @@ CREATE TABLE `sys_menu` (
   `pName` varchar(100) default NULL COMMENT '父菜单名称:父菜单名称',
   `turn` int(100) default NULL,
   `newpage` int(1) default NULL COMMENT '是否新页面打开:1为是新页面打开，0为否',
-  `sel` varchar(1) default NULL COMMENT '查询:权限0为不可用,1为可用',
-  `add` varchar(1) default NULL COMMENT '新增:权限0为不可用,1为可用',
-  `upd` varchar(1) default NULL COMMENT '修改:权限0为不可用,1为可用',
-  `del` varchar(1) default NULL COMMENT '删除:权限0为不可用,1为可用',
   `createby` varchar(100) default NULL COMMENT '创建人:创建该数据的用户名',
   `createtime` varchar(100) default NULL COMMENT '创建时间:创建该数据的时间',
   `updateby` varchar(100) default NULL COMMENT '修改人:修改该数据的用户名',
@@ -62,14 +58,15 @@ CREATE TABLE `sys_menu` (
 -- ----------------------------
 -- Records of sys_menu
 -- ----------------------------
-INSERT INTO `sys_menu` VALUES ('1', '', '流程管理', 'am-icon-sitemap', '0', '菜单配置', '10', '0', null, null, null, null, null, null, null, null);
-INSERT INTO `sys_menu` VALUES ('1033d61509505367721', '/user', '用户管理', 'am-icon-user', 'deb048150935', '系统管理', '20', '0', null, null, null, null, null, null, null, null);
-INSERT INTO `sys_menu` VALUES ('2dcca61509506481904', '/mem', '会员管理', 'am-icon-universal-access', 'deb048150935', '系统管理', '50', '0', null, null, null, null, null, null, null, null);
-INSERT INTO `sys_menu` VALUES ('6e70251509505394088', '/role', '角色管理', 'am-icon-blind', 'deb048150935', '系统管理', '40', '0', null, null, null, null, null, null, null, null);
-INSERT INTO `sys_menu` VALUES ('961e451507619511015', '/customform', '自定义表单', 'am-icon-braille', '1', '流程管理', '10', '1', null, null, null, null, null, null, null, null);
-INSERT INTO `sys_menu` VALUES ('bdf8fc1509505353057', '/org', '部门管理', 'am-icon-users', 'deb048150935', '系统管理', '30', '0', null, null, null, null, null, null, null, null);
-INSERT INTO `sys_menu` VALUES ('deb048150935', '', '系统管理', 'am-icon-cogs', '0', '菜单配置', '20', '0', null, null, null, null, null, null, null, null);
-INSERT INTO `sys_menu` VALUES ('deb0481509352973422', '/menu', '菜单管理', 'am-icon-cutlery', 'deb048150935', '系统管理', '10', '0', null, null, null, null, null, null, null, null);
+INSERT INTO `sys_menu` VALUES ('1', '', '流程管理', 'am-icon-sitemap', '0', '菜单配置', '10', '0', null, null, null, null);
+INSERT INTO `sys_menu` VALUES ('1033d61509505367721', '/user', '用户管理', 'am-icon-user', 'deb048150935', '系统管理', '20', '0', null, null, null, null);
+INSERT INTO `sys_menu` VALUES ('2dcca61509506481904', '/mem', '会员管理', 'am-icon-universal-access', 'deb048150935', '系统管理', '50', '0', null, null, null, null);
+INSERT INTO `sys_menu` VALUES ('5e07b71509589550885', '/generate', '代码生成', 'am-icon-bed', 'deb048150935', '系统管理', '60', '0', null, null, null, null);
+INSERT INTO `sys_menu` VALUES ('6e70251509505394088', '/role', '角色管理', 'am-icon-blind', 'deb048150935', '系统管理', '40', '0', null, null, null, null);
+INSERT INTO `sys_menu` VALUES ('961e451507619511015', '/customform', '自定义表单', 'am-icon-braille', '1', '流程管理', '10', '1', null, null, null, null);
+INSERT INTO `sys_menu` VALUES ('bdf8fc1509505353057', '/org', '部门管理', 'am-icon-users', 'deb048150935', '系统管理', '30', '0', null, null, null, null);
+INSERT INTO `sys_menu` VALUES ('deb048150935', '', '系统管理', 'am-icon-cogs', '0', '菜单配置', '20', '0', null, null, null, null);
+INSERT INTO `sys_menu` VALUES ('deb0481509352973422', '/menu', '菜单管理', 'am-icon-cutlery', 'deb048150935', '系统管理', '10', '0', null, null, null, null);
 
 -- ----------------------------
 -- Table structure for sys_menu_copy
@@ -82,11 +79,8 @@ CREATE TABLE `sys_menu_copy` (
   `icon` varchar(100) default NULL COMMENT '图标:菜单前展示的小图标',
   `pid` varchar(100) NOT NULL COMMENT '父菜单:父菜单的id',
   `pName` varchar(100) default NULL COMMENT '父菜单名称:父菜单名称',
+  `turn` int(100) default NULL,
   `newpage` int(1) default NULL COMMENT '是否新页面打开:1为是新页面打开，0为否',
-  `sel` varchar(1) default NULL COMMENT '查询:权限0为不可用,1为可用',
-  `add` varchar(1) default NULL COMMENT '新增:权限0为不可用,1为可用',
-  `upd` varchar(1) default NULL COMMENT '修改:权限0为不可用,1为可用',
-  `del` varchar(1) default NULL COMMENT '删除:权限0为不可用,1为可用',
   `createby` varchar(100) default NULL COMMENT '创建人:创建该数据的用户名',
   `createtime` varchar(100) default NULL COMMENT '创建时间:创建该数据的时间',
   `updateby` varchar(100) default NULL COMMENT '修改人:修改该数据的用户名',
@@ -97,10 +91,37 @@ CREATE TABLE `sys_menu_copy` (
 -- ----------------------------
 -- Records of sys_menu_copy
 -- ----------------------------
-INSERT INTO `sys_menu_copy` VALUES ('1', '1111', '流程管理', '', '0', '菜单配置', '0', null, null, null, null, null, null, null, null);
-INSERT INTO `sys_menu_copy` VALUES ('961e451507619511015', '/customform', '自定义表单', '111', '1', '流程管理', '0', null, null, null, null, null, null, null, null);
-INSERT INTO `sys_menu_copy` VALUES ('deb048150935', null, '系统管理', null, '0', '菜单配置', '0', null, null, null, null, null, null, null, null);
-INSERT INTO `sys_menu_copy` VALUES ('deb0481509352973422', '/menu', '菜单管理', '', 'deb048150935', '系统管理', '0', null, null, null, null, null, null, null, null);
+INSERT INTO `sys_menu_copy` VALUES ('1', '', '流程管理', 'am-icon-sitemap', '0', '菜单配置', '10', '0', null, null, null, null);
+INSERT INTO `sys_menu_copy` VALUES ('1033d61509505367721', '/user', '用户管理', 'am-icon-user', 'deb048150935', '系统管理', '20', '0', null, null, null, null);
+INSERT INTO `sys_menu_copy` VALUES ('2dcca61509506481904', '/mem', '会员管理', 'am-icon-universal-access', 'deb048150935', '系统管理', '50', '0', null, null, null, null);
+INSERT INTO `sys_menu_copy` VALUES ('5e07b71509589550885', '/generate', '代码生成', 'am-icon-bed', 'deb048150935', '系统管理', '60', '0', null, null, null, null);
+INSERT INTO `sys_menu_copy` VALUES ('6e70251509505394088', '/role', '角色管理', 'am-icon-blind', 'deb048150935', '系统管理', '40', '0', null, null, null, null);
+INSERT INTO `sys_menu_copy` VALUES ('961e451507619511015', '/customform', '自定义表单', 'am-icon-braille', '1', '流程管理', '10', '1', null, null, null, null);
+INSERT INTO `sys_menu_copy` VALUES ('bdf8fc1509505353057', '/org', '部门管理', 'am-icon-users', 'deb048150935', '系统管理', '30', '0', null, null, null, null);
+INSERT INTO `sys_menu_copy` VALUES ('deb048150935', '', '系统管理', 'am-icon-cogs', '0', '菜单配置', '20', '0', null, null, null, null);
+INSERT INTO `sys_menu_copy` VALUES ('deb0481509352973422', '/menu', '菜单管理', 'am-icon-cutlery', 'deb048150935', '系统管理', '10', '0', null, null, null, null);
+
+-- ----------------------------
+-- Table structure for sys_org
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_org`;
+CREATE TABLE `sys_org` (
+  `id` varchar(100) NOT NULL COMMENT 'id:数据唯一标识',
+  `name` varchar(100) default NULL COMMENT '菜单名称:菜单展示的名称',
+  `pid` varchar(100) NOT NULL COMMENT '父菜单:父菜单的id',
+  `pName` varchar(100) default NULL COMMENT '父菜单名称:父菜单名称',
+  `turn` int(100) default NULL,
+  `createby` varchar(100) default NULL COMMENT '创建人:创建该数据的用户名',
+  `createtime` varchar(100) default NULL COMMENT '创建时间:创建该数据的时间',
+  `updateby` varchar(100) default NULL COMMENT '修改人:修改该数据的用户名',
+  `updatetime` varchar(100) default NULL COMMENT '修改时间:修改该数据的时间',
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of sys_org
+-- ----------------------------
+INSERT INTO `sys_org` VALUES ('ddb8fa1510150214481', '管理员', '', '部门管理', '30', null, null, null, null);
 
 -- ----------------------------
 -- Table structure for sys_user
