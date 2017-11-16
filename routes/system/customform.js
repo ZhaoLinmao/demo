@@ -23,7 +23,7 @@ router.post('/list', function(req, res, next) {
  */
 router.post('/', function(req, res, next) {
     var result = {};
-    res.render("sys/admin-customform",result);
+    res.render("system/admin-customform",result);
 });
 
 /**

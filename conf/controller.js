@@ -3,6 +3,7 @@ var index = require("../routes/system/index"),
      customform = require("../routes/system/customform"),
      generate = require("../routes/system/generate"),
      check = require("../routes/system/check"),
+     org = require("../routes/system/org"),
      //# #{classLowerName} = require("../routes/#{path}/#{classLowerName}")//#{now} #//;
      menu = require("../routes/system/menu");
 
@@ -18,6 +19,7 @@ Controller.prototype.routes = function (app) {
     app.use('/menu', menu);
     app.use('/customform', customform);
     app.use('/generate', generate);
+    app.use('/org', org);
 
     app.use('/login', login);
     app.use('/check', check);

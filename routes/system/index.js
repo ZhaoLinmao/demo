@@ -16,7 +16,6 @@ router.post('/', function(req, res, next) {
         res.send({status:"error",msg:"密码不能为空!"});
     }else{
         var user = new Users(req,res);
-        console.log(JSON.stringify(user));
         user.login(user,function(result){
             if(result.status=="SUCCEED"){
                 req.session.user = result.msg;

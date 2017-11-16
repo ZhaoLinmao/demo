@@ -8,7 +8,7 @@ var express = require('express')
  * 代码生成工具页面跳转.
  */
 router.post('/', function(req, res, next) {
-  res.render('sys/admin-generate');
+  res.render('system/admin-generate');
 });
 
 /**
@@ -52,9 +52,12 @@ router.post('/createCode', function(req, res, next) {
          if(data.status=="SUCCEED"){
             result = data.msg;
             for(var ind in result){
-               column.push(result[ind].column_name);
-               type.push(result[ind].data_type);
-               comment.push(result[ind].column_comment);
+               if(result[ind].column_name!="updateby"&&result[ind].column_name!="createby"
+                   &&result[ind].column_name!="createtime"&&result[ind].column_name!="updatetime"){
+                   column.push(result[ind].column_name);
+                   type.push(result[ind].data_type);
+                   comment.push(result[ind].column_comment);
+               }
             }
             new GeneratorCode(confJson,column);
             res.send("代码生成成功!");

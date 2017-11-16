@@ -4,6 +4,7 @@
 
 var db    = {},
     util = require('../../util/Util')(),
+    dateUtil = require('../../util/DateUtil')(),
      mysql = require('mysql');
 
 
@@ -119,7 +120,7 @@ db.pageQuery = function(tableName,params,where,callback){
  * @param params 查询参数
  * @param callback 回调函数function
  */
-db.insert = function(tableName,params, callback){
+db.insert = function(req,tableName,params, callback){
 	if (!tableName&&!params) {
         callback();
         return;
@@ -129,8 +130,11 @@ db.insert = function(tableName,params, callback){
         tableColumCnt = "",
         tableValue = [],
         paramArr = params.param.split(",");
+        paramArr.push("createby");
+        paramArr.push("createtime");
     params.id = util.getUuid();
-
+    params.createby = req.session.user.username;
+    params.createtime = dateUtil.getYYMMDDHHMISS();
     for(var colum in paramArr){
         var columValue = paramArr[colum];
         tableColum+=columValue+",";
@@ -157,7 +161,7 @@ db.insert = function(tableName,params, callback){
  * @param where 查询条件
  * @param callback 回调函数function
  */
-db.update = function(tableName,params,where,callback){
+db.update = function(req,tableName,params,where,callback){
     if (!tableName&&!params&&!where) {
         callback();
         return;
@@ -166,6 +170,11 @@ db.update = function(tableName,params,where,callback){
     var tableColum = "",
          tableValue = [],
          paramArr = params.param.split(",");
+    paramArr.push("updateby");
+    paramArr.push("updatetime");
+    params.updateby = req.session.user.username;
+    params.updatetime = dateUtil.getYYMMDDHHMISS();
+
     for(var colum in paramArr){
         var columValue = paramArr[colum];
         tableColum+=columValue+"=?,";
