@@ -1,7 +1,7 @@
 var express = require('express')
     ,Generate = require("../../dao/system/Generate")
     ,GeneratorCode = require("../../util/GeneratorCode")
-    ,dateUtil = require("../../util/DateUtil")
+    ,dateUtil = require("../../util/DateUtil")()
     ,router = express.Router();
 
 /**
@@ -41,7 +41,7 @@ router.post('/createCode', function(req, res, next) {
 
       confJson.name=req.body.name||"demo";
       confJson.username=req.session.user.username;
-      confJson.now=dateUtil.getYYMMDDHHMISS;
+      confJson.now=dateUtil.getYYMMDDHHMISS();
       confJson.className=className||"demo";
       confJson.classLowerName=req.body.className||"demo";
       confJson.tableName=req.body.tableName;

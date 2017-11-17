@@ -1,7 +1,5 @@
 var fs = require("fs")
 	,path = require("path")
-	,data = ""
-	,cdata = ""
 	,confJson = JSON.parse(fs.readFileSync("config.json"));
 
 var GeneratorCode = function(fsConf,column){
@@ -13,13 +11,13 @@ function productMoudleFile(dirPath,fsConf,column) {
     	files.forEach(function (itm, index) {
             var stat = fs.statSync(dirPath+itm);
             if (stat.isDirectory()) {
-            	productMoudleFile(dirPath+itm+"/",fsConf,column)
+            	productMoudleFile(dirPath+itm+"/",fsConf,column);
             } else {
                 readMoudleFile(dirPath+itm,itm,fsConf,column);
             }
         })
     });
-    changeFile("../",fsConf,column);
+    changeFile("conf/controller.js",fsConf,column);
 }
 
 function readMoudleFile(fileName,itm,fsConf,column){
@@ -41,10 +39,8 @@ function readMoudleFile(fileName,itm,fsConf,column){
 	if (!fs.existsSync(path)) {
 		fs.mkdirSync(path);
 	}
-	productFile(fileName,outFilePath,fsConf,column);
-}
 
-function productFile(fileName,outFilePath,fsConf,column){
+	var data;
 	var readerStream = fs.createReadStream(fileName);
 	var writerStream = fs.createWriteStream(outFilePath);
 	readerStream.setEncoding('UTF8');
@@ -78,22 +74,22 @@ function productFile(fileName,outFilePath,fsConf,column){
 		}
 		data = data.replace(new RegExp("#{{/list}}","gm"),"");
 	});
-	
+
 	readerStream.on('end',function(){
 		writerStream.write(data,'UTF8');
 		writerStream.end();
 	});
-	
+
 	writerStream.on('finish', function() {
-	    console.log("write finish");
+		console.log("write finish");
 	});
-	
+
 	readerStream.on('error', function(err){
 		console.log(err.stack);
 	});
-	
+
 	writerStream.on('error', function(err){
-	   console.log(err.stack);
+		console.log(err.stack);
 	});
 }
 
@@ -102,17 +98,26 @@ function changeFile(fileName,fsConf,column){
 	var writerStream = fs.createWriteStream(fileName);
 	readerStream.setEncoding('UTF8');
 	var afterArr = [];
+	var cdata = "";
 
 	readerStream.on('data', function(chunk) {
+		console.log(JSON.stringify(fsConf));
+		var temp = "";
 		cdata = "";
 		var preArr = chunk.split("//#");
 		for(var j=0;j<preArr.length-1;j++){
-			cdata += preArr[0];
+			if(j==0) cdata += preArr[j];
 			afterArr = preArr[j+1].split("#//");
-			for(var i=0;i<afterArr-1;i++){
-				cdata += afterArr[i].replace(new RegExp("#{"+obj+"}","gm"),fsConf[obj]);
-				cdata += "//# "+preArr[i]+" #//";
-				cdata += preArr[i+1];
+			for(var i=0;i<afterArr.length;i=i+2){
+				cdata += "//# "+afterArr[i]+" #//";
+				if(i==0) {
+					temp = afterArr[i];
+					for (var obj in fsConf) {
+						temp = temp.replace(new RegExp("#{"+obj+"}","gm"),fsConf[obj]);
+					}
+					cdata += "\n\r    "+temp;
+				}
+				cdata += "\n\r"+afterArr[i+1];
 			}
 		}
 	});
