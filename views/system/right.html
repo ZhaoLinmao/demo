@@ -1,0 +1,209 @@
+<div class="am-cf am-padding am-padding-bottom-0">
+    <div class="am-fl am-cf">
+          <strong class="am-text-primary am-text-lg">#{parentName}</strong> /
+          <small>权限管理</small>
+    </div>
+</div>
+
+<hr>
+
+<div class="am-g">
+     <!--位置信息-->
+     <div class="am-u-sm-12 am-u-md-4">
+          <!--边框-->
+          <div class="am-panel am-panel-default am-panel-bd">
+              <div class="am-g">
+
+                  <div class="am-u-md-12">
+                          <div class="am-btn-group" data-am-button>
+                              <label id="addButton" class="am-btn am-btn-success">
+                                  <input type="checkbox" name="doc-js-btn"/> 新增
+                              </label>
+                              <label id="delButton" class="am-btn am-btn-danger">
+                                  <input type="checkbox" name="doc-js-btn"/> 删除
+                              </label>
+                          </div>
+                  </div>
+                  <div class="am-u-md-12">
+                      <div id="firstTree">
+                      </div>
+                  </div>
+
+              </div>
+          </div>
+     </div>
+
+    <!--位置信息-->
+     <div class="am-u-sm-12 am-u-md-8">
+         <!--边框-->
+         <div class="am-panel am-panel-default am-panel-bd">
+
+              <!--内容-->
+              <div class="am-form am-form-horizontal" id="formSubmitData">
+                  <input type="hidden" id="id" name="id"/>
+                  <input type="hidden" id="parentId" name="parentId" value="0"/>
+                  
+                  
+                    <div class="am-form-group">
+                      <label for="id" class="am-u-sm-3 am-form-label">id</label>
+                      <div class="am-u-sm-9">
+                          <input type="text" id="id" name="id" placeholder="输入id" >
+                      </div>
+                    </div>
+                  
+                    <div class="am-form-group">
+                      <label for="url" class="am-u-sm-3 am-form-label">url</label>
+                      <div class="am-u-sm-9">
+                          <input type="text" id="url" name="url" placeholder="输入url" >
+                      </div>
+                    </div>
+                  
+                    <div class="am-form-group">
+                      <label for="name" class="am-u-sm-3 am-form-label">name</label>
+                      <div class="am-u-sm-9">
+                          <input type="text" id="name" name="name" placeholder="输入name" >
+                      </div>
+                    </div>
+                  
+                    <div class="am-form-group">
+                      <label for="icon" class="am-u-sm-3 am-form-label">icon</label>
+                      <div class="am-u-sm-9">
+                          <input type="text" id="icon" name="icon" placeholder="输入icon" >
+                      </div>
+                    </div>
+                  
+                    <div class="am-form-group">
+                      <label for="pid" class="am-u-sm-3 am-form-label">pid</label>
+                      <div class="am-u-sm-9">
+                          <input type="text" id="pid" name="pid" placeholder="输入pid" >
+                      </div>
+                    </div>
+                  
+                    <div class="am-form-group">
+                      <label for="pName" class="am-u-sm-3 am-form-label">pName</label>
+                      <div class="am-u-sm-9">
+                          <input type="text" id="pName" name="pName" placeholder="输入pName" >
+                      </div>
+                    </div>
+                  
+                    <div class="am-form-group">
+                      <label for="turn" class="am-u-sm-3 am-form-label">turn</label>
+                      <div class="am-u-sm-9">
+                          <input type="text" id="turn" name="turn" placeholder="输入turn" >
+                      </div>
+                    </div>
+                  
+                    <div class="am-form-group">
+                      <label for="newpage" class="am-u-sm-3 am-form-label">newpage</label>
+                      <div class="am-u-sm-9">
+                          <input type="text" id="newpage" name="newpage" placeholder="输入newpage" >
+                      </div>
+                    </div>
+                  
+
+                  <div class="am-form-group">
+                      <div class="am-u-sm-9 am-u-sm-push-3">
+                          <button id="subButton" type="button" class="am-btn am-btn-primary">保存修改</button>
+                      </div>
+                  </div>
+              </div>
+             <!--内容-->
+
+         </div>
+     </div>
+</div>
+
+<script>
+
+
+    var options = {
+        bootstrap2: false,
+        showTags: true,
+        levels: 2,
+        enableLinks:true,
+        data: buildDomTree()
+    };
+
+    $(function() {
+        $("#firstTree").treeview(options);
+        $("#firstTree li:first-child").trigger("click");
+    });
+
+    /**
+     * 保存提交
+     */
+    $("#subButton").on("click",function(){
+        var data = {};
+        $("#formSubmitData :input").each(function(i,e){
+            var name = $(e).attr("name");
+            if(name!=null&&name!=undefined){
+                data[name] = $(e).val();
+            }
+        });
+
+        $.post("/right/save",data,function(data){
+            alert(data.status);
+            $("#firstTree").treeview("remove").treeview(options);
+            $("#firstTree li:first-child").trigger("click");
+        });
+    });
+
+    /**
+     * 新增
+     */
+    $("#addButton").on("click",function(){
+        $("#pName").val($("#name").val());
+        $("#parentId").val($("#id").val());
+        $("#formSubmitData :input").not("#parentId,#pName").val("");
+    });
+
+    /**
+     * 删除
+     */
+    $("#delButton").on("click",function(){
+        var data = {};
+            data.id = $("#id").val();
+        $.post("/right/del",data,function(data){
+            alert(data.status);
+            $("#firstTree").treeview("remove").treeview(options);
+            $("#firstTree li:first-child").trigger("click");
+        });
+    });
+
+    /**
+     * 树形菜单 数据组织
+     */
+    function buildDomTree() {
+        var treeData = {};
+        $.ajax({url:"/right/list",data:{},async:false,type:"post",dataType:"json",
+            success:function(data) {
+                treeData.id = "0";
+                treeData.parentId = "";
+                treeData.text = "权限管理";
+                treeData.name = "权限管理";
+                treeData.pName = "";
+                treeData.nodes = [];
+                treeData.nodes = $.getTreeData(data);
+            }
+        });
+        return [treeData];
+    }
+
+    /**
+     * 树节点选中点击事件
+     */
+    $("#firstTree").on("nodeSelected", function(event, data) {
+        $.each(data,function(i,e){
+            $("#"+i).val(e);
+        });
+    });
+
+    /**
+     * 树节点取消选中点击事件
+     */
+    $("#firstTree").on("nodeUnselected", function(event, data) {
+        $("#formSubmitData :input").val("");
+        $("#parentId").val("0");
+        $("#pName").val("")
+    });
+</script>

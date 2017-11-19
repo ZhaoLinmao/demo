@@ -17,7 +17,7 @@ function productMoudleFile(dirPath,fsConf,column) {
             }
         })
     });
-    changeFile("conf/controller.js",fsConf,column);
+    changeFile("conf/controller.js",fsConf);
 }
 
 function readMoudleFile(fileName,itm,fsConf,column){
@@ -81,7 +81,6 @@ function readMoudleFile(fileName,itm,fsConf,column){
 	});
 
 	writerStream.on('finish', function() {
-		console.log("write finish");
 	});
 
 	readerStream.on('error', function(err){
@@ -93,17 +92,15 @@ function readMoudleFile(fileName,itm,fsConf,column){
 	});
 }
 
-function changeFile(fileName,fsConf,column){
-	var readerStream = fs.createReadStream(fileName);
-	var writerStream = fs.createWriteStream(fileName);
-	readerStream.setEncoding('UTF8');
+function changeFile(fileName,fsConf){
+	var readStream = fs.createReadStream(fileName);
+	readStream.setEncoding('UTF8');
 	var afterArr = [];
-	var cdata = "";
+	var cdata;
 
-	readerStream.on('data', function(chunk) {
-		console.log(JSON.stringify(fsConf));
-		var temp = "";
+	readStream.on('data', function(chunk) {
 		cdata = "";
+		var temp = "";
 		var preArr = chunk.split("//#");
 		for(var j=0;j<preArr.length-1;j++){
 			if(j==0) cdata += preArr[j];
@@ -115,28 +112,28 @@ function changeFile(fileName,fsConf,column){
 					for (var obj in fsConf) {
 						temp = temp.replace(new RegExp("#{"+obj+"}","gm"),fsConf[obj]);
 					}
-					cdata += "\n\r    "+temp;
+					cdata += "\n    "+temp;
 				}
-				cdata += "\n\r"+afterArr[i+1];
+				cdata += afterArr[i+1];
 			}
 		}
 	});
-	
-	readerStream.on('end',function(){
-		writerStream.write(cdata,'UTF8');
-		writerStream.end();
+
+	readStream.on('end',function(){
+		var writeStream = fs.createWriteStream(fileName);
+			writeStream.write(cdata,'UTF8');
+			writeStream.end();
+
+			writeStream.on('finish', function() {
+			});
+
+			writeStream.on('error', function(err){
+				console.log(err.stack);
+			});
 	});
-	
-	writerStream.on('finish', function() {
-	    console.log("write finish");
-	});
-	
-	readerStream.on('error', function(err){
+
+	readStream.on('error', function(err){
 		console.log(err.stack);
-	});
-	
-	writerStream.on('error', function(err){
-	   console.log(err.stack);
 	});
 }
 

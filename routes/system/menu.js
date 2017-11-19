@@ -30,27 +30,31 @@ router.post('/', function(req, res, next) {
  *  菜单新增或修改.
  */
 router.post('/save', function(req, res, next) {
-    var result = {};
-    var menu = new Menu(req,res);
-    var id = req.body.id;
-    if(id!=null&&id!=""){
-        menu.upd(menu,function(data){
-            if(data.status=="SUCCEED"){
-                result.status = "保存成功";
-            }else{
-                result.status = "保存失败";
-            }
-            res.send(result);
-        });
-    }else{
-        menu.add(menu,function(data){
-            if(data.status=="SUCCEED"){
-                result.status = "保存成功";
-            }else{
-                result.status = "保存失败";
-            }
-            res.send(result);
-        });
+    try{
+        var result = {};
+        var menu = new Menu(req,res);
+        var id = req.body.id;
+        if(id!=null&&id!=""){
+            menu.upd(req,menu,function(data){
+                if(data.status=="SUCCEED"){
+                    result.status = "保存成功";
+                }else{
+                    result.status = "保存失败";
+                }
+                res.send(result);
+            });
+        }else{
+            menu.add(req,menu,function(data){
+                if(data.status=="SUCCEED"){
+                    result.status = "保存成功";
+                }else{
+                    result.status = "保存失败";
+                }
+                res.send(result);
+            });
+        }
+    }catch(e){
+        consoleLog(e)
     }
 });
 

@@ -1,9 +1,9 @@
 var index = require("../routes/system/index"),
-     login = require("../routes/system/login"),
      customform = require("../routes/system/customform"),
      generate = require("../routes/system/generate"),
-     check = require("../routes/system/check"),
-     //# #{classLowerName} = require("../routes/#{path}/#{classLowerName}"),//time:#{now} #//
+     //#   #{classLowerName} = require("../routes/#{path}/#{classLowerName}"),//time:#{now}   #//
+      right = require("../routes/system/right"),//time:2017-10-0 20:11:30  
+     org = require("../routes/system/org"),//time:2017-10-5 22:11:9
      menu = require("../routes/system/menu");
 
 var Controller = function (){
@@ -13,14 +13,14 @@ var Controller = function (){
 };
 
 Controller.prototype.routes = function (app) {
-    //# app.use('/#{classLowerName}', #{classLowerName}),//time:#{now} #//
-    app.use('/index', index);
-    app.use('/menu', menu);
-    app.use('/customform', customform);
-    app.use('/generate', generate);
+     //#   app.use('/#{classLowerName}', #{classLowerName}),//time:#{now}   #//
+      app.use('/right', right),//time:2017-10-0 20:11:30  
+     app.use('/org', org),//time:2017-10-5 22:11:9
+     app.use('/index', index);
+     app.use('/menu', menu);
+     app.use('/customform', customform);
+     app.use('/generate', generate);
 
-    app.use('/login', login);
-    app.use('/check', check);
 
 };
 

@@ -1,28 +1,38 @@
-/**
- * Created by zlm on 2016/12/22.
+/*
+ *  create by admin
+ *  create date 2017-10-0 20:11:30 
  */
 var conn = require("../../conf/mysql/db");
 
-var Menu = function (req,res,next){
-    this.param = "id,url,name,icon,pid,pName,newpage,turn";
+var Right = function (req,res,next){
+    this.param = "id,url,name,icon,pid,pName,turn,newpage";
+    
     this.id = req.body.id||"";
+    
     this.url = req.body.url||"";
+    
     this.name = req.body.name||"";
+    
     this.icon = req.body.icon||"";
+    
     this.pid = req.body.pid||"";
+    
     this.pName = req.body.pName||"";
-    this.newpage = req.body.newpage||0;
-    this.turn = req.body.turn||30;
+    
+    this.turn = req.body.turn||"";
+    
+    this.newpage = req.body.newpage||"";
+    
 };
 
 /**
- * 菜单列表获取
+ * 权限管理列表获取
  * @param params
  * @param callback
  */
-Menu.prototype.getMenuList = function(params,callback){
-    var sql = "select * from sys_menu order by turn asc";
-    conn.query(sql,[params.username],function(err,rows,fileds){
+Right.prototype.getRightList = function(params,callback){
+    var sql = "select * from sys_right";
+    conn.query(sql,[],function(err,rows,fileds){
         var result = {};
         result.status = "FAILURE";
         if(err){
@@ -38,13 +48,13 @@ Menu.prototype.getMenuList = function(params,callback){
 
 
 /**
- * 菜单新增
+ * 权限管理新增
  * @param params
  * @param callback
  */
-Menu.prototype.add = function(req,params,callback){
-    var table="sys_menu";
-    conn.insert(req,table,params,function(err,rows){
+Right.prototype.add = function(params,callback){
+    var table="sys_right";
+    conn.insert(table,params,function(err,rows){
         var result = {};
         result.status = "FAILURE";
         if(err){
@@ -63,10 +73,10 @@ Menu.prototype.add = function(req,params,callback){
  * @param params
  * @param callback
  */
-Menu.prototype.upd = function(req,params,callback){
-    var table="sys_menu",
+Right.prototype.upd = function(params,callback){
+    var table="sys_right",
          where="id='"+params.id+"'";
-    conn.update(req,table,params,where,function(err,rows){
+    conn.update(table,params,where,function(err,rows){
         var result = {};
         result.status = "FAILURE";
         if(err){
@@ -81,12 +91,12 @@ Menu.prototype.upd = function(req,params,callback){
 };
 
 /**
- * 菜单删除
+ * 权限管理删除
  * @param params
  * @param callback
  */
-Menu.prototype.del = function(params,callback){
-    var table="sys_menu",
+Right.prototype.del = function(params,callback){
+    var table="sys_right",
         where="id='"+params.id+"'";
     conn.delete(table,where,function(err,result){
 
@@ -101,27 +111,4 @@ Menu.prototype.del = function(params,callback){
     });
 };
 
-
-/**
- * 菜单检测存在子节点
- * @param params
- * @param callback
- */
-Menu.prototype.check = function(params,callback){
-    var table="sys_menu",
-        where="pid='"+params.id+"'";
-    conn.checkSize(table,params,where,function(err,count){
-        var result = {};
-        result.status = "FAILURE";
-        if(err){
-            console.log(err);
-            result.msg = err;
-        }else{
-            result.status = "SUCCEED";
-            result.msg = count;
-            callback(result);
-        }
-    });
-};
-
-module.exports = Menu;
+module.exports = Right;
