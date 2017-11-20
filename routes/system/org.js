@@ -41,7 +41,7 @@ router.post('/save', function(req, res, next) {
     var org = new Org(req,res);
     var id = req.body.id;
     if(id!=null&&id!=""){
-    	org.upd(org,function(data){
+    	org.upd(req,org,function(data){
             if(data.status=="SUCCEED"){
                 result.status = "保存成功";
             }else{
@@ -50,7 +50,7 @@ router.post('/save', function(req, res, next) {
             res.send(result);
         });
     }else{
-    	org.add(org,function(data){
+    	org.add(req,org,function(data){
             if(data.status=="SUCCEED"){
                 result.status = "保存成功";
             }else{
@@ -81,5 +81,16 @@ router.post('/del', function(req, res, next) {
     }
 });
 
+/**
+ *  #{name}新增或修改.
+ */
+router.post('/check', function(req, res, next) {
+    var result = {};
+    var org = new Org(req,res);
+    org.check(org,function(data){
+        result = data;
+        res.send(result);
+    });
+});
 
 module.exports = router;

@@ -1,37 +1,37 @@
 /*
  *  create by admin
- *  create date 2017-10-0 20:11:30 
+ *  create date 2017-10-1 14:29:31 
  */
 var conn = require("../../conf/mysql/db");
 
-var Right = function (req,res,next){
-    this.param = "id,url,name,icon,pid,pName,turn,newpage";
+var Role = function (req,res,next){
+    this.param = "id,right_id,add,del,upd,sel,imp,exp";
     
     this.id = req.body.id||"";
     
-    this.url = req.body.url||"";
+    this.right_id = req.body.right_id||"";
     
-    this.name = req.body.name||"";
+    this.add = req.body.add||"";
     
-    this.icon = req.body.icon||"";
+    this.del = req.body.del||"";
     
-    this.pid = req.body.pid||"";
+    this.upd = req.body.upd||"";
     
-    this.pName = req.body.pName||"";
+    this.sel = req.body.sel||"";
     
-    this.turn = req.body.turn||"";
+    this.imp = req.body.imp||"";
     
-    this.newpage = req.body.newpage||"";
+    this.exp = req.body.exp||"";
     
 };
 
 /**
- * 权限管理列表获取
+ * 角色管理列表获取
  * @param params
  * @param callback
  */
-Right.prototype.getRightList = function(params,callback){
-    var sql = "select * from sys_right";
+Role.prototype.getRoleList = function(params,callback){
+    var sql = "select * from sys_role";
     conn.query(sql,[],function(err,rows,fileds){
         var result = {};
         result.status = "FAILURE";
@@ -48,12 +48,12 @@ Right.prototype.getRightList = function(params,callback){
 
 
 /**
- * 权限管理新增
+ * 角色管理新增
  * @param params
  * @param callback
  */
-Right.prototype.add = function(params,callback){
-    var table="sys_right";
+Role.prototype.add = function(params,callback){
+    var table="sys_role";
     conn.insert(table,params,function(err,rows){
         var result = {};
         result.status = "FAILURE";
@@ -73,8 +73,8 @@ Right.prototype.add = function(params,callback){
  * @param params
  * @param callback
  */
-Right.prototype.upd = function(params,callback){
-    var table="sys_right",
+Role.prototype.upd = function(params,callback){
+    var table="sys_role",
          where="id='"+params.id+"'";
     conn.update(table,params,where,function(err,rows){
         var result = {};
@@ -91,12 +91,12 @@ Right.prototype.upd = function(params,callback){
 };
 
 /**
- * 权限管理删除
+ * 角色管理删除
  * @param params
  * @param callback
  */
-Right.prototype.del = function(params,callback){
-    var table="sys_right",
+Role.prototype.del = function(params,callback){
+    var table="sys_role",
         where="id='"+params.id+"'";
     conn.delete(table,where,function(err,result){
 
@@ -111,4 +111,4 @@ Right.prototype.del = function(params,callback){
     });
 };
 
-module.exports = Right;
+module.exports = Role;

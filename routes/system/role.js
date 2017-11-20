@@ -1,30 +1,30 @@
 /*
  *  create by admin
- *  create date 2017-10-0 20:11:30 
+ *  create date 2017-10-1 14:29:31 
  */
 var express = require('express'),
-	Right = require("../../dao/system/Right"),
+	Role = require("../../dao/system/Role"),
     router = express.Router();
 
 
 
 /**
- *  权限管理控制界面跳转.
- *  url: /right
+ *  角色管理控制界面跳转.
+ *  url: /role
  */
 router.post('/', function(req, res, next) {
     var result = {};
-    res.render("system/right",result);
+    res.render("system/role",result);
 });
 
 /**
- *  权限管理获取.
- *  url: /right/list
+ *  角色管理获取.
+ *  url: /role/list
  */
 router.post('/list', function(req, res, next) {
     var result = {};
-    var right = new Right(req,res);
-        right.getRightList(right,function(data){
+    var role = new Role(req,res);
+        role.getRoleList(role,function(data){
         if(data.status=="SUCCEED"){
             result = data.msg;
             res.send(result);
@@ -34,14 +34,14 @@ router.post('/list', function(req, res, next) {
 
 /**
  *  菜单新增或修改.
- *  url: /right/save
+ *  url: /role/save
  */
 router.post('/save', function(req, res, next) {
     var result = {};
-    var right = new Right(req,res);
+    var role = new Role(req,res);
     var id = req.body.id;
     if(id!=null&&id!=""){
-    	right.upd(right,function(data){
+    	role.upd(role,function(data){
             if(data.status=="SUCCEED"){
                 result.status = "保存成功";
             }else{
@@ -50,7 +50,7 @@ router.post('/save', function(req, res, next) {
             res.send(result);
         });
     }else{
-    	right.add(right,function(data){
+    	role.add(role,function(data){
             if(data.status=="SUCCEED"){
                 result.status = "保存成功";
             }else{
@@ -62,15 +62,15 @@ router.post('/save', function(req, res, next) {
 });
 
 /**
- *  权限管理删除.
- *  url: /right/del
+ *  角色管理删除.
+ *  url: /role/del
  */
 router.post('/del', function(req, res, next) {
     var result = {};
-    var right = new Right(req,res);
+    var role = new Role(req,res);
     var id = req.body.id;
     if(id!=null&&id!=""){
-    	right.del(right,function(data){
+    	role.del(role,function(data){
             if(data.status=="success"){
                 result.status="删除成功"
             }else{

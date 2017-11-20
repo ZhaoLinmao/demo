@@ -46,9 +46,9 @@ Org.prototype.getOrgList = function(params,callback){
  * @param params
  * @param callback
  */
-Org.prototype.add = function(params,callback){
+Org.prototype.add = function(req,params,callback){
     var table="sys_org";
-    conn.insert(table,params,function(err,rows){
+    conn.insert(req,table,params,function(err,rows){
         var result = {};
         result.status = "FAILURE";
         if(err){
@@ -67,10 +67,10 @@ Org.prototype.add = function(params,callback){
  * @param params
  * @param callback
  */
-Org.prototype.upd = function(params,callback){
+Org.prototype.upd = function(req,params,callback){
     var table="sys_org",
          where="id='"+params.id+"'";
-    conn.update(table,params,where,function(err,rows){
+    conn.update(req,table,params,where,function(err,rows){
         var result = {};
         result.status = "FAILURE";
         if(err){
@@ -100,6 +100,28 @@ Org.prototype.del = function(params,callback){
             result.msg = err;
         }else{
             result.status = "SUCCEED";
+            callback(result);
+        }
+    });
+};
+
+/**
+ * 部门管理检测存在子节点
+ * @param params
+ * @param callback
+ */
+Org.prototype.check = function(params,callback){
+    var table="sys_org",
+        where="pid='"+params.id+"'";
+    conn.checkSize(table,params,where,function(err,count){
+        var result = {};
+        result.status = "FAILURE";
+        if(err){
+            console.log(err);
+            result.msg = err;
+        }else{
+            result.status = "SUCCEED";
+            result.msg = count;
             callback(result);
         }
     });
