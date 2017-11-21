@@ -66,27 +66,53 @@
 
 <script>
 
-
-    var options = {
-        bootstrap2: false,
-        showTags: true,
-        levels: 2,
-        enableLinks:true,
-        data: buildDomTree()
-    };
+    var treeData;
 
     $(function() {
-        $("#firstTree").treeview(options);
+        getTree();
         $("#firstTree li:first-child").trigger("click");
     });
+
+    function getTree(){
+        treeData = buildDomTree();
+        $("#firstTree").treeview({
+            bootstrap2: false,
+            showTags: true,
+            levels: 3,
+            enableLinks:true,
+            data: treeData
+        });
+        /**
+         * 树节点选中点击事件
+         */
+        $("#firstTree").on("nodeSelected", function(event, data) {
+            $.each(data,function(i,e){
+                $("#"+i).val(e);
+            });
+        });
+
+        /**
+         * 树节点取消选中点击事件
+         */
+        $("#firstTree").on("nodeUnselected", function(event, data) {
+            $("#pid").val("0");
+            $("#pName").val("");
+            $("#formSubmitData :input").not("#pid,#pName").val("");
+        });
+    }
 
     /**
      * 保存提交
      */
     $("#subButton").on("click",function(){
+        var $btn = $(this);
+        $btn.button('loading');
+        setTimeout(function(){
+            $btn.button('reset');
+        }, 1000);
         var data = {};
-        $("#formSubmitData :input").each(function(i,e){
-            var name = $(e).attr("name");
+        $("#formSubmitData :input").not("button").each(function(i,e){
+            var name = $(e).attr("id");
             if(name!=null&&name!=undefined){
                 data[name] = $(e).val();
             }
@@ -94,7 +120,7 @@
 
         $.post("/#{classLowerName}/save",data,function(data){
             alert(data.status);
-            $("#firstTree").treeview("remove").treeview(options);
+            getTree();
             $("#firstTree li:first-child").trigger("click");
         });
     });
@@ -104,8 +130,9 @@
      */
     $("#addButton").on("click",function(){
         $("#pName").val($("#name").val());
-        $("#parentId").val($("#id").val());
-        $("#formSubmitData :input").not("#parentId,#pName").val("");
+        $("#pid").val($("#id").val());
+        $("#newpage").val(0);
+        $("#formSubmitData :input").not("#pid,#pName,#newpage").val("");
     });
 
     /**
@@ -113,12 +140,18 @@
      */
     $("#delButton").on("click",function(){
         var data = {};
-            data.id = $("#id").val();
-        $.post("/#{classLowerName}/del",data,function(data){
-            alert(data.status);
-            $("#firstTree").treeview("remove").treeview(options);
-            $("#firstTree li:first-child").trigger("click");
-        });
+        data.id = $("#id").val();
+        $.post("/#{classLowerName}/check",data,function(result) {
+            if(result.msg>0){
+                alert("该菜单中含有子菜单,无法删除!");
+                return false;
+            }
+            $.post("/#{classLowerName}/del", data, function (result) {
+                alert(result.status);
+                getTree();
+                $("#firstTree li:first-child").trigger("click");
+            });
+        })
     });
 
     /**
@@ -126,12 +159,12 @@
      */
     function buildDomTree() {
         var treeData = {};
-        $.ajax({url:"/#{classLowerName}/list",data:{},async:false,type:"post",dataType:"json",
+        $.ajax({url:"//#{classLowerName}/list",data:{},async:false,type:"post",dataType:"json",
             success:function(data) {
                 treeData.id = "0";
-                treeData.parentId = "";
-                treeData.text = "#{name}";
-                treeData.name = "#{name}";
+                treeData.pid = "";
+                treeData.text = "菜单配置";
+                treeData.name = "菜单配置";
                 treeData.pName = "";
                 treeData.nodes = [];
                 treeData.nodes = $.getTreeData(data);
@@ -140,21 +173,4 @@
         return [treeData];
     }
 
-    /**
-     * 树节点选中点击事件
-     */
-    $("#firstTree").on("nodeSelected", function(event, data) {
-        $.each(data,function(i,e){
-            $("#"+i).val(e);
-        });
-    });
-
-    /**
-     * 树节点取消选中点击事件
-     */
-    $("#firstTree").on("nodeUnselected", function(event, data) {
-        $("#formSubmitData :input").val("");
-        $("#parentId").val("0");
-        $("#pName").val("")
-    });
 </script>

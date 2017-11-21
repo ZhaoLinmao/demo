@@ -81,5 +81,16 @@ router.post('/del', function(req, res, next) {
     }
 });
 
+/**
+ *  #{name}新增或修改.
+ */
+router.post('/check', function(req, res, next) {
+    var result = {};
+    var #{classLowerName} = new #{className}(req,res);
+    #{classLowerName}.check(#{classLowerName},function(data){
+        result = data;
+        res.send(result);
+    });
+});
 
 module.exports = router;

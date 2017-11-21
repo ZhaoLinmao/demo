@@ -11,13 +11,14 @@ var #{className} = function (req,res,next){
     #{{/list}}
 };
 
+var tableName = "#{tableName}";
 /**
  * #{name}列表获取
  * @param params
  * @param callback
  */
 #{className}.prototype.get#{className}List = function(params,callback){
-    var sql = "select * from #{tableName}";
+    var sql = "select * from "+tableName+" ";
     conn.query(sql,[],function(err,rows,fileds){
         var result = {};
         result.status = "FAILURE";
@@ -39,7 +40,7 @@ var #{className} = function (req,res,next){
  * @param callback
  */
 #{className}.prototype.add = function(params,callback){
-    var table="#{tableName}";
+    var table=tableName;
     conn.insert(table,params,function(err,rows){
         var result = {};
         result.status = "FAILURE";
@@ -60,7 +61,7 @@ var #{className} = function (req,res,next){
  * @param callback
  */
 #{className}.prototype.upd = function(params,callback){
-    var table="#{tableName}",
+    var table=tableName,
          where="id='"+params.id+"'";
     conn.update(table,params,where,function(err,rows){
         var result = {};
@@ -82,7 +83,7 @@ var #{className} = function (req,res,next){
  * @param callback
  */
 #{className}.prototype.del = function(params,callback){
-    var table="#{tableName}",
+    var table=tableName,
         where="id='"+params.id+"'";
     conn.delete(table,where,function(err,result){
 
@@ -92,6 +93,28 @@ var #{className} = function (req,res,next){
             result.msg = err;
         }else{
             result.status = "SUCCEED";
+            callback(result);
+        }
+    });
+};
+
+/**
+ * #{name}检测存在子节点
+ * @param params
+ * @param callback
+ */
+#{className}.prototype.check = function(params,callback){
+    var table=tableName,
+        where="pid='"+params.id+"'";
+    conn.checkSize(table,params,where,function(err,count){
+        var result = {};
+        result.status = "FAILURE";
+        if(err){
+            console.log(err);
+            result.msg = err;
+        }else{
+            result.status = "SUCCEED";
+            result.msg = count;
             callback(result);
         }
     });
