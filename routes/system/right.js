@@ -41,18 +41,12 @@ router.post('/getGrid', function(req, res, next) {
  *  url: /right/list
  */
 router.post('/list', function(req, res, next) {
-
-    var params = {};
-    params.limit = req.body.limit||10;
-    params.offset = req.body.offset||0;
     var right = new Right(req,res);
-
     right.pageQuery(right,function(page){
         if(page.status=="SUCCEED"){
             res.send(page);
         }
     });
-
 });
 
 /**

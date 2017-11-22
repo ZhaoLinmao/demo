@@ -14,8 +14,8 @@ var Right = function (req,res,next){
     this.sel = req.body.sel||"";
     this.imp = req.body.imp||"";
     this.exp = req.body.exp||"";
-    this.limit = req.body.limit||"";
-    this.offset = req.body.offset||"";
+    this.limit = req.body.limit||10;
+    this.offset = req.body.offset||0;
 };
 
 var tableName = "sys_right";
@@ -34,7 +34,6 @@ Right.prototype.pageQuery = function(params,callback){
             result.msg = err;
         }else{
             result.status = "SUCCEED";
-            console.log(count);
             result.total = count;
             result.rows = rows;
             callback(result);
