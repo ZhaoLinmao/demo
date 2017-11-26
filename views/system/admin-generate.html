@@ -8,108 +8,98 @@
 <hr>
 
 <div class="am-g">
-     <!--位置信息-->
-     <div class="am-u-sm-12 am-u-md-12">
-          <!--边框-->
-          <div class="am-panel am-panel-default am-panel-bd">
+      <div class="am-u-sm-12">
+          <div class="am-tabs" id="sys-my-tabs">
+              <ul class="am-tabs-nav am-nav am-nav-tabs am-nav-justify">
+                  <li class="am-active"><a href="javascript:void(0);">根据表生成代码</a></li>
+                  <li><a href="javascript:void(0);">生成表及代码</a></li>
+              </ul>
+              <div class="am-tabs-bd">
+                  <div class="am-tab-panel am-active">
+                      <div class="am-u-sm-12 am-u-md-3">
+                          <!--边框-->
+                          <div class="am-panel am-panel-default am-panel-bd">
+                              <!-- 内容 -->
+                              <div class="am-form am-form-horizontal" id="tableList" style="text-align: left">
+                                  <ul id="tableNameList" class="am-nav">
+                                  </ul>
+                              </div>
+                              <!-- 内容 -->
+                          </div>
+                      </div>
 
-              <div class="am-g">
-                  <div class="am-u-md-12">
-                      <div class="am-tabs" id="sys-my-tabs">
-                          <ul class="am-tabs-nav am-nav am-nav-tabs am-nav-justify">
-                              <li class="am-active"><a href="javascript:void(0);">根据表生成代码</a></li>
-                              <li><a href="javascript:void(0);">生成表及代码</a></li>
-                          </ul>
-                          <div class="am-tabs-bd">
-                              <div class="am-tab-panel am-active">
-                                  <div class="am-u-sm-12 am-u-md-3">
-                                      <!--边框-->
-                                      <div class="am-panel am-panel-default am-panel-bd">
-                                          <!-- 内容 -->
-                                          <div class="am-form am-form-horizontal" id="tableList" style="text-align: left">
-                                              <ul id="tableNameList" class="am-nav">
-                                              </ul>
-                                          </div>
-                                          <!-- 内容 -->
+                      <!--位置信息-->
+                      <div class="am-u-sm-12 am-u-md-9">
+                          <!--边框-->
+                          <div class="am-panel am-panel-default am-panel-bd">
+                              <!--内容-->
+                              <div class="am-form am-form-horizontal" id="formSubmitData">
+                                  <input type="hidden" id="tableName" name="tableName"/>
+                                  <input type="hidden" id="moudleId" name="moudleId"/>
+
+                                  <div class="am-form-group">
+                                      <label for="name" class="am-u-sm-12 am-u-md-3 am-form-label">新增模块名称</label>
+                                      <div class="am-u-sm-12 am-u-md-9">
+                                          <input type="text" id="name" name="name" placeholder="请填写模块名称" class="am-form-field am-radius">
                                       </div>
                                   </div>
 
-                                  <!--位置信息-->
-                                  <div class="am-u-sm-12 am-u-md-9">
-                                      <!--边框-->
-                                      <div class="am-panel am-panel-default am-panel-bd">
-                                          <!--内容-->
-                                          <div class="am-form am-form-horizontal" id="formSubmitData">
-                                              <input type="hidden" id="tableName" name="tableName"/>
-                                              <input type="hidden" id="moudleId" name="moudleId"/>
+                                  <div class="am-form-group">
+                                      <label for="path" class="am-u-sm-12 am-u-md-3 am-form-label">包名称</label>
+                                      <div class="am-u-sm-12 am-u-md-9">
+                                          <input type="text" id="path" name="path" placeholder="请填写包名称" class="am-form-field am-radius">
+                                      </div>
+                                  </div>
 
-                                              <div class="am-form-group">
-                                                  <label for="name" class="am-u-sm-12 am-u-md-3 am-form-label">新增模块名称</label>
-                                                  <div class="am-u-sm-12 am-u-md-9">
-                                                      <input type="text" id="name" name="name" placeholder="请填写模块名称" class="am-form-field am-radius">
-                                                  </div>
-                                              </div>
+                                  <div class="am-form-group">
+                                      <label for="className" class="am-u-sm-12 am-u-md-3 am-form-label">新增类名</label>
+                                      <div class="am-u-sm-12 am-u-md-9">
+                                          <input type="text" id="className" name="className" placeholder="请填写类名如:user" class="am-form-field am-radius">
+                                      </div>
+                                  </div>
 
-                                              <div class="am-form-group">
-                                                  <label for="path" class="am-u-sm-12 am-u-md-3 am-form-label">包名称</label>
-                                                  <div class="am-u-sm-12 am-u-md-9">
-                                                      <input type="text" id="path" name="path" placeholder="请填写包名称" class="am-form-field am-radius">
-                                                  </div>
-                                              </div>
+                                  <div class="am-form-group">
+                                      <label class="am-u-sm-12 am-u-md-3 am-form-label">选择模板</label>
+                                      <div class="am-u-sm-12 am-u-md-9">
+                                          <button type="button" id="moudleBtn" name="moudleBtn" class="am-btn am-btn-info">模板</button>
+                                      </div>
+                                  </div>
 
-                                              <div class="am-form-group">
-                                                  <label for="className" class="am-u-sm-12 am-u-md-3 am-form-label">新增类名</label>
-                                                  <div class="am-u-sm-12 am-u-md-9">
-                                                      <input type="text" id="className" name="className" placeholder="请填写类名如:user" class="am-form-field am-radius">
-                                                  </div>
-                                              </div>
-
-                                              <div class="am-form-group">
-                                                  <label class="am-u-sm-12 am-u-md-3 am-form-label">选择模板</label>
-                                                  <div class="am-u-sm-12 am-u-md-9">
-                                                      <button type="button" id="moudleBtn" name="moudleBtn" class="am-btn am-btn-info">模板</button>
-                                                  </div>
-                                              </div>
-
-                                              <div class="am-form-group">
-                                                  <div class="am-u-sm-12 am-u-md-9 am-u-md-push-3">
-                                                      <button id="generateBtn" type="button" class="am-btn am-btn-primary">生成代码</button>
-                                                  </div>
-                                              </div>
-                                          </div>
-                                          <!--内容-->
+                                  <div class="am-form-group">
+                                      <div class="am-u-sm-12 am-u-md-9 am-u-md-push-3">
+                                          <button id="generateBtn" type="button" class="am-btn am-btn-primary">生成代码</button>
                                       </div>
                                   </div>
                               </div>
-                              <div class="am-tab-panel">
-                                  <div class="am-u-sm-12 am-u-md-6">
-                                      <!--边框-->
-                                      <div class="am-panel am-panel-default am-panel-bd">
-                                          <!-- 内容 -->
+                              <!--内容-->
+                          </div>
+                      </div>
+                  </div>
+                  <div class="am-tab-panel">
+                      <div class="am-u-sm-12 am-u-md-6">
+                          <!--边框-->
+                          <div class="am-panel am-panel-default am-panel-bd">
+                              <!-- 内容 -->
 
 
-                                          <!-- 内容 -->
-                                      </div>
-                                  </div>
+                              <!-- 内容 -->
+                          </div>
+                      </div>
 
-                                  <!--位置信息-->
-                                  <div class="am-u-sm-12 am-u-md-6">
-                                      <!--边框-->
-                                      <div class="am-panel am-panel-default am-panel-bd">
-                                          <!--内容-->
+                      <!--位置信息-->
+                      <div class="am-u-sm-12 am-u-md-6">
+                          <!--边框-->
+                          <div class="am-panel am-panel-default am-panel-bd">
+                              <!--内容-->
 
 
-                                          <!--内容-->
-                                      </div>
-                                  </div>
-                              </div>
+                              <!--内容-->
                           </div>
                       </div>
                   </div>
               </div>
-
           </div>
-     </div>
+      </div>
 </div>
 
 <script>
