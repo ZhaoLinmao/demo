@@ -5,15 +5,16 @@
 var conn = require("../../conf/mysql/db");
 
 var Right = function (req,res,next){
-    this.param = "id,menu_id,add,del,upd,sel,imp,exp";
+    this.param = "id,name,menu_id,a,d,u,s,i,e";
     this.id = req.body.id||"";
+    this.name = req.body.name||"";
     this.menu_id = req.body.menu_id||"";
-    this.add = req.body.add||"";
-    this.del = req.body.del||"";
-    this.upd = req.body.upd||"";
-    this.sel = req.body.sel||"";
-    this.imp = req.body.imp||"";
-    this.exp = req.body.exp||"";
+    this.a = req.body.a||"";
+    this.d = req.body.d||"";
+    this.u = req.body.u||"";
+    this.s = req.body.s||"";
+    this.i = req.body.i||"";
+    this.e = req.body.e||"";
     this.limit = req.body.limit||10;
     this.offset = req.body.offset||0;
 };
@@ -47,9 +48,9 @@ Right.prototype.pageQuery = function(params,callback){
  * @param params
  * @param callback
  */
-Right.prototype.add = function(params,callback){
+Right.prototype.add = function(req,params,callback){
     var table=tableName;
-    conn.insert(table,params,function(err,rows){
+    conn.insert(req,table,params,function(err,rows){
         var result = {};
         result.status = "FAILURE";
         if(err){
@@ -68,10 +69,10 @@ Right.prototype.add = function(params,callback){
  * @param params
  * @param callback
  */
-Right.prototype.upd = function(params,callback){
+Right.prototype.upd = function(req,params,callback){
     var table=tableName,
          where="id='"+params.id+"'";
-    conn.update(table,params,where,function(err,rows){
+    conn.update(req,table,params,where,function(err,rows){
         var result = {};
         result.status = "FAILURE";
         if(err){

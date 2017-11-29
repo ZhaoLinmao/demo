@@ -39,7 +39,7 @@ router.post('/save', function(req, res, next) {
     var right = new Right(req,res);
     var id = req.body.id;
     if(id!=null&&id!=""){
-    	right.upd(right,function(data){
+    	right.upd(req,right,function(data){
             if(data.status=="SUCCEED"){
                 result.status = "保存成功";
             }else{
@@ -48,7 +48,7 @@ router.post('/save', function(req, res, next) {
             res.send(result);
         });
     }else{
-    	right.add(right,function(data){
+    	right.add(req,right,function(data){
             if(data.status=="SUCCEED"){
                 result.status = "保存成功";
             }else{
@@ -64,31 +64,23 @@ router.post('/save', function(req, res, next) {
  *  url: /right/del
  */
 router.post('/del', function(req, res, next) {
-    var result = {};
-    var right = new Right(req,res);
-    var id = req.body.id;
-    if(id!=null&&id!=""){
-    	right.del(right,function(data){
-            if(data.status=="success"){
-                result.status="删除成功"
-            }else{
-                result.status="删除失败"
-            }
-            res.send(result);
-        });
+    try{
+        var result = {};
+        var right = new Right(req,res);
+        var id = req.body.id;
+        if(id!=null&&id!=""){
+            right.del(right,function(data){
+                if(data.status=="SUCCEED"){
+                    result.status="删除成功"
+                }else{
+                    result.status="删除失败"
+                }
+                res.send(result);
+            });
+        }
+    }catch(e){
+        console.log(e);
     }
-});
-
-/**
- *  权限管理新增或修改.
- */
-router.post('/check', function(req, res, next) {
-    var result = {};
-    var right = new Right(req,res);
-    right.check(right,function(data){
-        result = data;
-        res.send(result);
-    });
 });
 
 module.exports = router;

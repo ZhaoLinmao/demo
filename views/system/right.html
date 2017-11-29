@@ -6,13 +6,10 @@
 </div>
 
 <!--新增、修改 模态框-->
-<div class="am-popup" id="my-popup">
-    <div class="am-popup-inner">
-        <div class="am-popup-hd">
-            <h4 class="am-popup-title">权限配置</h4>
-            <span data-am-modal-close class="am-close">&times;</span>
-        </div>
-        <div class="am-popup-bd">
+<div class="am-modal am-modal-prompt" tabindex="-1" id="my-prompt">
+    <div class="am-modal-dialog">
+        <div class="am-modal-hd">权限配置</div>
+        <div class="am-modal-bd">
             <div class="am-form-group">
                 <div class="am-form am-form-horizontal" id="formSubmitData">
                     <input type="hidden" id="id" name="id"/>
@@ -23,40 +20,44 @@
                         </div>
                     </div>
                     <div class="am-form-group">
-                        <label for="name" class="am-u-sm-12 am-u-md-3 am-form-label">菜单选择</label>
+                        <label class="am-u-sm-12 am-u-md-3 am-form-label">菜单选择</label>
                         <div class="am-u-sm-12 am-u-md-9">
                             <input type="text" id="menu_id" name="menu_id" class="am-form-field am-radius">
                         </div>
                     </div>
                     <div class="am-form-group">
-                        <label for="name" class="am-u-sm-12 am-u-md-3 am-form-label">权限</label>
+                        <label class="am-u-sm-12 am-u-md-3 am-form-label">权限</label>
                         <div class="am-u-sm-12 am-u-md-9">
                             <label class="am-checkbox-inline">
-                                <input id="add" name="add" type="checkbox">增
+                                <input id="a" name="rightCheckbox" type="checkbox">增
                             </label>
                             <label class="am-checkbox-inline">
-                                <input id="del" name="del" type="checkbox">删
+                                <input id="d" name="rightCheckbox" type="checkbox">删
                             </label>
                             <label class="am-checkbox-inline">
-                                <input id="upd" name="upd" type="checkbox">改
+                                <input id="u" name="rightCheckbox" type="checkbox">改
                             </label>
                             <label class="am-checkbox-inline">
-                                <input id="sel" name="sel" type="checkbox">查
+                                <input id="s" name="rightCheckbox" type="checkbox">查
                             </label>
                             <label class="am-checkbox-inline">
-                                <input id="imp" name="imp" type="checkbox">导入
+                                <input id="i" name="rightCheckbox" type="checkbox">导入
                             </label>
                             <label class="am-checkbox-inline">
-                                <input id="exp" name="exp" type="checkbox">导出
+                                <input id="e" name="rightCheckbox" type="checkbox">导出
                             </label>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
+        <div class="am-modal-footer">
+            <span class="am-modal-btn" data-am-modal-cancel>取消</span>
+            <span class="am-modal-btn" data-am-modal-confirm>提交</span>
+        </div>
     </div>
 </div>
+
 <!--删除模态框-->
 <div class="am-modal am-modal-confirm" tabindex="-1" id="my-confirm">
     <div class="am-modal-dialog">
@@ -92,14 +93,39 @@
 </div>
 
 <script>
-    var deleteId = "";
+    var deleteId="",rightCheckbox="";
     $(function () {
         window.events = {
             'click #edit': function (e, value, row, index) {
-                $("#my-popup.am-popup-bd :input").not("button").val("");
+                $.each(row,function(i,e){
+                    var $obj = $("#"+i);
+                    if($obj.attr("name")=="rightCheckbox"){
+                        if(e==1){
+                            $("#"+i).prop("checked",true);
+                        }else{
+                            $("#"+i).prop("checked",false);
+                        }
+                    }else{
+                        $("#"+i).val(e);
+                    }
+                });
+                openModal();
             },
             'click #del': function (e, value, row, index) {
-                deleteId=value;
+                var data={};
+                data.id = value;
+                $('#my-confirm').modal({
+                    relatedTarget: this,
+                    onConfirm: function(options) {
+                        $.post("/right/del", data, function (result) {
+                            alert(result.status);
+                            initBootstrapTable();
+                        });
+                    },
+                    onCancel: function() {
+                    }
+                });
+
             }
         };
         initBootstrapTable();
@@ -116,22 +142,22 @@
         result.columns.push({field: 'id',title: '操作',align: 'center',valign: 'middle',width: '140px',events: events,formatter: formatter});
         result.columns.push({field: 'name',title: "权限名称",align: 'center',valign: 'middle',rowspan: 1,colspan: 1});
         result.columns.push({field: 'menu_id',title: "菜单选择",align: 'center',valign: 'middle',rowspan: 1,colspan: 1});
-        result.columns.push({field: 'add',title: "增",align: 'center',valign: 'middle',rowspan: 1,colspan: 1,
+        result.columns.push({field: 'a',title: "增",align: 'center',valign: 'middle',rowspan: 1,colspan: 1,
             formatter: function (value, row, index) {if(value==1){return '是';}else{return '-';}}
         });
-        result.columns.push({field: 'del',title: "删",align: 'center',valign: 'middle',rowspan: 1,colspan: 1,
+        result.columns.push({field: 'd',title: "删",align: 'center',valign: 'middle',rowspan: 1,colspan: 1,
             formatter: function (value, row, index) {if(value==1){return '是';}else{return '-';}}
         });
-        result.columns.push({field: 'upd',title: "改",align: 'center',valign: 'middle',rowspan: 1,colspan: 1,
+        result.columns.push({field: 'u',title: "改",align: 'center',valign: 'middle',rowspan: 1,colspan: 1,
             formatter: function (value, row, index) {if(value==1){return '是';}else{return '-';}}
         });
-        result.columns.push({field: 'sel',title: "查",align: 'center',valign: 'middle',rowspan: 1,colspan: 1,
+        result.columns.push({field: 's',title: "查",align: 'center',valign: 'middle',rowspan: 1,colspan: 1,
             formatter: function (value, row, index) {if(value==1){return '是';}else{return '-';}}
         });
-        result.columns.push({field: 'imp',title: "导入",align: 'center',valign: 'middle',rowspan: 1,colspan: 1,
+        result.columns.push({field: 'i',title: "导入",align: 'center',valign: 'middle',rowspan: 1,colspan: 1,
             formatter: function (value, row, index) {if(value==1){return '是';}else{return '-';}}
         });
-        result.columns.push({field: 'exp',title: "导出",align: 'center',valign: 'middle',rowspan: 1,colspan: 1,
+        result.columns.push({field: 'e',title: "导出",align: 'center',valign: 'middle',rowspan: 1,colspan: 1,
             formatter: function (value, row, index) {if(value==1){return '是';}else{return '-';}}
         });
         $('#table').bootstrapTable('destroy').bootstrapTable({
@@ -193,13 +219,41 @@
                 '<button id="edit" type="button" data-am-modal="{target: \'#my-popup\'}" ' +
                 'class="am-btn-xs am-btn-warning am-round"><i class="am-icon-pencil"></i>修改</button>'+
                 '<button id="del" type="button" ' +
-                'data-am-modal="{target: \'#my-confirm\', closeViaDimmer: 0, width: 400, height: 126}" ' +
                 'class="am-btn-xs am-btn-danger am-round"><i class="am-icon-trash-o"></i>删除</button>'+
                 '</div>'
         ].join('');
     }
 
     $("#addrow").on("click",function() {
-
+        $("#formSubmitData :input").not("[type='checkbox']").val("");
+        $("#formSubmitData :input[type='checkbox']").prop("checked",false);
+        openModal();
     });
+
+    function openModal(){
+        $('#my-prompt').modal({
+            relatedTarget: this,
+            onConfirm: function(e) {
+                var data = {};
+                $("#formSubmitData :input").each(function(i,e){
+                    var $obj = $(e);
+                    if($obj.attr("name")=="rightCheckbox"){
+                        if($obj.is(":checked")){
+                            data[$obj.attr("id")]=1;
+                        }else{
+                            data[$obj.attr("id")]=0;
+                        }
+                    }else{
+                        data[$obj.attr("id")]=$obj.val();
+                    }
+                });
+                $.post("/right/save",data,function(data){
+                    alert(data.status);
+                    initBootstrapTable();
+                });
+            },
+            onCancel: function(e) {
+            }
+        });
+    }
 </script>
