@@ -118,7 +118,19 @@
                     relatedTarget: this,
                     onConfirm: function(options) {
                         $.post("/right/del", data, function (result) {
-                            alert(result.status);
+                            if(data.status=="SUCCEED"){
+                                cheers.success({
+                                    title: '提示',
+                                    message: data.status,
+                                    alert: data.msg
+                                });
+                            }else{
+                                cheers.error({
+                                    title: '错误',
+                                    message: data.status,
+                                    alert: data.msg
+                                });
+                            }
                             initBootstrapTable();
                         });
                     },
@@ -248,7 +260,19 @@
                     }
                 });
                 $.post("/right/save",data,function(data){
-                    alert(data.status);
+                    if(data.status=="SUCCEED"){
+                        cheers.success({
+                            title: '提示',
+                            message: data.status,
+                            alert: data.msg
+                        });
+                    }else{
+                        cheers.error({
+                            title: '错误',
+                            message: data.status,
+                            alert: data.msg
+                        });
+                    }
                     initBootstrapTable();
                 });
             },

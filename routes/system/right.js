@@ -40,19 +40,21 @@ router.post('/save', function(req, res, next) {
     var id = req.body.id;
     if(id!=null&&id!=""){
     	right.upd(req,right,function(data){
+            result = data;
             if(data.status=="SUCCEED"){
-                result.status = "保存成功";
+                result.msg = "保存成功";
             }else{
-                result.status = "保存失败";
+                result.msg = "保存失败";
             }
             res.send(result);
         });
     }else{
     	right.add(req,right,function(data){
+            result = data;
             if(data.status=="SUCCEED"){
-                result.status = "保存成功";
+                result.msg = "保存成功";
             }else{
-                result.status = "保存失败";
+                result.msg = "保存失败";
             }
             res.send(result);
         });
@@ -70,10 +72,11 @@ router.post('/del', function(req, res, next) {
         var id = req.body.id;
         if(id!=null&&id!=""){
             right.del(right,function(data){
+                result = data;
                 if(data.status=="SUCCEED"){
-                    result.status="删除成功"
+                    result.msg="删除成功"
                 }else{
-                    result.status="删除失败"
+                    result.msg="删除失败"
                 }
                 res.send(result);
             });
