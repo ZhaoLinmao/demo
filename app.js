@@ -45,7 +45,6 @@ app.use(session({
 //前台使用session,session定义应在中间件前使用
 app.use(function(req, res, next){
   res.locals.session = req.session;
-  console.log( req.session);
   next();
 });
 
