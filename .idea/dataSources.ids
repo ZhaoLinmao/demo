@@ -1,64 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component name="dataSourceStorage">
   <data-source name="MySQL - demo@localhost" uuid="f3fa3f0e-376e-4238-9c95-7d999a21c8c9">
-    <database-info product="MySQL" version="5.0.22-community-nt" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.34 ( Revision: jess.balint@oracle.com-20141014163213-wqbwpf1ok2kvo1om )">
-      <extra-name-characters>#@</extra-name-characters>
-      <identifier-quote-string>`</identifier-quote-string>
-    </database-info>
-    <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower"/>
-    <schema name="" catalog="demo"/>
-    <table name="admin" schema="" catalog="demo" type="TABLE">
-      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" remarks="566h55CG5ZGYaWQ=" autoIncrement="true"/>
-      <column name="username" sqlType="VARCHAR" precision="50" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
-      <column name="password" sqlType="VARCHAR" precision="50" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
-      <column name="gp" sqlType="VARCHAR" precision="500" scale="0" nullable="false" jdbcType="12" def="Jyc=" remarks="5p2D6ZmQaWQ="/>
-      <column name="createtime" sqlType="TIMESTAMP" precision="19" scale="0" nullable="true" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA="/>
-      <index name="id" unique="true" columns="id"/>
-    </table>
-    <table name="sys_menu" schema="" catalog="demo" type="TABLE">
-      <column name="id" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12" def="Jyc=" remarks="aWQ65pWw5o2u5ZSv5LiA5qCH6K+G"/>
-      <column name="url" sqlType="VARCHAR" precision="100" scale="0" nullable="true" jdbcType="12" def="Jyc=" remarks="dXJsOuiPnOWNleeCueWHu+iuv+mXrueahOi3r+W+hA=="/>
-      <column name="name" sqlType="VARCHAR" precision="100" scale="0" nullable="true" jdbcType="12" remarks="6I+c5Y2V5ZCN56ewOuiPnOWNleWxleekuueahOWQjeensA=="/>
-      <column name="icon" sqlType="VARCHAR" precision="100" scale="0" nullable="true" jdbcType="12" remarks="5Zu+5qCHOuiPnOWNleWJjeWxleekuueahOWwj+Wbvuaghw=="/>
-      <column name="parentId" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12" def="Jyc=" remarks="54i26I+c5Y2VOueItuiPnOWNleeahGlk"/>
-      <column name="pName" sqlType="VARCHAR" precision="100" scale="0" nullable="true" jdbcType="12" remarks="54i26I+c5Y2V5ZCN56ewOueItuiPnOWNleWQjeensA=="/>
-      <column name="newpage" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4" remarks="5piv5ZCm5paw6aG16Z2i5omT5byAOjHkuLrmmK/mlrDpobXpnaLmiZPlvIDvvIww5Li65ZCm"/>
-      <column name="sel" sqlType="VARCHAR" precision="1" scale="0" nullable="true" jdbcType="12" remarks="5p+l6K+iOuadg+mZkDDkuLrkuI3lj6/nlKgsMeS4uuWPr+eUqA=="/>
-      <column name="add" sqlType="VARCHAR" precision="1" scale="0" nullable="true" jdbcType="12" remarks="5paw5aKeOuadg+mZkDDkuLrkuI3lj6/nlKgsMeS4uuWPr+eUqA=="/>
-      <column name="upd" sqlType="VARCHAR" precision="1" scale="0" nullable="true" jdbcType="12" remarks="5L+u5pS5Ouadg+mZkDDkuLrkuI3lj6/nlKgsMeS4uuWPr+eUqA=="/>
-      <column name="del" sqlType="VARCHAR" precision="1" scale="0" nullable="true" jdbcType="12" remarks="5Yig6ZmkOuadg+mZkDDkuLrkuI3lj6/nlKgsMeS4uuWPr+eUqA=="/>
-      <column name="createby" sqlType="VARCHAR" precision="100" scale="0" nullable="true" jdbcType="12" remarks="5Yib5bu65Lq6OuWIm+W7uuivpeaVsOaNrueahOeUqOaIt+WQjQ=="/>
-      <column name="createtime" sqlType="VARCHAR" precision="100" scale="0" nullable="true" jdbcType="12" remarks="5Yib5bu65pe26Ze0OuWIm+W7uuivpeaVsOaNrueahOaXtumXtA=="/>
-      <column name="updateby" sqlType="VARCHAR" precision="100" scale="0" nullable="true" jdbcType="12" remarks="5L+u5pS55Lq6OuS/ruaUueivpeaVsOaNrueahOeUqOaIt+WQjQ=="/>
-      <column name="updatetime" sqlType="VARCHAR" precision="100" scale="0" nullable="true" jdbcType="12" remarks="5L+u5pS55pe26Ze0OuS/ruaUueivpeaVsOaNrueahOaXtumXtA=="/>
-      <primary-key name="PRIMARY" columns="id"/>
-    </table>
-    <table name="sys_menu_copy" schema="" catalog="demo" type="TABLE">
-      <column name="id" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
-      <column name="url" sqlType="VARCHAR" precision="100" scale="0" nullable="true" jdbcType="12" def="Jyc=" remarks="dXJsOuiPnOWNleeCueWHu+iuv+mXrueahOi3r+W+hA=="/>
-      <column name="name" sqlType="VARCHAR" precision="100" scale="0" nullable="true" jdbcType="12" remarks="6I+c5Y2V5ZCN56ewOuiPnOWNleWxleekuueahOWQjeensA=="/>
-      <column name="icon" sqlType="VARCHAR" precision="100" scale="0" nullable="true" jdbcType="12" remarks="5Zu+5qCHOuiPnOWNleWJjeWxleekuueahOWwj+Wbvuaghw=="/>
-      <column name="parentId" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12" def="Jyc=" remarks="54i26I+c5Y2VOueItuiPnOWNleeahGlk"/>
-      <column name="pName" sqlType="VARCHAR" precision="100" scale="0" nullable="true" jdbcType="12" remarks="54i26I+c5Y2V5ZCN56ewOueItuiPnOWNleWQjeensA=="/>
-      <primary-key name="PRIMARY" columns="id"/>
-    </table>
-    <table name="sys_user" schema="" catalog="demo" type="TABLE">
-      <column name="id" sqlType="VARCHAR" precision="100" scale="0" nullable="false" jdbcType="12" def="Jyc=" remarks="aWQ65pWw5o2u5ZSv5LiA5qCH6K+G"/>
-      <column name="username" sqlType="VARCHAR" precision="100" scale="0" nullable="true" jdbcType="12" def="Jyc=" remarks="55So5oi35ZCNOueUqOaIt+WQjeensA=="/>
-      <column name="password" sqlType="VARCHAR" precision="100" scale="0" nullable="true" jdbcType="12" remarks="5a+G56CBOueUqOaIt+eZu+W9leWvhueggQ=="/>
-      <column name="nick" sqlType="VARCHAR" precision="100" scale="0" nullable="true" jdbcType="12" remarks="5pi156ewOueUqOaIt+aYvuekuuaYteensA=="/>
-      <column name="photo" sqlType="VARCHAR" precision="100" scale="0" nullable="true" jdbcType="12" remarks="5aS05YOPOueUqOaIt+WktOWDjw=="/>
-      <column name="email" sqlType="VARCHAR" precision="100" scale="0" nullable="true" jdbcType="12" remarks="ZW1haWw655So5oi36YKu566x"/>
-      <column name="phone" sqlType="VARCHAR" precision="100" scale="0" nullable="true" jdbcType="12" remarks="55S16K+dOueUqOaIt+eUteivnQ=="/>
-      <column name="qq" sqlType="VARCHAR" precision="100" scale="0" nullable="true" jdbcType="12" remarks="cXE655So5oi3cXHlj7fnoIE="/>
-      <column name="weixin" sqlType="VARCHAR" precision="100" scale="0" nullable="true" jdbcType="12" remarks="5b6u5L+hOueUqOaIt+W+ruS/oeWPt+eggQ=="/>
-      <column name="openid" sqlType="VARCHAR" precision="100" scale="0" nullable="true" jdbcType="12" remarks="5b6u5L+haWQ65b6u5L+h5Y+35ZSv5LiAaWQ="/>
-      <column name="position" sqlType="VARCHAR" precision="100" scale="0" nullable="true" jdbcType="12" remarks="6IGM5L2NOuWRmOW3peiBjOS9jQ=="/>
-      <column name="createby" sqlType="VARCHAR" precision="100" scale="0" nullable="true" jdbcType="12" remarks="5Yib5bu65Lq6OuWIm+W7uuivpeaVsOaNrueahOeUqOaIt+WQjQ=="/>
-      <column name="createtime" sqlType="VARCHAR" precision="100" scale="0" nullable="true" jdbcType="12" remarks="5Yib5bu65pe26Ze0OuWIm+W7uuivpeaVsOaNrueahOaXtumXtA=="/>
-      <column name="updateby" sqlType="VARCHAR" precision="100" scale="0" nullable="true" jdbcType="12" remarks="5L+u5pS55Lq6OuS/ruaUueivpeaVsOaNrueahOeUqOaIt+WQjQ=="/>
-      <column name="updatetime" sqlType="VARCHAR" precision="100" scale="0" nullable="true" jdbcType="12" remarks="5L+u5pS55pe26Ze0OuS/ruaUueivpeaVsOaNrueahOaXtumXtA=="/>
-      <primary-key name="PRIMARY" columns="id"/>
-    </table>
+    <database-info product="" version="" jdbc-version="" driver-name="" driver-version=""/>
   </data-source>
 </component>
