@@ -14,7 +14,7 @@ var express = require('express'),
  */
 router.post('/', function(req, res, next) {
     var result = {};
-    res.render("system/right",result);
+    res.render("system/admin-right",result);
 });
 
 /**

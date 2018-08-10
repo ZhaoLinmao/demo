@@ -18,32 +18,11 @@
                         <div class="am-u-sm-12 am-u-md-9">
                             <input type="text" id="name" name="name" placeholder="输入权限名称" class="am-form-field am-radius">
                         </div>
-<hr>
-
-<div class="am-g">
-    <!--位置信息-->
-    <div class="am-u-sm-12">
-        <!--边框-->
-        <div class="am-panel am-panel-default am-panel-bd">
-            <div class="am-g">
-
-                <div class="am-u-md-12">
-                    <!-- Example Classes -->
-                    <div id="toolbar" class="form-inline">
-                        <input  name="aaa" class="form-control" >
-                        <input  name="bbb" class="form-control" >
-                        <select  name="ccc" class="form-control">
-                            <option value="a">aaa</option>
-                            <option value="b">bbb</option>
-                            <option value="c">ccc</option>
-                        </select>
-                        <button class="form-control" onclick="query()">查询</button>
                     </div>
                     <div class="am-form-group">
                         <label class="am-u-sm-12 am-u-md-3 am-form-label">菜单选择</label>
-                        <div id="menuTreeDiv" class="am-u-sm-12 am-u-md-9">
-                            <input type="text" id="menu_id" name="menu_id" class="am-form-field am-radius" readonly="readonly">
-                            <div id="menuTree" class="am-dropdown-content" style="width: 250px;height:200px;overflow:auto;"></div>
+                        <div class="am-u-sm-12 am-u-md-9">
+                            <input type="text" id="menu_id" name="menu_id" class="am-form-field am-radius">
                         </div>
                     </div>
                     <div class="am-form-group">
@@ -98,11 +77,11 @@
     <div class="am-u-md-12">
         <!-- Example Classes -->
         <div id="toolbar" class="form-inline">
-            <button id="addrow" class="form-control am-btn am-btn-success">
+            <button id="addrow" data-am-modal="{target: '#my-popup'}" class="form-control am-btn am-btn-success">
                 <i class="am-icon-plus"></i>新增
             </button>
             <input  name="bbb" class="form-control" >
-            <select  id="selccc" name="ccc" class="form-control" multiple>
+            <select  name="ccc" class="form-control">
                 <option value="a">aaa</option>
                 <option value="b">bbb</option>
                 <option value="c">ccc</option>
@@ -116,15 +95,6 @@
 <script>
     var deleteId="",rightCheckbox="";
     $(function () {
-
-        $('select').selected({
-            btnWidth: '230px',
-            btnSize: 'sm',
-            btnStyle: 'primary',
-            maxHeight: '100px',
-            searchBox:1
-        });
-
         window.events = {
             'click #edit': function (e, value, row, index) {
                 $.each(row,function(i,e){
@@ -146,20 +116,19 @@
                 data.id = value;
                 $('#my-confirm').modal({
                     relatedTarget: this,
-                    closeViaDimmer:false,
                     onConfirm: function(options) {
                         $.post("/right/del", data, function (result) {
-                            if(result.status=="SUCCEED"){
+                            if(data.status=="SUCCEED"){
                                 cheers.success({
                                     title: '提示',
-                                    message: result.status,
-                                    alert: result.msg
+                                    message: data.status,
+                                    alert: data.msg
                                 });
                             }else{
                                 cheers.error({
                                     title: '错误',
-                                    message: result.status,
-                                    alert: result.msg
+                                    message: data.status,
+                                    alert: data.msg
                                 });
                             }
                             initBootstrapTable();
@@ -171,70 +140,14 @@
 
             }
         };
-
         initBootstrapTable();
-
-
-        $('input[type="checkbox"]').uCheck();
-
-        getTree();
     });
 
     function query(){
-        $('select').find('option').eq(1).attr('selected', true);
+        initBootstrapTable();
     }
 
     function initBootstrapTable(){
-        var data = {};
-        $.ajax({
-            url:"/right/getGrid",
-            type:"post",
-            data:data,
-            dataType:"json",
-            success:function(result){
-                result.columns.unshift({field: 'control',title:'操作',align: 'center',valign: 'middle',rowspan: 1,colspan: 1,events:initEvent,formatter:addContller});
-                $('#table').bootstrapTable('destroy').bootstrapTable({
-                    method:"post",
-                    url: '/right/list',
-                    cache: false, //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
-                    striped: true, //设置为 true 会有隔行变色效果
-                    pagination: true, //启动分页
-                    pageSize: 10, //每页显示的记录数
-                    pageNumber:1, //当前第几页
-                    pageList: [10, 20, 30, 50, 100,"ALL"], //记录数可选列表
-                    search: false, //是否启用查询
-                    showColumns: true, //显示下拉框勾选要显示的列
-                    minimumCountColumns:2,//过滤列时最少可以省下多少列
-                    showRefresh: true,//显示刷新按钮
-                    sidePagination:"server",//服务器端分页
-                    height: 430,//table高度
-                    clickToSelect:true,//点击行内数据 进行checkbox选中
-                    sortable: true,
-                    toolbar:"#toolbar",//查询工具 自定义空间
-                    paginationPreText: "上一页",//上一页下一页图标 可自定义
-                    paginationNextText: "下一页",//上一页下一页图标 可自定义
-                    maintainSelected:true,
-                    sortable:true,
-                    queryParams:function(params){//查询参数
-                        $("#toolbar :input").each(function(i,e){
-                            if($(e).attr("name")!=undefined){
-                                params[$(e).attr("name")] = $(e).val();
-                            }
-                        });
-                        return params;
-                    },
-                    showPaginationSwitch:false,//显示分页标签控制按钮
-                    showToggle:true,//选择性显示列 如果不想看到的列可以在此过滤掉
-                    cardView:false,//已卡片样式展示列表
-                    detailView:true,//详细列表显示 前面添加一个“ + ”点击可以看到详细列表
-                    detailFormatter:function(index,row){//详细信息拦截处理
-                        var result = "";
-                        for(var obj in row){
-                            if(row[obj]!=undefined) {
-                                result += "<div class='col-md-3'>"+obj + ":" + row[obj] + "\n</div>";
-                            }else{
-                                result += "<div class='col-md-3'>"+obj + ":\n</div>"
-                            }
 
         var result = {};
         result.columns = [];
@@ -314,12 +227,12 @@
 
     function formatter(value, row, index) {
         return [
-                '<div class="am-btn-group-xs">'+
-                '<button id="edit" type="button" ' +
-                'class="am-btn-xs am-btn-warning am-round"><i class="am-icon-pencil"></i>修改</button>'+
-                '<button id="del" type="button" ' +
-                'class="am-btn-xs am-btn-danger am-round"><i class="am-icon-trash-o"></i>删除</button>'+
-                '</div>'
+            '<div class="am-btn-group-xs">'+
+            '<button id="edit" type="button" data-am-modal="{target: \'#my-popup\'}" ' +
+            'class="am-btn-xs am-btn-warning am-round"><i class="am-icon-pencil"></i>修改</button>'+
+            '<button id="del" type="button" ' +
+            'class="am-btn-xs am-btn-danger am-round"><i class="am-icon-trash-o"></i>删除</button>'+
+            '</div>'
         ].join('');
     }
 
@@ -329,40 +242,9 @@
         openModal();
     });
 
-    function getTree(){
-        treeData = buildDomTree();
-        $("#menuTree").treeview({
-            bootstrap2: false,
-            showTags: true,
-            levels: 2,
-            enableLinks:true,
-            data: treeData
-        });
-    }
-
-    /**
-     * 树形菜单 数据组织
-     */
-    function buildDomTree() {
-        var treeData = {};
-        $.ajax({url:"/menu/list",data:{},async:false,type:"post",dataType:"json",
-            success:function(data) {
-                treeData.id = "0";
-                treeData.pid = "";
-                treeData.text = "菜单配置";
-                treeData.name = "菜单配置";
-                treeData.pName = "";
-                treeData.nodes = [];
-                treeData.nodes = $.getTreeData(data);
-            }
-        });
-        return [treeData];
-    }
-
     function openModal(){
         $('#my-prompt').modal({
             relatedTarget: this,
-            closeViaDimmer:false,
             onConfirm: function(e) {
                 var data = {};
                 $("#formSubmitData :input").each(function(i,e){
@@ -373,11 +255,6 @@
                         }else{
                             data[$obj.attr("id")]=0;
                         }
-                        return JSON.stringify(row);
-                    },
-                    showExport:true,//table导出   client 客户端分页只能导出当前页  server分页 可以按规则导出
-                    exportDataType: "selected",//导出文件 basic 是本页信息、all是所有信息、selected被选中信息
-                    columns: result.columns
                     }else{
                         data[$obj.attr("id")]=$obj.val();
                     }
@@ -401,30 +278,6 @@
             },
             onCancel: function(e) {
             }
-        })
-    }
-
-    /**
-     * 操作按钮点中事件监听
-     */
-    window.initEvent = {
-        "click button":function(){
-            alert(111);
-        }
-    }
-
-    /**
-     * 添加按钮控制
-     */
-    function addContller(){
-        return [
-            '<button>1</button>',
-            '<button>2</button>'
-        ].join(" ");
         });
     }
-    $("#menu_id").on("click",function(){
-        $('#menuTreeDiv').dropdown('open');
-    })
-
 </script>
