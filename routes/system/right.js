@@ -18,25 +18,6 @@ router.post('/', function(req, res, next) {
 });
 
 /**
- *  权限列表信息管理.
- *  url: /right/getGrid
- */
-router.post('/getGrid', function(req, res, next) {
-    var result = {};
-    result.columns = [];
-    result.columns.push({field: 'id',checkbox: true,align: 'center',valign: 'middle',rowspan: 1,colspan: 1});
-    result.columns.push({field: 'name',title: "权限名称",align: 'center',valign: 'middle',rowspan: 1,colspan: 1});
-    result.columns.push({field: 'menu_id',title: "菜单选择",align: 'center',valign: 'middle',rowspan: 1,colspan: 1});
-    result.columns.push({field: 'add',title: "增",align: 'center',valign: 'middle',rowspan: 1,colspan: 1});
-    result.columns.push({field: 'del',title: "删",align: 'center',valign: 'middle',rowspan: 1,colspan: 1});
-    result.columns.push({field: 'upd',title: "改",align: 'center',valign: 'middle',rowspan: 1,colspan: 1});
-    result.columns.push({field: 'sel',title: "查",align: 'center',valign: 'middle',rowspan: 1,colspan: 1});
-    result.columns.push({field: 'imp',title: "导入",align: 'center',valign: 'middle',rowspan: 1,colspan: 1});
-    result.columns.push({field: 'exp',title: "导出",align: 'center',valign: 'middle',rowspan: 1,colspan: 1});
-    res.send(result);
-});
-
-/**
  *  权限管理获取.
  *  url: /right/list
  */
@@ -96,18 +77,6 @@ router.post('/del', function(req, res, next) {
             res.send(result);
         });
     }
-});
-
-/**
- *  权限管理新增或修改.
- */
-router.post('/check', function(req, res, next) {
-    var result = {};
-    var right = new Right(req,res);
-    right.check(right,function(data){
-        result = data;
-        res.send(result);
-    });
 });
 
 module.exports = router;

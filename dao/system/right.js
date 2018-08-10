@@ -42,7 +42,6 @@ Right.prototype.pageQuery = function(params,callback){
     });
 };
 
-
 /**
  * 权限管理新增
  * @param params
@@ -102,28 +101,6 @@ Right.prototype.del = function(params,callback){
             result.msg = err;
         }else{
             result.status = "SUCCEED";
-            callback(result);
-        }
-    });
-};
-
-/**
- * 权限管理检测存在子节点
- * @param params
- * @param callback
- */
-Right.prototype.check = function(params,callback){
-    var table=tableName,
-        where="pid='"+params.id+"'";
-    conn.checkSize(table,params,where,function(err,count){
-        var result = {};
-        result.status = "FAILURE";
-        if(err){
-            console.log(err);
-            result.msg = err;
-        }else{
-            result.status = "SUCCEED";
-            result.msg = count;
             callback(result);
         }
     });
