@@ -15,7 +15,7 @@ var Users = function (req,res,next){
  * @param callback
  */
 Users.prototype.login = function(params,callback){
-    var sql = "select * from admin where username = ?";
+    var sql = "select * from sys_user where username = ?";
     conn.query(sql,[params.username],function(err,rows,fileds){
         var result = {};
         result.status = "FAILURE";
