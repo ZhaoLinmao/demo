@@ -42,14 +42,14 @@ app.use(session({
   saveUninitialized: true
 }));
 
-//中间件
-app.use(middleware);
-
-//前台使用session
+//前台使用session,session定义应在中间件前使用
 app.use(function(req, res, next){
   res.locals.session = req.session;
   next();
 });
+
+//中间件
+app.use(middleware);
 
 //自定义路由器位置
 controller.routes(app);
