@@ -82,7 +82,7 @@
         <ul class="am-dropdown-content">
           <li><a href="#"><span class="am-icon-user"></span> 资料</a></li>
           <li><a href="#"><span class="am-icon-cog"></span> 设置</a></li>
-          <li><a href="#"><span class="am-icon-power-off"></span> 退出</a></li>
+          <li><a href="/login"><span class="am-icon-power-off"></span> 退出</a></li>
         </ul>
       </li>
       <li class="am-hide-sm-only"><a href="javascript:;" id="admin-fullscreen"><span class="am-icon-arrows-alt"></span> <span class="admin-fullText">开启全屏</span></a></li>
@@ -381,6 +381,20 @@
       $.post("/menu/list",{},function(data){
           $("#treeView").menuNav(data);
        });
+
+      /**
+        * 全屏展示
+        * @type {*|jQuery|HTMLElement}
+        */
+      var $fullText = $('.admin-fullText');
+      $('#admin-fullscreen').on('click', function() {
+        $.AMUI.fullscreen.toggle();
+      });
+
+      $(document).on($.AMUI.fullscreen.raw.fullscreenchange, function() {
+        $fullText.text($.AMUI.fullscreen.isFullscreen ? '退出全屏' : '开启全屏');
+      });
+
    });
 </script>
 
