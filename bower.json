@@ -34,6 +34,7 @@
     ,"gojs":">=1.7.23"
     ,"bootstrap-treeview":">=1.2.0"
     ,"bootstrap-table":">=1.11.1"
+    ,"zTree":">=3.5.33"
   },
   "devDependencies": {}
 }

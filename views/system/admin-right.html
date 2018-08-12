@@ -1,3 +1,8 @@
+<link rel="stylesheet" href="zTree/css/metroStyle/metroStyle.css" type="text/css">
+<script type="text/javascript" src="zTree/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="zTree/js/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="zTree/js/jquery.ztree.exedit.js"></script>
+
 <div class="am-cf am-padding am-padding-bottom-0">
     <div class="am-fl am-cf">
         <strong class="am-text-primary am-text-lg">系统管理</strong> /
@@ -20,9 +25,15 @@
                         </div>
                     </div>
                     <div class="am-form-group">
-                        <label class="am-u-sm-12 am-u-md-3 am-form-label">菜单选择</label>
+                        <label class="am-u-sm-12 am-u-md-3 am-form-label">管理菜单</label>
                         <div class="am-u-sm-12 am-u-md-9">
-                            <input type="text" id="menu_id" name="menu_id" class="am-form-field am-radius">
+                            <div id="doc-dropdown-menu" class="am-dropdown am-u-sm-12 am-u-md-9" data-am-dropdown>
+                                <input id="menu_Name" type="text" class="am-form-field am-radius am-dropdown-toggle" placeholder="请选择菜单" readonly="readonly"/>
+                                <input id="menu_id" type="hidden" />
+                                <div class="am-dropdown-content"  style="height: 220px;width: 250px;overflow:auto;overflow-x:hidden;">
+                                    <ul id="menuShowList" class="ztree"></ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="am-form-group">
@@ -76,30 +87,24 @@
 <div class="am-g">
     <div class="am-u-md-12">
         <!-- Example Classes -->
-        <div id="toolbar" class="form-inline">
-            <div class="form-inline">
+        <div id="toolbar" class="form-inline am-u-sm-12 am-u-md-12 am-u-lg-12">
                 <button id="addrow" data-am-modal="{target: '#my-popup'}" class="form-control am-btn am-btn-success">
                     <i class="am-icon-plus"></i>新增
                 </button>
                 <button id="delrow" class="form-control am-btn am-btn-danger">
                     <i class="am-icon-trash-o"></i>删除
                 </button>
-            </div>
-            <div class="form-inline">
                 <input id="rightName" name="rightName" class="form-control" placeholder="请输入权限名称"/>
-            </div>
-            <div class="form-inline">
-                <input id="rightMenu" name="rightMenu" class="form-control dropdown-toggle" placeholder="请选择权限" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"/>
-                <ul class="dropdown-menu">
-                    <li>1</li>
-                    <li>2</li>
-                    <li>3</li>
-                    <li>4</li>
-                </ul>
-            </div>
-            <div class="form-inline">
+
+                <div id="doc-dropdown" class="am-dropdown" data-am-dropdown>
+                    <input id="rightMenu" class="form-control am-dropdown-toggle" placeholder="请选择菜单" readonly="readonly"/>
+                    <input id="rightMenuId" type="hidden" />
+                    <div class="am-dropdown-content" style="max-height: 220px;width: 250px;overflow:auto;overflow-x:hidden;">
+                        <ul id="menuSearchList" class="ztree"></ul>
+                    </div>
+                </div>
+
                 <button class="form-control" onclick="query()">查询</button>
-            </div>
         </div>
         <table id="table"></table>
     </div>
@@ -129,6 +134,8 @@
             }
         };
         initBootstrapTable();
+        $('#doc-dropdown').dropdown({justify: '#doc-dropdown'});
+        $('#doc-dropdown-menu').dropdown({justify: '#doc-dropdown-menu'});
     });
 
     function query(){
@@ -289,13 +296,13 @@
                     if(data.status=="SUCCEED"){
                         cheers.success({
                             title: '提示',
-                            message: data.status,
+                            message: data.msg,
                             alert: data.msg
                         });
                     }else{
                         cheers.error({
                             title: '错误',
-                            message: data.status,
+                            message: data.msg,
                             alert: data.msg
                         });
                     }
@@ -306,4 +313,96 @@
             }
         });
     }
+
+    // 下拉zTree组件组织
+    var setting = {
+        view: {
+            selectedMulti: true
+        },
+        check: {
+            enable: true
+        },
+        data: {
+            simpleData: {
+                enable: true
+            }
+        },
+        edit: {
+            enable: true
+        }
+    };
+
+    var zNodes =[
+        { id:1, pId:0, name:"父节点1", open:true},
+        { id:11, pId:1, name:"父节点11"},
+        { id:111, pId:11, name:"叶子节点111"},
+        { id:112, pId:11, name:"叶子节点112"},
+        { id:113, pId:11, name:"叶子节点113"},
+        { id:114, pId:11, name:"叶子节点114"},
+        { id:12, pId:1, name:"父节点12"},
+        { id:121, pId:12, name:"叶子节点121"},
+        { id:122, pId:12, name:"叶子节点122"},
+        { id:123, pId:12, name:"叶子节点123"},
+        { id:124, pId:12, name:"叶子节点124"},
+        { id:13, pId:1, name:"父节点13", isParent:true},
+        { id:2, pId:0, name:"父节点2"},
+        { id:21, pId:2, name:"父节点21", open:true},
+        { id:211, pId:21, name:"叶子节点211"},
+        { id:212, pId:21, name:"叶子节点212"},
+        { id:213, pId:21, name:"叶子节点213"},
+        { id:214, pId:21, name:"叶子节点214"},
+        { id:22, pId:2, name:"父节点22"},
+        { id:221, pId:22, name:"叶子节点221"},
+        { id:222, pId:22, name:"叶子节点222"},
+        { id:223, pId:22, name:"叶子节点223"},
+        { id:224, pId:22, name:"叶子节点224"},
+        { id:23, pId:2, name:"父节点23"},
+        { id:231, pId:23, name:"叶子节点231"},
+        { id:232, pId:23, name:"叶子节点232"},
+        { id:233, pId:23, name:"叶子节点233"},
+        { id:234, pId:23, name:"叶子节点234"},
+        { id:3, pId:0, name:"父节点3", isParent:true}
+    ];
+
+    $(document).ready(function(){
+        $.fn.zTree.init($("#menuShowList,#menuSearchList"), setting, zNodes);
+    });
+
+    var newCount = 1;
+    function addHoverDom(treeId, treeNode) {
+        var sObj = $("#" + treeNode.tId + "_span");
+        if (treeNode.editNameFlag || $("#addBtn_"+treeNode.tId).length>0) return;
+        var addStr = "<span class='button add' id='addBtn_" + treeNode.tId
+                + "' title='add node' onfocus='this.blur();'></span>";
+        sObj.after(addStr);
+        var btn = $("#addBtn_"+treeNode.tId);
+        if (btn) btn.bind("click", function(){
+            var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+            zTree.addNodes(treeNode, {id:(100 + newCount), pId:treeNode.id, name:"new node" + (newCount++)});
+            return false;
+        });
+    };
+    function removeHoverDom(treeId, treeNode) {
+        $("#addBtn_"+treeNode.tId).unbind().remove();
+    };
+
+    /**
+     * 树形菜单 数据组织
+     */
+    function buildDomTree() {
+        var treeData = {};
+        $.ajax({url:"/menu/list",data:{},async:false,type:"post",dataType:"json",
+            success:function(data) {
+                treeData.id = "0";
+                treeData.pid = "";
+                treeData.text = "菜单配置";
+                treeData.name = "菜单配置";
+                treeData.pName = "";
+                treeData.nodes = [];
+                treeData.nodes = $.getTreeData(data);
+            }
+        });
+        return [treeData];
+    }
+
 </script>

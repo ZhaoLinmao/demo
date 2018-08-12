@@ -24,10 +24,11 @@
   <!--列表-->
   <link href="bootstrap-table/dist/bootstrap-table.min.css" rel="stylesheet">
 
-
   <link rel="stylesheet" href="cheers-alert/dist/cheers-alert.min.css"/>
   <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css"/>
 
+  <!-- metro zTree 样式-->
+  <link rel="stylesheet" href="zTree/css/zTreeStyle/zTreeStyle.css"/>
 
   <!--[if lte IE 9]>
   <script src="jquery/dist/jquery.min.js"></script>
@@ -38,6 +39,7 @@
   <!--[if  !(IE)]><!-->
   <script src="assets/js/jquery.min.js"></script>
   <!--<![endif]-->
+
   <!--amazeui bootstrap js-->
   <script src="bootstrap/dist/js/bootstrap.min.js"></script>
   <script src="assets/js/amazeui.min.js"></script>
@@ -46,7 +48,6 @@
   <script src="javascripts/tooljs/tool.js"></script>
   <!--bootstrap 树形结构-->
   <script src="bootstrap-treeview/dist/bootstrap-treeview.min.js"></script>
-
   <!--列表-->
   <script src="bootstrap-table/dist/bootstrap-table.min.js"></script>
   <!--列表导出-->
@@ -54,9 +55,11 @@
   <script src="javascripts/bootstrap-table/tableExport.js"></script>
   <!--列表汉化-->
   <script src="bootstrap-table/dist/locale/bootstrap-table-zh-CN.min.js"></script>
-
-
+  <!-- 提示插件-->
   <script src="cheers-alert/dist/cheers-alert.min.js"></script>
+  <!--zTree的主js -->
+  <script src="zTree/js/jquery.ztree.all.min.js"></script>
+
 </head>
 <body>
 <!--[if lte IE 9]>
@@ -388,11 +391,11 @@
         */
       var $fullText = $('.admin-fullText');
       $('#admin-fullscreen').on('click', function() {
-        $.AMUI.fullscreen.toggle();
+          $.AMUI.fullscreen.toggle();
       });
 
       $(document).on($.AMUI.fullscreen.raw.fullscreenchange, function() {
-        $fullText.text($.AMUI.fullscreen.isFullscreen ? '退出全屏' : '开启全屏');
+          $fullText.text($.AMUI.fullscreen.isFullscreen ? '退出全屏' : '开启全屏');
       });
 
    });

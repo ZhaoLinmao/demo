@@ -127,6 +127,71 @@
 
 })(jQuery);
 
+
+/**
+ * 获取zTree树形数据
+ * $.getTreeData(data);
+ * treeData 展示bootstrap-tree树的数据
+ * data 数据的 List 数据
+ */
+(function ($) {
+    $.getTreeData = function (data){
+        var treeData = [];
+        for(var i in data){
+            var _pid = data[i].pid;
+            var _id = data[i].id;
+            if(_pid==0){
+                if(checkChildTree(_id,data)){
+                    data[i].nodes = [];
+                    data[i].nodes = getChildTreeData(_id,data);
+                }
+                data[i].text = data[i].name;
+                treeData.push(data[i]);
+            }
+        }
+        return treeData;
+    };
+
+
+    /**
+     * 判断节点中是否包含子节点
+     * @param pid  父节点的id
+     * @param treeData  传入列表数据
+     * @returns {boolean}  存在子节点返回 true 不存在子节点返回 false
+     */
+    function checkChildTree(pid,data){
+        for(var i in data){
+            var _pid = data[i].pid;
+            if(_pid==pid){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 获取子节点的树形结构
+     * @type object {}  树形html代码
+     */
+    function getChildTreeData(pid,data){
+        var treeData = [];
+        for(var i in data){
+            var _pid = data[i].pid,
+                _id = data[i].id;
+            if(_pid==pid){
+                if(checkChildTree(_id,data)){
+                    data[i].nodes = [];
+                    data[i].nodes.push(getChildTreeData(_id,data));
+                }
+                data[i].text = data[i].name;
+                treeData.push(data[i]);
+            }
+        }
+        return treeData;
+    }
+
+})(jQuery);
+
 /**
  * Created by zlm on 2017/9/11.
  * 这是基于jQuery拓展的插件

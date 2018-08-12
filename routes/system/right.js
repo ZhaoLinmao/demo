@@ -74,9 +74,11 @@ router.post('/del', function(req, res, next) {
     if(id!=null&&id!=""){
     	right.del(right,function(data){
             if(data.status=="success"){
-                result.status="删除成功"
+                result.status = data.status;
+                result.msg = "删除成功";
             }else{
-                result.status="删除失败"
+                result.status = data.status;
+                result.msg="删除失败";
             }
             res.send(result);
         });
