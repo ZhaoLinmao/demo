@@ -77,14 +77,29 @@
     <div class="am-u-md-12">
         <!-- Example Classes -->
         <div id="toolbar" class="form-inline">
-            <button id="addrow" data-am-modal="{target: '#my-popup'}" class="form-control am-btn am-btn-success">
-                <i class="am-icon-plus"></i>新增
-            </button>
-            <input id="rightName" name="rightName" class="form-control" placeholder="请输入权限名称"/>
-            <select id="menuList" name="menuList" class="form-control">
-                <option value="">请选择</option>
-            </select>
-            <button class="form-control" onclick="query()">查询</button>
+            <div class="form-inline">
+                <button id="addrow" data-am-modal="{target: '#my-popup'}" class="form-control am-btn am-btn-success">
+                    <i class="am-icon-plus"></i>新增
+                </button>
+                <button id="delrow" class="form-control am-btn am-btn-danger">
+                    <i class="am-icon-trash-o"></i>删除
+                </button>
+            </div>
+            <div class="form-inline">
+                <input id="rightName" name="rightName" class="form-control" placeholder="请输入权限名称"/>
+            </div>
+            <div class="form-inline">
+                <input id="rightMenu" name="rightMenu" class="form-control dropdown-toggle" placeholder="请选择权限" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"/>
+                <ul class="dropdown-menu">
+                    <li>1</li>
+                    <li>2</li>
+                    <li>3</li>
+                    <li>4</li>
+                </ul>
+            </div>
+            <div class="form-inline">
+                <button class="form-control" onclick="query()">查询</button>
+            </div>
         </div>
         <table id="table"></table>
     </div>
@@ -110,32 +125,7 @@
                 openModal();
             },
             'click #del': function (e, value, row, index) {
-                var data={};
-                data.id = value;
-                $('#my-confirm').modal({
-                    relatedTarget: this,
-                    onConfirm: function(options) {
-                        $.post("/right/del", data, function (result) {
-                            if(data.status=="SUCCEED"){
-                                cheers.success({
-                                    title: '提示',
-                                    message: data.status,
-                                    alert: data.msg
-                                });
-                            }else{
-                                cheers.error({
-                                    title: '错误',
-                                    message: data.status,
-                                    alert: data.msg
-                                });
-                            }
-                            initBootstrapTable();
-                        });
-                    },
-                    onCancel: function() {
-                    }
-                });
-
+                deleteData(value);
             }
         };
         initBootstrapTable();
@@ -149,6 +139,7 @@
 
         var result = {};
         result.columns = [];
+        result.columns.push({field: "选择",checkbox: true,title:"选择",align:"center",valign:"middle"}),
         result.columns.push({field: 'id',title: '操作',align: 'center',valign: 'middle',width: '140px',events: events,formatter: formatter});
         result.columns.push({field: 'name',title: "权限名称",align: 'center',valign: 'middle',rowspan: 1,colspan: 1});
         result.columns.push({field: 'menu_id',title: "菜单选择",align: 'center',valign: 'middle',rowspan: 1,colspan: 1});
@@ -182,11 +173,10 @@
             search: false, //是否启用查询
             showColumns: true, //显示下拉框勾选要显示的列
             minimumCountColumns:2,//过滤列时最少可以省下多少列
-            clickToSelect: true,//是否启用点击选中行
             showRefresh: true,//显示刷新按钮
             sidePagination:"server",//服务器端分页
             height: "380px",//table高度
-            clickToSelect:true,//点击行内数据 进行checkbox选中
+            clickToSelect:false,//点击行内数据 进行checkbox选中
             sortable: true,
             toolbar:"#toolbar",//查询工具 自定义空间
             paginationPreText: "上一页",//上一页下一页图标 可自定义
@@ -240,6 +230,16 @@
         openModal();
     });
 
+    $("#delrow").on("click",function() {
+        var value = "";
+        var checkedData = $('#table').bootstrapTable('getAllSelections');
+        for(var ind in checkedData){
+            value += checkedData[ind].id+"','";
+        }
+        value = value.substring(0,value.length-3);
+        deleteData(value);
+    });
+
     function openModal(){
         $('#my-prompt').modal({
             relatedTarget: this,
@@ -261,6 +261,34 @@
                     if(data.status=="SUCCEED"){
                         cheers.success({
                             title: '提示',
+                            message: data.msg,
+                            alert: data.msg
+                        });
+                    }else{
+                        cheers.error({
+                            title: '错误',
+                            message: data.msg,
+                            alert: data.msg
+                        });
+                    }
+                    initBootstrapTable();
+                });
+            },
+            onCancel: function(e) {
+            }
+        });
+    }
+
+    function deleteData(value){
+        var data={};
+        data.id = value;
+        $('#my-confirm').modal({
+            relatedTarget: this,
+            onConfirm: function(options) {
+                $.post("/right/del", data, function (result) {
+                    if(data.status=="SUCCEED"){
+                        cheers.success({
+                            title: '提示',
                             message: data.status,
                             alert: data.msg
                         });
@@ -274,7 +302,7 @@
                     initBootstrapTable();
                 });
             },
-            onCancel: function(e) {
+            onCancel: function() {
             }
         });
     }

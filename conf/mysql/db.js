@@ -129,7 +129,10 @@ db.insert = function(req,tableName,params, callback){
     var tableColum = "",
         tableColumCnt = "",
         tableValue = [],
-        paramArr = params.param.split(",");
+        paramArr = [];
+        if(params.param!=undefined){
+            paramArr = params.param.split(",",-1);
+        }
         paramArr.push("createby");
         paramArr.push("createtime");
     params.id = util.getUuid();
@@ -169,7 +172,10 @@ db.update = function(req,tableName,params,where,callback){
 
     var tableColum = "",
          tableValue = [],
-         paramArr = params.param.split(",");
+         paramArr = [];
+    if(params.param){
+        paramArr = params.param.split(",",-1);
+    }
     paramArr.push("updateby");
     paramArr.push("updatetime");
     params.updateby = req.session.user.username;

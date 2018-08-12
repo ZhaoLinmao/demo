@@ -39,20 +39,24 @@ router.post('/save', function(req, res, next) {
     var right = new Right(req,res);
     var id = req.body.id;
     if(id!=null&&id!=""){
-    	right.upd(right,function(data){
+    	right.upd(req,right,function(data){
             if(data.status=="SUCCEED"){
-                result.status = "保存成功";
+                result.status = data.status;
+                result.msg = "保存成功";
             }else{
-                result.status = "保存失败";
+                result.status = data.status;
+                result.msg = "保存失败";
             }
             res.send(result);
         });
     }else{
-    	right.add(right,function(data){
+    	right.add(req,right,function(data){
             if(data.status=="SUCCEED"){
-                result.status = "保存成功";
+                result.status = data.status;
+                result.msg = "保存成功";
             }else{
-                result.status = "保存失败";
+                result.status = data.status;
+                result.msg = "保存失败";
             }
             res.send(result);
         });

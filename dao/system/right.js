@@ -92,7 +92,7 @@ Right.prototype.upd = function(req,params,callback){
  */
 Right.prototype.del = function(params,callback){
     var table=tableName,
-        where="id='"+params.id+"'";
+        where="id in ('"+params.id+"')";
     conn.delete(table,where,function(err,result){
 
         result.status = "FAILURE";
