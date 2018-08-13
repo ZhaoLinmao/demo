@@ -259,7 +259,7 @@
                         result += "<div class='col-md-3'>"+obj + ":\n</div>"
                     }
                 }
-                return JSON.stringify(row);
+                return result;
             },
             showExport:true,//table导出   server 服务器分页只能导出当前页  client分页 可以按规则导出
             exportDataType: "selected",//导出文件 basic 是本页信息、all是所有信息、selected被选中信息
