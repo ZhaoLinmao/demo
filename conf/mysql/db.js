@@ -12,8 +12,8 @@ db.settings = {
     connectionLimit: 10,
     host: 'localhost',
     user: 'root',
-    password : '',
-    port: '3306',
+    password : 'jadite',
+    port: '3366',
     database: 'demo',
     checkExpirationInterval: 900000,// How frequently expired sessions will be cleared; milliseconds.
     expiration: 86400000,// The maximum age of a valid session; milliseconds.
@@ -33,8 +33,8 @@ db.conf = {
     connectionLimit : 100,
     host            : 'localhost',
     user            : 'root',
-    password        : '',
-    port        : '3306',
+    password        : 'jadite',
+    port        : '3366',
     database        : 'demo'
 };
 var pool  = mysql.createPool(db.conf);
@@ -189,7 +189,6 @@ db.update = function(req,tableName,params,where,callback){
     tableColum = tableColum.substring(0,tableColum.length-1);
 
     var sql = "update "+tableName+" set "+tableColum+" where "+ where ;
-
     pool.query(sql,tableValue,function(err, result) {
         if (err) {
             console.log(result);

@@ -1,8 +1,3 @@
-<link rel="stylesheet" href="zTree/css/metroStyle/metroStyle.css" type="text/css">
-<script type="text/javascript" src="zTree/js/jquery.ztree.core.js"></script>
-<script type="text/javascript" src="zTree/js/jquery.ztree.excheck.js"></script>
-<script type="text/javascript" src="zTree/js/jquery.ztree.exedit.js"></script>
-
 <div class="am-cf am-padding am-padding-bottom-0">
     <div class="am-fl am-cf">
         <strong class="am-text-primary am-text-lg">系统管理</strong> /
@@ -28,7 +23,7 @@
                         <label class="am-u-sm-12 am-u-md-3 am-form-label">管理菜单</label>
                         <div class="am-u-sm-12 am-u-md-9">
                             <div id="doc-dropdown-menu" class="am-dropdown am-u-sm-12 am-u-md-9" data-am-dropdown>
-                                <input id="menu_Name" type="text" class="am-form-field am-radius am-dropdown-toggle" placeholder="请选择菜单" readonly="readonly"/>
+                                <input id="menu_name" type="text" class="am-form-field am-radius am-dropdown-toggle" placeholder="请选择菜单" readonly="readonly"/>
                                 <input id="menu_id" type="hidden" />
                                 <div class="am-dropdown-content"  style="height: 220px;width: 250px;overflow:auto;overflow-x:hidden;">
                                     <ul id="menuShowList" class="ztree"></ul>
@@ -103,80 +98,133 @@
                         <ul id="menuSearchList" class="ztree"></ul>
                     </div>
                 </div>
-
                 <button class="form-control" onclick="query()">查询</button>
+                <button class="form-control" onclick="$('#toolbar :input').val('');">重置</button>
         </div>
         <table id="table"></table>
     </div>
 </div>
 
 <script>
-    var deleteId="",rightCheckbox="";
-    $(function () {
-        window.events = {
-            'click #edit': function (e, value, row, index) {
-                $.each(row,function(i,e){
-                    var $obj = $("#"+i);
-                    if($obj.attr("name")=="rightCheckbox"){
-                        if(e==1){
-                            $("#"+i).prop("checked",true);
-                        }else{
-                            $("#"+i).prop("checked",false);
-                        }
+    window.events = {
+        'click #edit': function (event, value, row, index) {
+            openModal();
+            $.each(row,function(i,e){
+                var $obj = $("#"+i);
+                if($obj.attr("name")=="rightCheckbox"){
+                    if(e==1){
+                        $("#"+i).prop("checked",true);
                     }else{
-                        $("#"+i).val(e);
+                        $("#"+i).prop("checked",false);
                     }
-                });
-                openModal();
-            },
-            'click #del': function (e, value, row, index) {
-                deleteData(value);
+                }else{
+                    if($obj.attr("id")=="menu_id"){
+                        var eArr = e.split(",",-1);
+                        for(var ev in eArr){
+                            var node = showTreeObj.getNodeByParam("id",eArr[ev], null);
+                            if(!node.isParent){
+                                showTreeObj.checkNode(node, true, true);
+                            }
+                        }
+                    }
+                    $("#"+i).val(e);
+                }
+            });
+        },
+        'click #del': function (e, value, row, index) {
+            deleteData(value);
+        }
+    };
+
+    // 下拉zTree组件组织
+    var showSetting = {
+        view: {
+            selectedMulti: true
+        },
+        check: {
+            enable: true
+        },
+        data: {
+            simpleData: {
+                enable: true
             }
-        };
-        initBootstrapTable();
-        $('#doc-dropdown').dropdown({justify: '#doc-dropdown'});
-        $('#doc-dropdown-menu').dropdown({justify: '#doc-dropdown-menu'});
+        },
+        edit: {
+            enable: false
+        },
+        callback:{
+            onCheck:onShowCheck,
+            onClick:onShowClick
+        }
+    },searchSetting = {
+        view: {
+            selectedMulti: true
+        },
+        check: {
+            enable: true
+        },
+        data: {
+            simpleData: {
+                enable: true
+            }
+        },
+        edit: {
+            enable: false
+        },
+        callback:{
+            onCheck:onSearchCheck,
+            onClick:onSearchClick
+        }
+    };
+
+    var deleteId="",rightCheckbox="",result = {},showTreeObj,searchTreeObj;
+    result.columns = [];
+    result.columns.push({field: "选择",checkbox: true,title:"选择",align:"center",valign:"middle"}),
+    result.columns.push({field: 'id',title: '操作',align: 'center',valign: 'middle',width: '140px',events: events,formatter: formatter});
+    result.columns.push({field: "序号",title:"序号",align:"center",valign:"middle",formatter: function (value, row, index) {return index+1;}}),
+    result.columns.push({field: 'name',title: "权限名称",align: 'center',valign: 'middle',rowspan: 1,colspan: 1});
+    result.columns.push({field: 'menu_name',title: "菜单选择",align: 'center',valign: 'middle',rowspan: 1,colspan: 1,'data-title':'menu_name',
+        formatter:function(value, row, index){
+            if(value!=""&&value!=null){
+                return value.substring(0,12);
+            }
+        }
+    });
+    result.columns.push({field: 'a',title: "增",align: 'center',valign: 'middle',rowspan: 1,colspan: 1,
+        formatter: function (value, row, index) {if(value==1){return '是';}else{return '-';}}
+    });
+    result.columns.push({field: 'd',title: "删",align: 'center',valign: 'middle',rowspan: 1,colspan: 1,
+        formatter: function (value, row, index) {if(value==1){return '是';}else{return '-';}}
+    });
+    result.columns.push({field: 'u',title: "改",align: 'center',valign: 'middle',rowspan: 1,colspan: 1,
+        formatter: function (value, row, index) {if(value==1){return '是';}else{return '-';}}
+    });
+    result.columns.push({field: 's',title: "查",align: 'center',valign: 'middle',rowspan: 1,colspan: 1,
+        formatter: function (value, row, index) {if(value==1){return '是';}else{return '-';}}
+    });
+    result.columns.push({field: 'i',title: "导入",align: 'center',valign: 'middle',rowspan: 1,colspan: 1,
+        formatter: function (value, row, index) {if(value==1){return '是';}else{return '-';}}
+    });
+    result.columns.push({field: 'e',title: "导出",align: 'center',valign: 'middle',rowspan: 1,colspan: 1,
+        formatter: function (value, row, index) {if(value==1){return '是';}else{return '-';}}
     });
 
     function query(){
-        initBootstrapTable();
+        initBootstrapTable(result,"/right/list");
     }
+    //组织bootstrapTable
+    function initBootstrapTable(result,url){
 
-    function initBootstrapTable(){
-
-        var result = {};
-        result.columns = [];
-        result.columns.push({field: "选择",checkbox: true,title:"选择",align:"center",valign:"middle"}),
-        result.columns.push({field: 'id',title: '操作',align: 'center',valign: 'middle',width: '140px',events: events,formatter: formatter});
-        result.columns.push({field: 'name',title: "权限名称",align: 'center',valign: 'middle',rowspan: 1,colspan: 1});
-        result.columns.push({field: 'menu_id',title: "菜单选择",align: 'center',valign: 'middle',rowspan: 1,colspan: 1});
-        result.columns.push({field: 'a',title: "增",align: 'center',valign: 'middle',rowspan: 1,colspan: 1,
-            formatter: function (value, row, index) {if(value==1){return '是';}else{return '-';}}
-        });
-        result.columns.push({field: 'd',title: "删",align: 'center',valign: 'middle',rowspan: 1,colspan: 1,
-            formatter: function (value, row, index) {if(value==1){return '是';}else{return '-';}}
-        });
-        result.columns.push({field: 'u',title: "改",align: 'center',valign: 'middle',rowspan: 1,colspan: 1,
-            formatter: function (value, row, index) {if(value==1){return '是';}else{return '-';}}
-        });
-        result.columns.push({field: 's',title: "查",align: 'center',valign: 'middle',rowspan: 1,colspan: 1,
-            formatter: function (value, row, index) {if(value==1){return '是';}else{return '-';}}
-        });
-        result.columns.push({field: 'i',title: "导入",align: 'center',valign: 'middle',rowspan: 1,colspan: 1,
-            formatter: function (value, row, index) {if(value==1){return '是';}else{return '-';}}
-        });
-        result.columns.push({field: 'e',title: "导出",align: 'center',valign: 'middle',rowspan: 1,colspan: 1,
-            formatter: function (value, row, index) {if(value==1){return '是';}else{return '-';}}
-        });
+        //bootstrapTable调用
         $('#table').bootstrapTable('destroy').bootstrapTable({
             method:"post",
-            url: '/right/list',
+            url: url,
             cache: false, //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
             striped: true, //设置为 true 会有隔行变色效果
             pagination: true, //启动分页
             pageSize: 10, //每页显示的记录数
             pageNumber:1, //当前第几页
-            pageList: [10, 20, 30, 50, 100,"ALL"], //记录数可选列表
+            pageList: [5,10, 20, 30, 50, 100,"ALL"], //记录数可选列表
             search: false, //是否启用查询
             showColumns: true, //显示下拉框勾选要显示的列
             minimumCountColumns:2,//过滤列时最少可以省下多少列
@@ -184,7 +232,7 @@
             sidePagination:"server",//服务器端分页
             height: "380px",//table高度
             clickToSelect:false,//点击行内数据 进行checkbox选中
-            sortable: true,
+            sortable: true,//排序
             toolbar:"#toolbar",//查询工具 自定义空间
             paginationPreText: "上一页",//上一页下一页图标 可自定义
             paginationNextText: "下一页",//上一页下一页图标 可自定义
@@ -192,8 +240,8 @@
             sortable:true,
             queryParams:function(params){//查询参数
                 $("#toolbar :input").each(function(i,e){
-                    if($(e).attr("name")!=undefined){
-                        params[$(e).attr("name")] = $(e).val();
+                    if($(e).attr("id")!=undefined){
+                        params[$(e).attr("id")] = $(e).val();
                     }
                 });
                 return params;
@@ -220,6 +268,7 @@
 
     }
 
+    /** bootstrap-table 操作 formatter */
     function formatter(value, row, index) {
         return [
             '<div class="am-btn-group-xs">'+
@@ -231,12 +280,11 @@
         ].join('');
     }
 
+    /**新增页面打开*/
     $("#addrow").on("click",function() {
-        $("#formSubmitData :input").not("[type='checkbox']").val("");
-        $("#formSubmitData :input[type='checkbox']").prop("checked",false);
         openModal();
     });
-
+    /**删除权限数据*/
     $("#delrow").on("click",function() {
         var value = "";
         var checkedData = $('#table').bootstrapTable('getAllSelections');
@@ -246,8 +294,11 @@
         value = value.substring(0,value.length-3);
         deleteData(value);
     });
-
+    /** 打开数据窗口模型 */
     function openModal(){
+        $("#formSubmitData :input").not("[type='checkbox']").val("");
+        showTreeObj.checkAllNodes(false);
+        $("#formSubmitData :input[type='checkbox']").prop("checked",false);
         $('#my-prompt').modal({
             relatedTarget: this,
             onConfirm: function(e) {
@@ -278,7 +329,7 @@
                             alert: data.msg
                         });
                     }
-                    initBootstrapTable();
+                    initBootstrapTable(result,"/right/list");
                 });
             },
             onCancel: function(e) {
@@ -286,6 +337,7 @@
         });
     }
 
+    /** 删除数据窗口展示 */
     function deleteData(value){
         var data={};
         data.id = value;
@@ -306,7 +358,7 @@
                             alert: data.msg
                         });
                     }
-                    initBootstrapTable();
+                    initBootstrapTable(result,"/right/list");
                 });
             },
             onCancel: function() {
@@ -314,95 +366,85 @@
         });
     }
 
-    // 下拉zTree组件组织
-    var setting = {
-        view: {
-            selectedMulti: true
-        },
-        check: {
-            enable: true
-        },
-        data: {
-            simpleData: {
-                enable: true
-            }
-        },
-        edit: {
-            enable: true
+
+    /**点击树插件的枝叶*/
+    function onShowClick(event, treeId, treeNode){
+        showTreeObj.checkNode(treeNode, true, true);
+    }
+
+    /**ztree保存下拉选中事件*/
+    function onShowCheck(event, treeId, treeNode) {
+        var id="",name="";
+        var nodes = showTreeObj.getCheckedNodes(true);
+        for (var i=0;i<nodes.length;i++) {
+            id += nodes[i].id+",";
+            name += nodes[i].name+",";
         }
-    };
+        id = id.substring(0,id.length-1);
+        name = name.substring(0,name.length-1);
+        $("#menu_id").val(id);
+        $("#menu_name").val(name);
+        $("#menu_name").attr("title",name);
 
-    var zNodes =[
-        { id:1, pId:0, name:"父节点1", open:true},
-        { id:11, pId:1, name:"父节点11"},
-        { id:111, pId:11, name:"叶子节点111"},
-        { id:112, pId:11, name:"叶子节点112"},
-        { id:113, pId:11, name:"叶子节点113"},
-        { id:114, pId:11, name:"叶子节点114"},
-        { id:12, pId:1, name:"父节点12"},
-        { id:121, pId:12, name:"叶子节点121"},
-        { id:122, pId:12, name:"叶子节点122"},
-        { id:123, pId:12, name:"叶子节点123"},
-        { id:124, pId:12, name:"叶子节点124"},
-        { id:13, pId:1, name:"父节点13", isParent:true},
-        { id:2, pId:0, name:"父节点2"},
-        { id:21, pId:2, name:"父节点21", open:true},
-        { id:211, pId:21, name:"叶子节点211"},
-        { id:212, pId:21, name:"叶子节点212"},
-        { id:213, pId:21, name:"叶子节点213"},
-        { id:214, pId:21, name:"叶子节点214"},
-        { id:22, pId:2, name:"父节点22"},
-        { id:221, pId:22, name:"叶子节点221"},
-        { id:222, pId:22, name:"叶子节点222"},
-        { id:223, pId:22, name:"叶子节点223"},
-        { id:224, pId:22, name:"叶子节点224"},
-        { id:23, pId:2, name:"父节点23"},
-        { id:231, pId:23, name:"叶子节点231"},
-        { id:232, pId:23, name:"叶子节点232"},
-        { id:233, pId:23, name:"叶子节点233"},
-        { id:234, pId:23, name:"叶子节点234"},
-        { id:3, pId:0, name:"父节点3", isParent:true}
-    ];
+    }
 
-    $(document).ready(function(){
-        $.fn.zTree.init($("#menuShowList,#menuSearchList"), setting, zNodes);
-    });
+    /**点击树插件的枝叶*/
+    function onSearchClick(event, treeId, treeNode){
+        searchTreeObj.checkNode(treeNode, true, true);
+    }
 
-    var newCount = 1;
-    function addHoverDom(treeId, treeNode) {
-        var sObj = $("#" + treeNode.tId + "_span");
-        if (treeNode.editNameFlag || $("#addBtn_"+treeNode.tId).length>0) return;
-        var addStr = "<span class='button add' id='addBtn_" + treeNode.tId
-                + "' title='add node' onfocus='this.blur();'></span>";
-        sObj.after(addStr);
-        var btn = $("#addBtn_"+treeNode.tId);
-        if (btn) btn.bind("click", function(){
-            var zTree = $.fn.zTree.getZTreeObj("treeDemo");
-            zTree.addNodes(treeNode, {id:(100 + newCount), pId:treeNode.id, name:"new node" + (newCount++)});
-            return false;
-        });
-    };
-    function removeHoverDom(treeId, treeNode) {
-        $("#addBtn_"+treeNode.tId).unbind().remove();
-    };
+    /** ztree查询下拉选中事件 */
+    function onSearchCheck(event, treeId, treeNode) {
+        var id="",name="";
+        var nodes = searchTreeObj.getCheckedNodes(true);
+        for (var i=0;i<nodes.length;i++) {
+            id += nodes[i].id+",";
+            name += nodes[i].name+",";
+        }
+        id = id.substring(0,id.length-1);
+        name = name.substring(0,name.length-1);
+        $("#rightMenuId").val(id);
+        $("#rightMenu").val(name);
+        $("#rightMenu").attr("title",name);
+    }
 
     /**
      * 树形菜单 数据组织
      */
     function buildDomTree() {
-        var treeData = {};
+        var treeData = {},
+             treeDataArr = [];
         $.ajax({url:"/menu/list",data:{},async:false,type:"post",dataType:"json",
             success:function(data) {
                 treeData.id = "0";
-                treeData.pid = "";
+                treeData.pId = "";
                 treeData.text = "菜单配置";
                 treeData.name = "菜单配置";
                 treeData.pName = "";
-                treeData.nodes = [];
-                treeData.nodes = $.getTreeData(data);
+                treeDataArr.push(treeData);
+                for(var ind in data){
+                    var tmpData = {};
+                    tmpData.id = data[ind].id;
+                    tmpData.pId = data[ind].pid;
+                    tmpData.name = data[ind].name;
+                    tmpData.pname = data[ind].pname;
+                    treeDataArr.push(tmpData);
+                }
             }
         });
-        return [treeData];
+        return treeDataArr;
     }
 
+    $(function () {
+        //组织bootstraptable
+        initBootstrapTable(result,"/right/list");
+        //初始化下拉树
+        $('#doc-dropdown').dropdown({justify: '#doc-dropdown'});
+        $('#doc-dropdown-menu').dropdown({justify: '#doc-dropdown-menu'});
+        //初始化ztree
+        showTreeObj =  $.fn.zTree.init($("#menuShowList"), showSetting, buildDomTree());
+        searchTreeObj =  $.fn.zTree.init($("#menuSearchList"), searchSetting, buildDomTree());
+        showTreeObj.expandAll(true);
+        searchTreeObj.expandAll(true);
+    });
 </script>

@@ -5,16 +5,20 @@
 var conn = require("../../conf/mysql/db");
 
 var Right = function (req,res,next){
-    this.param = "id,name,menu_id,a,d,u,s,i,e";
+    this.param = "id,name,menu_id,menu_name,a,d,u,s,i,e";
     this.id = req.body.id||"";
     this.name = req.body.name||"";
     this.menu_id = req.body.menu_id||"";
+    this.menu_name = req.body.menu_name||"";
     this.a = req.body.a||"";
     this.d = req.body.d||"";
     this.u = req.body.u||"";
     this.s = req.body.s||"";
     this.i = req.body.i||"";
     this.e = req.body.e||"";
+    this.rightName = req.body.rightName||"";
+    this.rightMenuId = req.body.rightMenuId||"";
+    this.rightMenu = req.body.rightMenu||"";
     this.limit = req.body.limit||10;
     this.offset = req.body.offset||0;
 };
@@ -26,8 +30,15 @@ var tableName = "sys_right";
  * @param callback
  */
 Right.prototype.pageQuery = function(params,callback){
+    var menu_ids = "";
+    if(params.rightMenuId!=""&&params.rightMenuId!=undefined){
+        var rightMenuIdArr = params.rightMenuId.split(",",-1);
+        for(var r in rightMenuIdArr){
+            menu_ids += " and menu_id like '%"+rightMenuIdArr[r]+"%' ";
+        }
+    }
     var table=tableName,
-         where="1=1",
+         where="1=1 and name like '%"+params.rightName+"%' "+menu_ids+" ",
          result={};
     conn.pageQuery(table,params,where,function(err,rows,count,fields){
         if(err){

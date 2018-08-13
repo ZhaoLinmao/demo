@@ -130,17 +130,17 @@
 
 /**
  * 获取zTree树形数据
- * $.getTreeData(data);
+ * $.getZtreeData(data);
  * treeData 展示bootstrap-tree树的数据
  * data 数据的 List 数据
  */
 (function ($) {
-    $.getTreeData = function (data){
+    $.getZtreeData = function (data){
         var treeData = [];
         for(var i in data){
-            var _pid = data[i].pid;
+            var _pId = data[i].pid;
             var _id = data[i].id;
-            if(_pid==0){
+            if(_pId==0){
                 if(checkChildTree(_id,data)){
                     data[i].nodes = [];
                     data[i].nodes = getChildTreeData(_id,data);
@@ -159,10 +159,10 @@
      * @param treeData  传入列表数据
      * @returns {boolean}  存在子节点返回 true 不存在子节点返回 false
      */
-    function checkChildTree(pid,data){
+    function checkChildTree(pId,data){
         for(var i in data){
-            var _pid = data[i].pid;
-            if(_pid==pid){
+            var _pId = data[i].pid;
+            if(_pId==pId){
                 return true;
             }
         }
@@ -173,12 +173,12 @@
      * 获取子节点的树形结构
      * @type object {}  树形html代码
      */
-    function getChildTreeData(pid,data){
+    function getChildTreeData(pId,data){
         var treeData = [];
         for(var i in data){
-            var _pid = data[i].pid,
+            var _pId = data[i].pid,
                 _id = data[i].id;
-            if(_pid==pid){
+            if(_pId==pId){
                 if(checkChildTree(_id,data)){
                     data[i].nodes = [];
                     data[i].nodes.push(getChildTreeData(_id,data));
