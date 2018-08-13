@@ -3,23 +3,23 @@
  *  create date 2017-10-2 14:44:27 
  */
 var express = require('express'),
-	Right = require("../../dao/system/Right"),
+	Right = require("../../dao/system/User"),
     router = express.Router();
 
 
 
 /**
- *  权限管理控制界面跳转.
- *  url: /right
+ *  用户管理控制界面跳转.
+ *  url: /user
  */
 router.post('/', function(req, res, next) {
     var result = {};
-    res.render("system/admin-right",result);
+    res.render("system/admin-user",result);
 });
 
 /**
- *  权限管理获取.
- *  url: /right/list
+ *  用户管理获取.
+ *  url: /user/list
  */
 router.post('/list', function(req, res, next) {
     var right = new Right(req,res);
@@ -31,8 +31,8 @@ router.post('/list', function(req, res, next) {
 });
 
 /**
- *  权限新增或修改.
- *  url: /right/save
+ *  用户新增或修改.
+ *  url: /user/save
  */
 router.post('/save', function(req, res, next) {
     var result = {};
@@ -64,8 +64,8 @@ router.post('/save', function(req, res, next) {
 });
 
 /**
- *  权限管理删除.
- *  url: /right/del
+ *  用户管理删除.
+ *  url: /user/del
  */
 router.post('/del', function(req, res, next) {
     var result = {};
