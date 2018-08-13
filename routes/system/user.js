@@ -3,7 +3,7 @@
  *  create date 2017-10-2 14:44:27 
  */
 var express = require('express'),
-	Right = require("../../dao/system/User"),
+    User = require("../../dao/system/User"),
     router = express.Router();
 
 
@@ -22,8 +22,8 @@ router.post('/', function(req, res, next) {
  *  url: /user/list
  */
 router.post('/list', function(req, res, next) {
-    var right = new Right(req,res);
-    right.pageQuery(right,function(page){
+    var user = new User(req,res);
+    user.pageQuery(user,function(page){
         if(page.status=="SUCCEED"){
             res.send(page);
         }
@@ -36,10 +36,10 @@ router.post('/list', function(req, res, next) {
  */
 router.post('/save', function(req, res, next) {
     var result = {};
-    var right = new Right(req,res);
+    var user = new User(req,res);
     var id = req.body.id;
     if(id!=null&&id!=""){
-    	right.upd(req,right,function(data){
+    	user.upd(req,user,function(data){
             if(data.status=="SUCCEED"){
                 result.status = data.status;
                 result.msg = "保存成功";
@@ -50,7 +50,7 @@ router.post('/save', function(req, res, next) {
             res.send(result);
         });
     }else{
-    	right.add(req,right,function(data){
+    	user.add(req,user,function(data){
             if(data.status=="SUCCEED"){
                 result.status = data.status;
                 result.msg = "保存成功";
@@ -69,10 +69,10 @@ router.post('/save', function(req, res, next) {
  */
 router.post('/del', function(req, res, next) {
     var result = {};
-    var right = new Right(req,res);
+    var user = new User(req,res);
     var id = req.body.id;
     if(id!=null&&id!=""){
-    	right.del(right,function(data){
+    	user.del(user,function(data){
             if(data.status=="success"){
                 result.status = data.status;
                 result.msg = "删除成功";
