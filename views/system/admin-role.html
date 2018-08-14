@@ -81,7 +81,7 @@
 </div>
 
 <script>
-    var commonUrl = "/role";
+    var commonUrl = "/role",delIds="";
     window.events = {
         'click #edit': function (event, value, row, index) {
             openModal();
@@ -108,7 +108,8 @@
             });
         },
         'click #del': function (e, value, row, index) {
-            deleteData(value);
+            delIds = value;
+            deleteData();
         }
     };
 
@@ -210,7 +211,8 @@
             value += checkedData[ind].id+"','";
         }
         value = value.substring(0,value.length-3);
-        deleteData(value);
+        delIds = value;
+        deleteData();
     });
     /** 打开数据窗口模型 */
     function openModal(){
@@ -255,13 +257,12 @@
     }
 
     /** 删除数据窗口展示 */
-    function deleteData(value){
-        var data={};
-        data.id = value;
+    function deleteData(){
         $('#my-confirm').modal({
             relatedTarget: this,
             onConfirm: function(options) {
-                $(this).removeData('amui.modal');
+                var data={};
+                data.id = delIds;
                 $.post(commonUrl+"/del", data, function (ret) {
                     if(ret.status=="SUCCEED"){
                         cheers.success({
