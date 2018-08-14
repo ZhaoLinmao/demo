@@ -30,6 +30,7 @@
     ,"bootstrap-treeview":"=1.2.0"
     ,"bootstrap-table":"=1.11.1"
     ,"zTree":">=3.5.33"
+    ,"select2":"=4.0.5"
   },
   "devDependencies": {}
 }

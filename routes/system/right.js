@@ -19,6 +19,19 @@ router.post('/', function(req, res, next) {
 
 /**
  *  权限管理获取.
+ *  url: /right/slist
+ */
+router.post('/slist', function(req, res, next) {
+    var dao = new Dao(req,res);
+    dao.getRightList(dao,function(page){
+        if(page.status=="SUCCEED"){
+            res.send(page);
+        }
+    });
+});
+
+/**
+ *  权限管理获取.
  *  url: /right/list
  */
 router.post('/list', function(req, res, next) {

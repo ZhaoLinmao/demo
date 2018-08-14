@@ -1,3 +1,9 @@
+<style>
+    .select2-container .select2-selection--single{
+        height:34px;
+        line-height: 34px;
+    }
+</style>
 <div class="am-cf am-padding am-padding-bottom-0">
     <div class="am-fl am-cf">
         <strong class="am-text-primary am-text-lg">系统管理</strong> /
@@ -89,20 +95,7 @@
                 <i class="am-icon-trash-o"></i>删除
             </button>
             <input id="rightName" name="rightName" class="form-control" placeholder="请输入角色名称"/>
-
-            <div id="doc-dropdown" class="am-dropdown" data-am-dropdown>
-                <div class="am-u-sm-12 am-u-md-9">
-                    <select data-am-selected="{searchBox: 1}">
-                        <option value="a">Apple</option>
-                        <option value="b">Banana</option>
-                        <option value="o">Orange</option>
-                        <option value="m">Mango</option>
-                        <option value="phone">iPhone</option>
-                        <option value="im">iMac</option>
-                        <option value="mbp">Macbook Pro</option>
-                    </select>
-                </div>
-            </div>
+            <select id="searchRight" class="form-control" style="width:167px"></select>
             <button class="form-control" onclick="query()">查询</button>
             <button class="form-control" onclick="$('#toolbar :input').val('');">重置</button>
         </div>
@@ -362,5 +355,40 @@
         //组织bootstraptable
         initBootstrapTable(result,commonUrl+"/list");
 
+        $("#searchRight").select2({
+            ajax: {
+                url: "/right/slist",
+                dataType: 'json',
+                delay:0,
+                type:"post",
+                data:{},
+//                data: function (params) {
+//                    return {
+//                        q: params.term, // search term
+//                        page: params.page
+//                    };
+//                },
+                processResults: function (data, params) {
+                    alert(JSON.stringify(data));
+                    alert(JSON.stringify(params));
+                    // parse the results into the format expected by Select2
+                    // since we are using custom formatting functions we do not need to
+                    // alter the remote JSON data, except to indicate that infinite
+                    // scrolling can be used
+//                    params.page = params.page || 1;
+//
+//                    return {
+//                        results: data.items,
+//                        pagination: {
+//                            more: (params.page * 30) < data.total_count
+//                        }
+//                    };
+                },
+                cache: false
+            },
+            placeholder: '选择权限信息',
+            escapeMarkup: function (markup) { return markup; } // let our custom formatter work
+
+        });
     });
 </script>
