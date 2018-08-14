@@ -1,7 +1,12 @@
 <style>
-    .select2-container .select2-selection--single{
+    .multipleSelect button{
         height:34px;
-        line-height: 34px;
+    }
+    .multipleSelect button span,.multipleSelect button div{
+        margin-top:4px;
+    }
+    .multipleSelect div ul li{
+        text-align: left;;
     }
 </style>
 <div class="am-cf am-padding am-padding-bottom-0">
@@ -28,35 +33,7 @@
                     <div class="am-form-group">
                         <label class="am-u-sm-12 am-u-md-3 am-form-label">权限列表</label>
                         <div class="am-u-sm-12 am-u-md-9">
-                            <select multiple data-am-selected id="demo-maxchecked">
-                                <option value="a">Apple</option>
-                                <option value="b">Banana</option>
-                                <option value="o">Orange</option>
-                                <option value="m">Mango</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="am-form-group">
-                        <label class="am-u-sm-12 am-u-md-3 am-form-label">角色</label>
-                        <div class="am-u-sm-12 am-u-md-9">
-                            <label class="am-checkbox-inline">
-                                <input id="a" name="rightCheckbox" type="checkbox">增
-                            </label>
-                            <label class="am-checkbox-inline">
-                                <input id="d" name="rightCheckbox" type="checkbox">删
-                            </label>
-                            <label class="am-checkbox-inline">
-                                <input id="u" name="rightCheckbox" type="checkbox">改
-                            </label>
-                            <label class="am-checkbox-inline">
-                                <input id="s" name="rightCheckbox" type="checkbox">查
-                            </label>
-                            <label class="am-checkbox-inline">
-                                <input id="i" name="rightCheckbox" type="checkbox">导入
-                            </label>
-                            <label class="am-checkbox-inline">
-                                <input id="e" name="rightCheckbox" type="checkbox">导出
-                            </label>
+                            <select id="right" class="multipleSelect" multiple="multiple"></select>
                         </div>
                     </div>
                 </div>
@@ -95,7 +72,7 @@
                 <i class="am-icon-trash-o"></i>删除
             </button>
             <input id="rightName" name="rightName" class="form-control" placeholder="请输入角色名称"/>
-            <select id="searchRight" class="form-control" style="width:167px"></select>
+            <select id="searchRight" class="multipleSelect" multiple="multiple" style="width:167px;height:34px"></select>
             <button class="form-control" onclick="query()">查询</button>
             <button class="form-control" onclick="$('#toolbar :input').val('');">重置</button>
         </div>
@@ -104,7 +81,7 @@
 </div>
 
 <script>
-    var commonUrl = "/role"
+    var commonUrl = "/role";
     window.events = {
         'click #edit': function (event, value, row, index) {
             openModal();
@@ -141,32 +118,15 @@
             result.columns.push({field: 'id',title: '操作',align: 'center',valign: 'middle',width: '140px',events: events,formatter: formatter});
     result.columns.push({field: "序号",title:"序号",align:"center",valign:"middle",formatter: function (value, row, index) {return index+1;}}),
             result.columns.push({field: 'name',title: "角色名称",align: 'center',valign: 'middle',rowspan: 1,colspan: 1});
-    result.columns.push({field: 'menu_name',title: "菜单选择",align: 'center',valign: 'middle',rowspan: 1,colspan: 1,'data-title':'menu_name',
+    result.columns.push({field: 'rightName',title: "权限",align: 'center',valign: 'middle',rowspan: 1,colspan: 1,
         formatter:function(value, row, index){
             if(value!=""&&value!=null){
                 return value.substring(0,12);
             }
         }
     });
-    result.columns.push({field: 'a',title: "增",align: 'center',valign: 'middle',rowspan: 1,colspan: 1,
-        formatter: function (value, row, index) {if(value==1){return '是';}else{return '-';}}
-    });
-    result.columns.push({field: 'd',title: "删",align: 'center',valign: 'middle',rowspan: 1,colspan: 1,
-        formatter: function (value, row, index) {if(value==1){return '是';}else{return '-';}}
-    });
-    result.columns.push({field: 'u',title: "改",align: 'center',valign: 'middle',rowspan: 1,colspan: 1,
-        formatter: function (value, row, index) {if(value==1){return '是';}else{return '-';}}
-    });
-    result.columns.push({field: 's',title: "查",align: 'center',valign: 'middle',rowspan: 1,colspan: 1,
-        formatter: function (value, row, index) {if(value==1){return '是';}else{return '-';}}
-    });
-    result.columns.push({field: 'i',title: "导入",align: 'center',valign: 'middle',rowspan: 1,colspan: 1,
-        formatter: function (value, row, index) {if(value==1){return '是';}else{return '-';}}
-    });
-    result.columns.push({field: 'e',title: "导出",align: 'center',valign: 'middle',rowspan: 1,colspan: 1,
-        formatter: function (value, row, index) {if(value==1){return '是';}else{return '-';}}
-    });
 
+    /**查询方法*/
     function query(){
         initBootstrapTable(result,commonUrl+"/list");
     }
@@ -255,36 +215,35 @@
     /** 打开数据窗口模型 */
     function openModal(){
         $("#formSubmitData :input").not("[type='checkbox']").val("");
-        showTreeObj.checkAllNodes(false);
-        $("#formSubmitData :input[type='checkbox']").prop("checked",false);
+        $("#right").multipleSelect("uncheckAll");
         $('#my-prompt').modal({
             relatedTarget: this,
             onConfirm: function(e) {
                 var data = {};
                 $("#formSubmitData :input").each(function(i,e){
                     var $obj = $(e);
-                    if($obj.attr("name")=="rightCheckbox"){
-                        if($obj.is(":checked")){
-                            data[$obj.attr("id")]=1;
+                    var vid = $obj.attr("id");
+                    if(vid!=undefined){
+                        if(vid=="right"){
+                            data[vid] = $("#right").multipleSelect("getSelects").join(",");
+                            data[vid+"Name"] = $("#right").multipleSelect("getSelects","text").join(",");
                         }else{
-                            data[$obj.attr("id")]=0;
+                            data[$obj.attr("id")]=$obj.val();
                         }
-                    }else{
-                        data[$obj.attr("id")]=$obj.val();
                     }
                 });
-                $.post(commonUrl+"/save",data,function(data){
-                    if(data.status=="SUCCEED"){
+                $.post(commonUrl+"/save",data,function(ret){
+                    if(ret.status=="SUCCEED"){
                         cheers.success({
                             title: '提示',
-                            message: data.msg,
-                            alert: data.msg
+                            message: ret.msg,
+                            alert: ret.msg
                         });
                     }else{
                         cheers.error({
                             title: '错误',
-                            message: data.msg,
-                            alert: data.msg
+                            message: ret.msg,
+                            alert: ret.msg
                         });
                     }
                     initBootstrapTable(result,commonUrl+"/list");
@@ -302,18 +261,19 @@
         $('#my-confirm').modal({
             relatedTarget: this,
             onConfirm: function(options) {
-                $.post(commonUrl+"/del", data, function (result) {
-                    if(data.status=="SUCCEED"){
+                $(this).removeData('amui.modal');
+                $.post(commonUrl+"/del", data, function (ret) {
+                    if(ret.status=="SUCCEED"){
                         cheers.success({
                             title: '提示',
-                            message: data.msg,
-                            alert: data.msg
+                            message: ret.msg,
+                            alert: ret.msg
                         });
                     }else{
                         cheers.error({
                             title: '错误',
-                            message: data.msg,
-                            alert: data.msg
+                            message: ret.msg,
+                            alert: ret.msg
                         });
                     }
                     initBootstrapTable(result,commonUrl+"/list");
@@ -324,71 +284,36 @@
         });
     }
 
-    /**
-     * 树形菜单 数据组织
-     */
-    function buildDomTree() {
-        var treeData = {},
-                treeDataArr = [];
-        $.ajax({url:"/menu/list",data:{},async:false,type:"post",dataType:"json",
-            success:function(data) {
-                treeData.id = "0";
-                treeData.pId = "";
-                treeData.text = "菜单配置";
-                treeData.name = "菜单配置";
-                treeData.pName = "";
-                treeDataArr.push(treeData);
-                for(var ind in data){
-                    var tmpData = {};
-                    tmpData.id = data[ind].id;
-                    tmpData.pId = data[ind].pid;
-                    tmpData.name = data[ind].name;
-                    tmpData.pname = data[ind].pname;
-                    treeDataArr.push(tmpData);
-                }
-            }
-        });
-        return treeDataArr;
-    }
-
     $(function () {
         //组织bootstraptable
         initBootstrapTable(result,commonUrl+"/list");
 
-        $("#searchRight").select2({
-            ajax: {
-                url: "/right/slist",
-                dataType: 'json',
-                delay:0,
-                type:"post",
-                data:{},
-//                data: function (params) {
-//                    return {
-//                        q: params.term, // search term
-//                        page: params.page
-//                    };
-//                },
-                processResults: function (data, params) {
-                    alert(JSON.stringify(data));
-                    alert(JSON.stringify(params));
-                    // parse the results into the format expected by Select2
-                    // since we are using custom formatting functions we do not need to
-                    // alter the remote JSON data, except to indicate that infinite
-                    // scrolling can be used
-//                    params.page = params.page || 1;
-//
-//                    return {
-//                        results: data.items,
-//                        pagination: {
-//                            more: (params.page * 30) < data.total_count
-//                        }
-//                    };
-                },
-                cache: false
-            },
-            placeholder: '选择权限信息',
-            escapeMarkup: function (markup) { return markup; } // let our custom formatter work
-
-        });
+        //初始化权限列表
+        initMultiSelect();
     });
+
+    function initMultiSelect(){
+        var data={};
+        $.ajax({
+            url:"/right/slist",
+            data:data,
+            type:"post",
+            dataType:"json",
+            success:function(ret){
+                if(ret.status=="SUCCEED"){
+                    var msg = ret.msg;
+                    for(var m in msg){
+                        $("#searchRight,#right").append("<option value='"+msg[m].id+"'>"+msg[m].name+"</option>");
+                    }
+                }
+                $(".multipleSelect").multipleSelect({
+                    placeholder: "选择权限信息",
+                    selectAllText:"全选",
+                    allSelected:"全部",
+                    countSelected: '# of % 被选中',
+                    filter: true
+                });
+            }
+        });
+    }
 </script>

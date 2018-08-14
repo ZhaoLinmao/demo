@@ -140,14 +140,13 @@ db.insert = function(req,tableName,params, callback){
     params.createtime = dateUtil.getYYMMDDHHMISS();
     for(var colum in paramArr){
         var columValue = paramArr[colum];
-        tableColum+=columValue+",";
+        tableColum+="`"+columValue+"`,";
         tableColumCnt+="?,";
         tableValue.push(params[columValue]);
     }
     tableColum = tableColum.substring(0,tableColum.length-1);
     tableColumCnt = tableColumCnt.substring(0,tableColumCnt.length-1);
     var sql = "insert into "+tableName+"("+tableColum+")values("+tableColumCnt+")";
-
     pool.query(sql,tableValue,function(err, result) {
         if (err) {
             callback(err, null);
@@ -183,7 +182,7 @@ db.update = function(req,tableName,params,where,callback){
 
     for(var colum in paramArr){
         var columValue = paramArr[colum];
-        tableColum+=columValue+"=?,";
+        tableColum+="`"+columValue+"`=?,";
         tableValue.push(params[columValue]);
     }
     tableColum = tableColum.substring(0,tableColum.length-1);

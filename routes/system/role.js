@@ -35,6 +35,7 @@ router.post('/list', function(req, res, next) {
  *  url: /right/save
  */
 router.post('/save', function(req, res, next) {
+    console.log(req.body);
     var result = {};
     var dao = new Dao(req,res);
     var id = req.body.id;
@@ -71,9 +72,10 @@ router.post('/del', function(req, res, next) {
     var result = {};
     var dao = new Dao(req,res);
     var id = req.body.id;
+    console.log(id);
     if(id!=null&&id!=""){
         dao.del(dao,function(data){
-            if(data.status=="success"){
+            if(data.status=="SUCCEED"){
                 result.status = data.status;
                 result.msg = "删除成功";
             }else{

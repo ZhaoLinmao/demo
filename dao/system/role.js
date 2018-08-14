@@ -21,15 +21,15 @@ var tableName = "sys_role";
  * @param callback
  */
 Role.prototype.pageQuery = function(params,callback){
-    var menu_ids = "";
-    if(params.rightMenuId!=""&&params.rightMenuId!=undefined){
-        var rightMenuIdArr = params.rightMenuId.split(",",-1);
-        for(var r in rightMenuIdArr){
-            menu_ids += " and menu_id like '%"+rightMenuIdArr[r]+"%' ";
+    var ids = "";
+    if(params.right!=""&&params.right!=undefined){
+        var rightIdArr = params.right.split(",",-1);
+        for(var r in rightIdArr){
+            ids += " and right like '%"+rightIdArr[r]+"%' ";
         }
     }
     var table=tableName,
-        where="1=1 and name like '%"+params.rightName+"%' "+menu_ids+" ",
+        where="1=1 and name like '%"+params.name+"%' "+ids+" ",
         result={};
     conn.pageQuery(table,params,where,function(err,rows,count,fields){
         if(err){
