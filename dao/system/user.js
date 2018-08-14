@@ -5,20 +5,18 @@
 var conn = require("../../conf/mysql/db");
 
 var User = function (req,res,next){
-    this.param = "id,name,menu_id,menu_name,a,d,u,s,i,e";
+    this.param = "id,username,password,nick,photo,email,phone,qq,weixin,openid,position";
     this.id = req.body.id||"";
-    this.name = req.body.name||"";
-    this.menu_id = req.body.menu_id||"";
-    this.menu_name = req.body.menu_name||"";
-    this.a = req.body.a||"";
-    this.d = req.body.d||"";
-    this.u = req.body.u||"";
-    this.s = req.body.s||"";
-    this.i = req.body.i||"";
-    this.e = req.body.e||"";
-    this.rightName = req.body.rightName||"";
-    this.rightMenuId = req.body.rightMenuId||"";
-    this.rightMenu = req.body.rightMenu||"";
+    this.username = req.body.username||"";
+    this.password = req.body.password||"";
+    this.nick = req.body.nick||"";
+    this.photo = req.body.photo||"";
+    this.email = req.body.email||"";
+    this.phone = req.body.phone||"";
+    this.qq = req.body.qq||"";
+    this.weixin = req.body.weixin||"";
+    this.openid = req.body.openid||"";
+    this.position = req.body.position||"";
     this.limit = req.body.limit||10;
     this.offset = req.body.offset||0;
 };

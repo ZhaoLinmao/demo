@@ -3,7 +3,7 @@
  *  create date 2017-10-1 14:29:31 
  */
 var express = require('express'),
-	Role = require("../../dao/system/Role"),
+    Dao = require("../../dao/system/Role"),
     router = express.Router();
 
 
@@ -14,7 +14,7 @@ var express = require('express'),
  */
 router.post('/', function(req, res, next) {
     var result = {};
-    res.render("system/role",result);
+    res.render("system/admin-role",result);
 });
 
 /**
@@ -22,39 +22,41 @@ router.post('/', function(req, res, next) {
  *  url: /role/list
  */
 router.post('/list', function(req, res, next) {
-    var result = {};
-    var role = new Role(req,res);
-        role.getRoleList(role,function(data){
-        if(data.status=="SUCCEED"){
-            result = data.msg;
-            res.send(result);
+    var dao = new Dao(req,res);
+        dao.pageQuery(dao,function(page){
+        if(page.status=="SUCCEED"){
+            res.send(page);
         }
     });
 });
 
 /**
- *  菜单新增或修改.
- *  url: /role/save
+ *  角色新增或修改.
+ *  url: /right/save
  */
 router.post('/save', function(req, res, next) {
     var result = {};
-    var role = new Role(req,res);
+    var dao = new Dao(req,res);
     var id = req.body.id;
     if(id!=null&&id!=""){
-    	role.upd(role,function(data){
+        dao.upd(req,dao,function(data){
             if(data.status=="SUCCEED"){
-                result.status = "保存成功";
+                result.status = data.status;
+                result.msg = "保存成功";
             }else{
-                result.status = "保存失败";
+                result.status = data.status;
+                result.msg = "保存失败";
             }
             res.send(result);
         });
     }else{
-    	role.add(role,function(data){
+        dao.add(req,dao,function(data){
             if(data.status=="SUCCEED"){
-                result.status = "保存成功";
+                result.status = data.status;
+                result.msg = "保存成功";
             }else{
-                result.status = "保存失败";
+                result.status = data.status;
+                result.msg = "保存失败";
             }
             res.send(result);
         });
@@ -63,23 +65,24 @@ router.post('/save', function(req, res, next) {
 
 /**
  *  角色管理删除.
- *  url: /role/del
+ *  url: /right/del
  */
 router.post('/del', function(req, res, next) {
     var result = {};
-    var role = new Role(req,res);
+    var dao = new Dao(req,res);
     var id = req.body.id;
     if(id!=null&&id!=""){
-    	role.del(role,function(data){
+        dao.del(dao,function(data){
             if(data.status=="success"){
-                result.status="删除成功"
+                result.status = data.status;
+                result.msg = "删除成功";
             }else{
-                result.status="删除失败"
+                result.status = data.status;
+                result.msg="删除失败";
             }
             res.send(result);
         });
     }
 });
-
 
 module.exports = router;

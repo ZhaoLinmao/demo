@@ -75,7 +75,7 @@ Right.prototype.add = function(req,params,callback){
 };
 
 /**
- * 菜单修改
+ * 权限修改
  * @param params
  * @param callback
  */
@@ -105,7 +105,6 @@ Right.prototype.del = function(params,callback){
     var table=tableName,
         where="id in ('"+params.id+"')";
     conn.delete(table,where,function(err,result){
-
         result.status = "FAILURE";
         if(err){
             console.log(err);

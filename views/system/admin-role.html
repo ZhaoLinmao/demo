@@ -1,38 +1,37 @@
 <div class="am-cf am-padding am-padding-bottom-0">
     <div class="am-fl am-cf">
         <strong class="am-text-primary am-text-lg">系统管理</strong> /
-        <small>权限管理</small>
+        <small>角色管理</small>
     </div>
 </div>
 
 <!--新增、修改 模态框-->
 <div class="am-modal am-modal-prompt" tabindex="-1" id="my-prompt">
     <div class="am-modal-dialog">
-        <div class="am-modal-hd">权限配置</div>
+        <div class="am-modal-hd">角色配置</div>
         <div class="am-modal-bd">
             <div class="am-form-group">
                 <div class="am-form am-form-horizontal" id="formSubmitData">
                     <input type="hidden" id="id" name="id"/>
                     <div class="am-form-group">
-                        <label for="name" class="am-u-sm-12 am-u-md-3 am-form-label">权限名称</label>
+                        <label for="name" class="am-u-sm-12 am-u-md-3 am-form-label">角色名称</label>
                         <div class="am-u-sm-12 am-u-md-9">
-                            <input type="text" id="name" name="name" placeholder="输入权限名称" class="am-form-field am-radius">
+                            <input type="text" id="name" name="name" placeholder="输入角色名称" class="am-form-field am-radius">
                         </div>
                     </div>
                     <div class="am-form-group">
-                        <label class="am-u-sm-12 am-u-md-3 am-form-label">管理菜单</label>
+                        <label class="am-u-sm-12 am-u-md-3 am-form-label">权限列表</label>
                         <div class="am-u-sm-12 am-u-md-9">
-                            <div id="doc-dropdown-menu" class="am-dropdown am-u-sm-12 am-u-md-9" data-am-dropdown>
-                                <input id="menu_name" type="text" class="am-form-field am-radius am-dropdown-toggle" placeholder="请选择菜单" readonly="readonly"/>
-                                <input id="menu_id" type="hidden" />
-                                <div class="am-dropdown-content"  style="height: 220px;width: 250px;overflow:auto;overflow-x:hidden;">
-                                    <ul id="menuShowList" class="ztree"></ul>
-                                </div>
-                            </div>
+                            <select multiple data-am-selected id="demo-maxchecked">
+                                <option value="a">Apple</option>
+                                <option value="b">Banana</option>
+                                <option value="o">Orange</option>
+                                <option value="m">Mango</option>
+                            </select>
                         </div>
                     </div>
                     <div class="am-form-group">
-                        <label class="am-u-sm-12 am-u-md-3 am-form-label">权限</label>
+                        <label class="am-u-sm-12 am-u-md-3 am-form-label">角色</label>
                         <div class="am-u-sm-12 am-u-md-9">
                             <label class="am-checkbox-inline">
                                 <input id="a" name="rightCheckbox" type="checkbox">增
@@ -67,7 +66,7 @@
 <!--删除模态框-->
 <div class="am-modal am-modal-confirm" tabindex="-1" id="my-confirm">
     <div class="am-modal-dialog">
-        <div class="am-modal-hd">权限删除</div>
+        <div class="am-modal-hd">角色删除</div>
         <div class="am-modal-bd">
             你，确定要删除这条记录吗？
         </div>
@@ -83,29 +82,36 @@
     <div class="am-u-md-12">
         <!-- Example Classes -->
         <div id="toolbar" class="form-inline am-u-sm-12 am-u-md-12 am-u-lg-12">
-                <button id="addrow" data-am-modal="{target: '#my-popup'}" class="form-control am-btn am-btn-success">
-                    <i class="am-icon-plus"></i>新增
-                </button>
-                <button id="delrow" class="form-control am-btn am-btn-danger">
-                    <i class="am-icon-trash-o"></i>删除
-                </button>
-                <input id="rightName" name="rightName" class="form-control" placeholder="请输入权限名称"/>
+            <button id="addrow" data-am-modal="{target: '#my-popup'}" class="form-control am-btn am-btn-success">
+                <i class="am-icon-plus"></i>新增
+            </button>
+            <button id="delrow" class="form-control am-btn am-btn-danger">
+                <i class="am-icon-trash-o"></i>删除
+            </button>
+            <input id="rightName" name="rightName" class="form-control" placeholder="请输入角色名称"/>
 
-                <div id="doc-dropdown" class="am-dropdown" data-am-dropdown>
-                    <input id="rightMenu" class="form-control am-dropdown-toggle" placeholder="请选择菜单" readonly="readonly"/>
-                    <input id="rightMenuId" type="hidden" />
-                    <div class="am-dropdown-content" style="max-height: 220px;width: 250px;overflow:auto;overflow-x:hidden;">
-                        <ul id="menuSearchList" class="ztree"></ul>
-                    </div>
+            <div id="doc-dropdown" class="am-dropdown" data-am-dropdown>
+                <div class="am-u-sm-12 am-u-md-9">
+                    <select data-am-selected="{searchBox: 1}">
+                        <option value="a">Apple</option>
+                        <option value="b">Banana</option>
+                        <option value="o">Orange</option>
+                        <option value="m">Mango</option>
+                        <option value="phone">iPhone</option>
+                        <option value="im">iMac</option>
+                        <option value="mbp">Macbook Pro</option>
+                    </select>
                 </div>
-                <button class="form-control" onclick="query()">查询</button>
-                <button class="form-control" onclick="reset()">重置</button>
+            </div>
+            <button class="form-control" onclick="query()">查询</button>
+            <button class="form-control" onclick="$('#toolbar :input').val('');">重置</button>
         </div>
         <table id="table"></table>
     </div>
 </div>
 
 <script>
+    var commonUrl = "/role"
     window.events = {
         'click #edit': function (event, value, row, index) {
             openModal();
@@ -136,53 +142,12 @@
         }
     };
 
-    // 下拉zTree组件组织
-    var showSetting = {
-        view: {
-            selectedMulti: true
-        },
-        check: {
-            enable: true
-        },
-        data: {
-            simpleData: {
-                enable: true
-            }
-        },
-        edit: {
-            enable: false
-        },
-        callback:{
-            onCheck:onShowCheck,
-            onClick:onShowClick
-        }
-    },searchSetting = {
-        view: {
-            selectedMulti: true
-        },
-        check: {
-            enable: true
-        },
-        data: {
-            simpleData: {
-                enable: true
-            }
-        },
-        edit: {
-            enable: false
-        },
-        callback:{
-            onCheck:onSearchCheck,
-            onClick:onSearchClick
-        }
-    };
-
     var deleteId="",rightCheckbox="",result = {},showTreeObj,searchTreeObj;
     result.columns = [];
     result.columns.push({field: "选择",checkbox: true,title:"选择",align:"center",valign:"middle"}),
-    result.columns.push({field: 'id',title: '操作',align: 'center',valign: 'middle',width: '140px',events: events,formatter: formatter});
+            result.columns.push({field: 'id',title: '操作',align: 'center',valign: 'middle',width: '140px',events: events,formatter: formatter});
     result.columns.push({field: "序号",title:"序号",align:"center",valign:"middle",formatter: function (value, row, index) {return index+1;}}),
-    result.columns.push({field: 'name',title: "权限名称",align: 'center',valign: 'middle',rowspan: 1,colspan: 1});
+            result.columns.push({field: 'name',title: "角色名称",align: 'center',valign: 'middle',rowspan: 1,colspan: 1});
     result.columns.push({field: 'menu_name',title: "菜单选择",align: 'center',valign: 'middle',rowspan: 1,colspan: 1,'data-title':'menu_name',
         formatter:function(value, row, index){
             if(value!=""&&value!=null){
@@ -210,7 +175,7 @@
     });
 
     function query(){
-        initBootstrapTable(result,"/right/list");
+        initBootstrapTable(result,commonUrl+"/list");
     }
     //组织bootstrapTable
     function initBootstrapTable(result,url){
@@ -284,7 +249,7 @@
     $("#addrow").on("click",function() {
         openModal();
     });
-    /**删除权限数据*/
+    /**删除角色数据*/
     $("#delrow").on("click",function() {
         var value = "";
         var checkedData = $('#table').bootstrapTable('getAllSelections');
@@ -315,21 +280,21 @@
                         data[$obj.attr("id")]=$obj.val();
                     }
                 });
-                $.post("/right/save",data,function(ret){
-                    if(ret.status=="SUCCEED"){
+                $.post(commonUrl+"/save",data,function(data){
+                    if(data.status=="SUCCEED"){
                         cheers.success({
                             title: '提示',
-                            message: ret.msg,
-                            alert: ret.msg
+                            message: data.msg,
+                            alert: data.msg
                         });
                     }else{
                         cheers.error({
                             title: '错误',
-                            message: ret.msg,
-                            alert: ret.msg
+                            message: data.msg,
+                            alert: data.msg
                         });
                     }
-                    initBootstrapTable(result,"/right/list");
+                    initBootstrapTable(result,commonUrl+"/list");
                 });
             },
             onCancel: function(e) {
@@ -344,21 +309,21 @@
         $('#my-confirm').modal({
             relatedTarget: this,
             onConfirm: function(options) {
-                $.post("/right/del", data, function (ret) {
-                    if(ret.status=="SUCCEED"){
+                $.post(commonUrl+"/del", data, function (result) {
+                    if(data.status=="SUCCEED"){
                         cheers.success({
                             title: '提示',
-                            message: ret.msg,
-                            alert: ret.msg
+                            message: data.msg,
+                            alert: data.msg
                         });
                     }else{
                         cheers.error({
                             title: '错误',
-                            message: ret.msg,
-                            alert: ret.msg
+                            message: data.msg,
+                            alert: data.msg
                         });
                     }
-                    initBootstrapTable(result,"/right/list");
+                    initBootstrapTable(result,commonUrl+"/list");
                 });
             },
             onCancel: function() {
@@ -366,54 +331,12 @@
         });
     }
 
-
-    /**点击树插件的枝叶*/
-    function onShowClick(event, treeId, treeNode){
-        showTreeObj.checkNode(treeNode, true, true);
-    }
-
-    /**ztree保存下拉选中事件*/
-    function onShowCheck(event, treeId, treeNode) {
-        var id="",name="";
-        var nodes = showTreeObj.getCheckedNodes(true);
-        for (var i=0;i<nodes.length;i++) {
-            id += nodes[i].id+",";
-            name += nodes[i].name+",";
-        }
-        id = id.substring(0,id.length-1);
-        name = name.substring(0,name.length-1);
-        $("#menu_id").val(id);
-        $("#menu_name").val(name);
-        $("#menu_name").attr("title",name);
-
-    }
-
-    /**点击树插件的枝叶*/
-    function onSearchClick(event, treeId, treeNode){
-        searchTreeObj.checkNode(treeNode, true, true);
-    }
-
-    /** ztree查询下拉选中事件 */
-    function onSearchCheck(event, treeId, treeNode) {
-        var id="",name="";
-        var nodes = searchTreeObj.getCheckedNodes(true);
-        for (var i=0;i<nodes.length;i++) {
-            id += nodes[i].id+",";
-            name += nodes[i].name+",";
-        }
-        id = id.substring(0,id.length-1);
-        name = name.substring(0,name.length-1);
-        $("#rightMenuId").val(id);
-        $("#rightMenu").val(name);
-        $("#rightMenu").attr("title",name);
-    }
-
     /**
      * 树形菜单 数据组织
      */
     function buildDomTree() {
         var treeData = {},
-             treeDataArr = [];
+                treeDataArr = [];
         $.ajax({url:"/menu/list",data:{},async:false,type:"post",dataType:"json",
             success:function(data) {
                 treeData.id = "0";
@@ -434,22 +357,10 @@
         });
         return treeDataArr;
     }
-    /**重置查询*/
-    function reset(){
-        $('#toolbar :input').val('');
-        searchTreeObj.checkAllNodes(false);
-        query();
-    }
+
     $(function () {
         //组织bootstraptable
-        initBootstrapTable(result,"/right/list");
-        //初始化下拉树
-        $('#doc-dropdown').dropdown({justify: '#doc-dropdown'});
-        $('#doc-dropdown-menu').dropdown({justify: '#doc-dropdown-menu'});
-        //初始化ztree
-        showTreeObj =  $.fn.zTree.init($("#menuShowList"), showSetting, buildDomTree());
-        searchTreeObj =  $.fn.zTree.init($("#menuSearchList"), searchSetting, buildDomTree());
-        showTreeObj.expandAll(true);
-        searchTreeObj.expandAll(true);
+        initBootstrapTable(result,commonUrl+"/list");
+
     });
 </script>

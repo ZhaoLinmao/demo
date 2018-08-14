@@ -9,7 +9,7 @@ var db    = {},
 
 
 db.settings = {
-    connectionLimit: 10,
+    connectionLimit: 100,
     host: 'localhost',
     user: 'root',
     password : 'jadite',
@@ -218,7 +218,6 @@ db.delete = function(tableName,where,callback){
             callback(err, null);
             return;
         }
-        console.log(result);
         callback(null,result);
     });
 };
