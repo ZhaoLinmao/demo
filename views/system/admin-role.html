@@ -71,10 +71,10 @@
             <button id="delrow" class="form-control am-btn am-btn-danger">
                 <i class="am-icon-trash-o"></i>删除
             </button>
-            <input id="rightName" name="rightName" class="form-control" placeholder="请输入角色名称"/>
+            <input id="roleName" class="form-control" placeholder="请输入角色名称"/>
             <select id="searchRight" class="multipleSelect" multiple="multiple" style="width:167px;height:34px"></select>
             <button class="form-control" onclick="query()">查询</button>
-            <button class="form-control" onclick="$('#toolbar :input').val('');">重置</button>
+            <button class="form-control" onclick="reset()">重置</button>
         </div>
         <table id="table"></table>
     </div>
@@ -159,8 +159,17 @@
             sortable:true,
             queryParams:function(params){//查询参数
                 $("#toolbar :input").each(function(i,e){
-                    if($(e).attr("id")!=undefined){
-                        params[$(e).attr("id")] = $(e).val();
+                    var $obj = $(e);
+                    var vid = $obj.attr("id");
+                    if(vid!=undefined){
+                        if(vid=="searchRight"){0
+                            if($("#searchRight").val()!=null){
+                                params[vid] = $("#searchRight").multipleSelect("getSelects").join(",");
+                                params[vid+"Name"] = $("#searchRight").multipleSelect("getSelects","text").join(",");
+                            }
+                        }else{
+                            params[vid]=$obj.val();
+                        }
                     }
                 });
                 return params;
@@ -285,13 +294,11 @@
         });
     }
 
-    $(function () {
-        //组织bootstraptable
-        initBootstrapTable(result,commonUrl+"/list");
-
-        //初始化权限列表
-        initMultiSelect();
-    });
+    function reset(){
+        $("#searchRight").multipleSelect("uncheckAll");
+        $('#toolbar :input').val('');
+        query();
+    }
 
     function initMultiSelect(){
         var data={};
@@ -311,10 +318,17 @@
                     placeholder: "选择权限信息",
                     selectAllText:"全选",
                     allSelected:"全部",
-                    countSelected: '# of % 被选中',
                     filter: true
                 });
             }
         });
     }
+
+    $(function () {
+        //初始化权限列表
+        initMultiSelect();
+
+        //组织bootstraptable
+        initBootstrapTable(result,commonUrl+"/list");
+    });
 </script>

@@ -23,7 +23,7 @@ router.post('/', function(req, res, next) {
  */
 router.post('/list', function(req, res, next) {
     var dao = new Dao(req,res);
-        dao.pageQuery(dao,function(page){
+    dao.pageQuery(dao,function(page){
         if(page.status=="SUCCEED"){
             res.send(page);
         }
@@ -35,7 +35,6 @@ router.post('/list', function(req, res, next) {
  *  url: /right/save
  */
 router.post('/save', function(req, res, next) {
-    console.log(req.body);
     var result = {};
     var dao = new Dao(req,res);
     var id = req.body.id;
