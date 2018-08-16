@@ -57,7 +57,7 @@ User.prototype.pageQuery = function(params,callback){
         }
     }
     var table=tableName,
-        where="1=1 and username like '%"+params.rightName+"%' "+menu_ids+" ",
+        where="1=1 and username like '%"+params.username+"%' "+menu_ids+" ",
         result={};
     conn.pageQuery(table,params,where,function(err,rows,count,fields){
         if(err){
