@@ -87,23 +87,11 @@
             openModal();
             $.each(row,function(i,e){
                 var $obj = $("#"+i);
-                if($obj.attr("name")=="rightCheckbox"){
-                    if(e==1){
-                        $("#"+i).prop("checked",true);
-                    }else{
-                        $("#"+i).prop("checked",false);
-                    }
+                if(i=="right"){
+                    var rightArr = e.split(",",-1);
+                    $obj.multipleSelect('setSelects', rightArr);
                 }else{
-                    if($obj.attr("id")=="menu_id"){
-                        var eArr = e.split(",",-1);
-                        for(var ev in eArr){
-                            var node = showTreeObj.getNodeByParam("id",eArr[ev], null);
-                            if(!node.isParent){
-                                showTreeObj.checkNode(node, true, true);
-                            }
-                        }
-                    }
-                    $("#"+i).val(e);
+                    $obj.val(e);
                 }
             });
         },
