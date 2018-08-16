@@ -182,34 +182,17 @@
   var deleteId="",rightCheckbox="",result = {},showTreeObj,searchTreeObj;
   result.columns = [];
   result.columns.push({field: "选择",checkbox: true,title:"选择",align:"center",valign:"middle"}),
-          result.columns.push({field: 'id',title: '操作',align: 'center',valign: 'middle',width: '140px',events: events,formatter: formatter});
-  result.columns.push({field: "序号",title:"序号",align:"center",valign:"middle",formatter: function (value, row, index) {return index+1;}}),
-          result.columns.push({field: 'name',title: "用户名称",align: 'center',valign: 'middle',rowspan: 1,colspan: 1});
-  result.columns.push({field: 'menu_name',title: "菜单选择",align: 'center',valign: 'middle',rowspan: 1,colspan: 1,'data-title':'menu_name',
-    formatter:function(value, row, index){
-      if(value!=""&&value!=null){
-        return value.substring(0,12);
-      }
-    }
-  });
-  result.columns.push({field: 'a',title: "增",align: 'center',valign: 'middle',rowspan: 1,colspan: 1,
-    formatter: function (value, row, index) {if(value==1){return '是';}else{return '-';}}
-  });
-  result.columns.push({field: 'd',title: "删",align: 'center',valign: 'middle',rowspan: 1,colspan: 1,
-    formatter: function (value, row, index) {if(value==1){return '是';}else{return '-';}}
-  });
-  result.columns.push({field: 'u',title: "改",align: 'center',valign: 'middle',rowspan: 1,colspan: 1,
-    formatter: function (value, row, index) {if(value==1){return '是';}else{return '-';}}
-  });
-  result.columns.push({field: 's',title: "查",align: 'center',valign: 'middle',rowspan: 1,colspan: 1,
-    formatter: function (value, row, index) {if(value==1){return '是';}else{return '-';}}
-  });
-  result.columns.push({field: 'i',title: "导入",align: 'center',valign: 'middle',rowspan: 1,colspan: 1,
-    formatter: function (value, row, index) {if(value==1){return '是';}else{return '-';}}
-  });
-  result.columns.push({field: 'e',title: "导出",align: 'center',valign: 'middle',rowspan: 1,colspan: 1,
-    formatter: function (value, row, index) {if(value==1){return '是';}else{return '-';}}
-  });
+  result.columns.push({field: 'id',title: '操作',align: 'center',valign: 'middle',width: '140px',events: events,formatter: formatter});
+  result.columns.push({field: "序号",title:"序号",align:"center",valign:"middle",formatter: function (value, row, index) {return index+1;}});
+  result.columns.push({field: 'username',title: "用户名",align: 'center',valign: 'middle',rowspan: 1,colspan: 1});
+  result.columns.push({field: 'nick',title: "昵称",align: 'center',valign: 'middle',rowspan: 1,colspan: 1});
+  result.columns.push({field: 'photo',title: "头像",align: 'center',valign: 'middle',rowspan: 1,colspan: 1});
+  result.columns.push({field: 'email',title: "电子邮件",align: 'center',valign: 'middle',rowspan: 1,colspan: 1});
+  result.columns.push({field: 'qq',title: "qq",align: 'center',valign: 'middle',rowspan: 1,colspan: 1,visible:false});
+  result.columns.push({field: 'weixin',title: "微信",align: 'center',valign: 'middle',rowspan: 1,colspan: 1,visible:false});
+  result.columns.push({field: 'org_name',title: "所属组织",align: 'center',valign: 'middle',rowspan: 1,colspan: 1});
+  result.columns.push({field: 'role_name',title: "拥有角色",align: 'center',valign: 'middle',rowspan: 1,colspan: 1});
+
 
   function query(){
     initBootstrapTable(result,commonUrl+"/list");
@@ -450,9 +433,9 @@
     $('#doc-dropdown').dropdown({justify: '#doc-dropdown'});
     $('#doc-dropdown-menu').dropdown({justify: '#doc-dropdown-menu'});
     //初始化ztree
-    showTreeObj =  $.fn.zTree.init($("#menuShowList"), showSetting, buildDomTree());
-    searchTreeObj =  $.fn.zTree.init($("#menuSearchList"), searchSetting, buildDomTree());
-    showTreeObj.expandAll(true);
-    searchTreeObj.expandAll(true);
+//    showTreeObj =  $.fn.zTree.init($("#menuShowList"), showSetting, buildDomTree());
+//    searchTreeObj =  $.fn.zTree.init($("#menuSearchList"), searchSetting, buildDomTree());
+//    showTreeObj.expandAll(true);
+//    searchTreeObj.expandAll(true);
   });
 </script>
