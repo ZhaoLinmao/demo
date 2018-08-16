@@ -1,6 +1,6 @@
 /*
  *  create by admin
- *  create date 2017-10-2 14:44:27 
+ *  create date 2018年8月16日 09:47:48
  */
 var conn = require("../../conf/mysql/db");
 
@@ -27,17 +27,38 @@ var tableName = "sys_user";
  * @param params
  * @param callback
  */
+User.prototype.getUserList = function(params,callback){
+    var sql = "select * from "+tableName;
+    conn.query(sql,[],function(err,rows,fileds){
+        var result = {};
+        result.status = "FAILURE";
+        if(err){
+            console.log(err);
+            result.msg = err;
+        }else{
+            result.status = "SUCCEED";
+            result.msg = rows;
+            callback(result);
+        }
+    });
+};
+
+/**
+ * 权限管理列表获取
+ * @param params
+ * @param callback
+ */
 User.prototype.pageQuery = function(params,callback){
     var menu_ids = "";
     if(params.rightMenuId!=""&&params.rightMenuId!=undefined){
         var rightMenuIdArr = params.rightMenuId.split(",",-1);
         for(var r in rightMenuIdArr){
-            menu_ids += " and menu_id like '%"+rightMenuIdArr[r]+"%' ";
+            menu_ids += " and org_id like '%"+rightMenuIdArr[r]+"%' ";
         }
     }
     var table=tableName,
-         where="1=1 and name like '%"+params.rightName+"%' "+menu_ids+" ",
-         result={};
+        where="1=1 and username like '%"+params.rightName+"%' "+menu_ids+" ",
+        result={};
     conn.pageQuery(table,params,where,function(err,rows,count,fields){
         if(err){
             console.log(err);
@@ -73,13 +94,13 @@ User.prototype.add = function(req,params,callback){
 };
 
 /**
- * 菜单修改
+ * 权限修改
  * @param params
  * @param callback
  */
 User.prototype.upd = function(req,params,callback){
     var table=tableName,
-         where="id='"+params.id+"'";
+        where="id='"+params.id+"'";
     conn.update(req,table,params,where,function(err,rows){
         var result = {};
         result.status = "FAILURE";
@@ -103,7 +124,6 @@ User.prototype.del = function(params,callback){
     var table=tableName,
         where="id in ('"+params.id+"')";
     conn.delete(table,where,function(err,result){
-
         result.status = "FAILURE";
         if(err){
             console.log(err);

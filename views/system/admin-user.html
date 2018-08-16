@@ -89,23 +89,24 @@
       <button id="delrow" class="form-control am-btn am-btn-danger">
         <i class="am-icon-trash-o"></i>删除
       </button>
-      <input id="rightName" name="rightName" class="form-control" placeholder="请输入用户名称"/>
+      <input id="userName" name="userName" class="form-control" placeholder="请输入用户名称"/>
 
       <div id="doc-dropdown" class="am-dropdown" data-am-dropdown>
-        <input id="rightMenu" class="form-control am-dropdown-toggle" placeholder="请选择菜单" readonly="readonly"/>
-        <input id="rightMenuId" type="hidden" />
+        <input id="orgName" class="form-control am-dropdown-toggle" placeholder="请选择组织" readonly="readonly"/>
+        <input id="orgId" type="hidden" />
         <div class="am-dropdown-content" style="max-height: 220px;width: 250px;overflow:auto;overflow-x:hidden;">
-          <ul id="menuSearchList" class="ztree"></ul>
+          <ul id="orgSearchList" class="ztree"></ul>
         </div>
       </div>
       <button class="form-control" onclick="query()">查询</button>
-      <button class="form-control" onclick="$('#toolbar :input').val('');">重置</button>
+      <button class="form-control" onclick="reset()">重置</button>
     </div>
     <table id="table"></table>
   </div>
 </div>
 
 <script>
+  var delIds = "",commonUrl="/user";
   window.events = {
     'click #edit': function (event, value, row, index) {
       openModal();
@@ -132,7 +133,8 @@
       });
     },
     'click #del': function (e, value, row, index) {
-      deleteData(value);
+      delIds = value;
+      deleteData();
     }
   };
 
@@ -210,7 +212,7 @@
   });
 
   function query(){
-    initBootstrapTable(result,"/right/list");
+    initBootstrapTable(result,commonUrl+"/list");
   }
   //组织bootstrapTable
   function initBootstrapTable(result,url){
@@ -292,7 +294,8 @@
       value += checkedData[ind].id+"','";
     }
     value = value.substring(0,value.length-3);
-    deleteData(value);
+    delIds = value;
+    deleteData();
   });
   /** 打开数据窗口模型 */
   function openModal(){
@@ -315,21 +318,21 @@
             data[$obj.attr("id")]=$obj.val();
           }
         });
-        $.post("/right/save",data,function(data){
-          if(data.status=="SUCCEED"){
+        $.post(commonUrl+"/save",data,function(ret){
+          if(ret.status=="SUCCEED"){
             cheers.success({
               title: '提示',
-              message: data.msg,
-              alert: data.msg
+              message: ret.msg,
+              alert: ret.msg
             });
           }else{
             cheers.error({
               title: '错误',
-              message: data.msg,
-              alert: data.msg
+              message: ret.msg,
+              alert: ret.msg
             });
           }
-          initBootstrapTable(result,"/right/list");
+          initBootstrapTable(result,commonUrl+"/list");
         });
       },
       onCancel: function(e) {
@@ -338,27 +341,27 @@
   }
 
   /** 删除数据窗口展示 */
-  function deleteData(value){
-    var data={};
-    data.id = value;
+  function deleteData(){
     $('#my-confirm').modal({
       relatedTarget: this,
       onConfirm: function(options) {
-        $.post("/right/del", data, function (result) {
-          if(data.status=="SUCCEED"){
+        var data={};
+        data.id = delIds;
+        $.post(commonUrl+"/del", data, function (ret) {
+          if(ret.status=="SUCCEED"){
             cheers.success({
               title: '提示',
-              message: data.msg,
-              alert: data.msg
+              message: ret.msg,
+              alert: ret.msg
             });
           }else{
             cheers.error({
               title: '错误',
-              message: data.msg,
-              alert: data.msg
+              message: ret.msg,
+              alert: ret.msg
             });
           }
-          initBootstrapTable(result,"/right/list");
+          initBootstrapTable(result,commonUrl+"/list");
         });
       },
       onCancel: function() {
@@ -434,10 +437,15 @@
     });
     return treeDataArr;
   }
-
+  /**重置查询*/
+  function reset(){
+    $('#toolbar :input').val('');
+    searchTreeObj.checkAllNodes(false);
+    query();
+  }
   $(function () {
     //组织bootstraptable
-    initBootstrapTable(result,"/right/list");
+    initBootstrapTable(result,commonUrl+"/list");
     //初始化下拉树
     $('#doc-dropdown').dropdown({justify: '#doc-dropdown'});
     $('#doc-dropdown-menu').dropdown({justify: '#doc-dropdown-menu'});

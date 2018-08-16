@@ -1,9 +1,9 @@
 /*
  *  create by admin
- *  create date 2017-10-2 14:44:27 
+ *  create date 2018年8月16日 09:46:16
  */
 var express = require('express'),
-    User = require("../../dao/system/User"),
+    Dao = require("../../dao/system/User"),
     router = express.Router();
 
 
@@ -19,11 +19,24 @@ router.post('/', function(req, res, next) {
 
 /**
  *  用户管理获取.
+ *  url: /user/slist
+ */
+router.post('/slist', function(req, res, next) {
+    var dao = new Dao(req,res);
+    dao.getUserList(dao,function(page){
+        if(page.status=="SUCCEED"){
+            res.send(page);
+        }
+    });
+});
+
+/**
+ *  用户管理获取.
  *  url: /user/list
  */
 router.post('/list', function(req, res, next) {
-    var user = new User(req,res);
-    user.pageQuery(user,function(page){
+    var dao = new Dao(req,res);
+    dao.pageQuery(dao,function(page){
         if(page.status=="SUCCEED"){
             res.send(page);
         }
@@ -36,10 +49,10 @@ router.post('/list', function(req, res, next) {
  */
 router.post('/save', function(req, res, next) {
     var result = {};
-    var user = new User(req,res);
+    var dao = new Dao(req,res);
     var id = req.body.id;
     if(id!=null&&id!=""){
-    	user.upd(req,user,function(data){
+        dao.upd(req,dao,function(data){
             if(data.status=="SUCCEED"){
                 result.status = data.status;
                 result.msg = "保存成功";
@@ -50,7 +63,7 @@ router.post('/save', function(req, res, next) {
             res.send(result);
         });
     }else{
-    	user.add(req,user,function(data){
+        dao.add(req,dao,function(data){
             if(data.status=="SUCCEED"){
                 result.status = data.status;
                 result.msg = "保存成功";
@@ -69,15 +82,14 @@ router.post('/save', function(req, res, next) {
  */
 router.post('/del', function(req, res, next) {
     var result = {};
-    var user = new User(req,res);
+    var dao = new Dao(req,res);
     var id = req.body.id;
     if(id!=null&&id!=""){
-    	user.del(user,function(data){
-            if(data.status=="success"){
-                result.status = data.status;
+        dao.del(dao,function(data){
+            result.status = data.status;
+            if(data.status=="SUCCEED"){
                 result.msg = "删除成功";
             }else{
-                result.status = data.status;
                 result.msg="删除失败";
             }
             res.send(result);
