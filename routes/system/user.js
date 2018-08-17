@@ -5,6 +5,7 @@
 var express = require('express'),
     Dao = require("../../dao/system/User"),
     router = express.Router();
+var log = require('../../util/log/logger4j');
 
 
 

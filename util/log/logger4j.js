@@ -3,7 +3,7 @@ var log4js = require('log4js');
 // 目录创建完毕，才加载配置，不然会出异常
 log4js.configure({
     "appenders": [
-        {"type": "console", "category": "console"}
+        {"type": "console", "category": "log"}
         //日志写入文件信息  ,
         //{
         //    "type": 'dateFile',

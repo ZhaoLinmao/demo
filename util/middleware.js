@@ -2,6 +2,7 @@
  * Created by zlm on 2016/12/22.
  */
 var sha1 = require('sha1');
+var log = require('./log/logger4j');
 
 var Middleware = function (req,res,next) {
     var reg=new RegExp("bower_components|assets");
@@ -18,6 +19,7 @@ var Middleware = function (req,res,next) {
                 next();
             }
         }else{
+            log.info(req.body);
             next();
         }
     }
