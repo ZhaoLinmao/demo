@@ -3,7 +3,16 @@ var log4js = require('log4js');
 // 目录创建完毕，才加载配置，不然会出异常
 log4js.configure({
     "appenders": [
-        {"type": "console"}
+        {"type": "console", "category": "console"}
+        //日志写入文件信息  ,
+        //{
+        //    "type": 'dateFile',
+        //    "filename":"log/",
+        //    "pattern": "log-yyyy-MM-dd.log",
+        //    "alwaysIncludePattern": true,
+        //    "pollInterval": 1,
+        //    "category": "log"
+        //}
     ],
     "replaceConsole": true,
     //设置记录器的默认显示级别，低于这个级别的日志，不会输出。其他级别(trace、debug、info、warn、error、fatal)
