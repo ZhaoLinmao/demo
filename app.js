@@ -1,11 +1,11 @@
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
-var logger = require('morgan');
+var morgan = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var ejs = require('ejs');
-var log = require('log4js');
+var log = require('./util/log/logger4j');
 var controller = require('./conf/controller')();
 var db = require('./conf/mysql/db');
 var middleware = require('./util/middleware');
@@ -19,7 +19,10 @@ app.set('view engine', 'html');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
+//日志管理 trace debug info warn error fatal
+log.use(app);
+
+//app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());

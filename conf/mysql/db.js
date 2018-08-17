@@ -5,8 +5,8 @@
 var db    = {},
     util = require('../../util/Util')(),
     dateUtil = require('../../util/DateUtil')(),
-     mysql = require('mysql');
-
+    mysql = require('mysql');
+var log = require('../../util/log/logger4j');
 
 db.settings = {
     connectionLimit: 100,
@@ -50,9 +50,10 @@ db.query = function(sql,params, callback){
         callback();
         return;
     }
+    log.info(sql);
     pool.query(sql,params,function(err, rows, fields) {
         if (err) {
-            console.log(err);
+            console.error(err);
             callback(err, null);
             return;
         }
@@ -72,9 +73,10 @@ db.checkSize = function(tableName,params,where,callback){
         return;
     }
     var sql = " select count(*) as cnt from "+tableName+" where "+where;
+    log.info(sql);
     pool.query(sql,{},function(err, count, fields) {
         if (err) {
-            console.log(err);
+            console.error(err);
             callback(err, null);
             return;
         }
@@ -96,16 +98,16 @@ db.pageQuery = function(tableName,params,where,callback){
     }
 	var sql = "select * from "+ tableName +" where "+ where +" limit "+ params.offset +","+ params.limit;
 	var sqlTotle = "select count(*) as cnt from "+tableName;
-    var result = {};
+    log.info(sql);
 	pool.query(sql,params,function(err, rows, fields) {
         if (err) {
-            console.log(err);
+            log.error(err);
             callback(err, null);
             return;
         }
         pool.query(sqlTotle,params,function(err, count, fields1) {
         	if (err) {
-                console.log(err);
+                log.error(err);
                 callback(err, null);
                 return;
             }
@@ -147,6 +149,7 @@ db.insert = function(req,tableName,params, callback){
     tableColum = tableColum.substring(0,tableColum.length-1);
     tableColumCnt = tableColumCnt.substring(0,tableColumCnt.length-1);
     var sql = "insert into "+tableName+"("+tableColum+")values("+tableColumCnt+")";
+    log.info(sql);
     pool.query(sql,tableValue,function(err, result) {
         if (err) {
             callback(err, null);
@@ -188,9 +191,10 @@ db.update = function(req,tableName,params,where,callback){
     tableColum = tableColum.substring(0,tableColum.length-1);
 
     var sql = "update "+tableName+" set "+tableColum+" where "+ where ;
+    log.info(sql);
     pool.query(sql,tableValue,function(err, result) {
         if (err) {
-            console.log(result);
+            log.error(result);
             callback(err, null);
             return;
         }
@@ -211,7 +215,7 @@ db.delete = function(tableName,where,callback){
     }
 
     var sql = "delete from "+tableName+" where "+ where ;
-
+    log.info(sql);
     pool.query(sql,[],function(err, result) {
         if (err) {
             callback(err, null);
