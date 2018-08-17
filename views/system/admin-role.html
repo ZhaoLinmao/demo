@@ -150,7 +150,7 @@
                     var $obj = $(e);
                     var vid = $obj.attr("id");
                     if(vid!=undefined){
-                        if(vid=="searchRight"){0
+                        if(vid=="searchRight"){
                             if($("#searchRight").val()!=null){
                                 params[vid] = $("#searchRight").multipleSelect("getSelects").join(",");
                                 params[vid+"Name"] = $("#searchRight").multipleSelect("getSelects","text").join(",");

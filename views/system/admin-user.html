@@ -1,3 +1,18 @@
+<style>
+  .multipleSelect button{
+    height:34px;
+  }
+  .multipleSelect button span,.multipleSelect button div{
+    margin-top:4px;
+  }
+  .multipleSelect div ul li{
+    text-align: left;
+  }
+  .droptree{
+    width:100%;
+  }
+</style>
+
 <div class="am-cf am-padding am-padding-bottom-0">
   <div class="am-fl am-cf">
     <strong class="am-text-primary am-text-lg">系统管理</strong> /
@@ -9,22 +24,59 @@
 <div class="am-modal am-modal-prompt" tabindex="-1" id="my-prompt">
   <div class="am-modal-dialog">
     <div class="am-modal-hd">用户配置</div>
-    <div class="am-modal-bd">
+    <div class="am-modal-bd" style="max-height: 440px;overflow:auto;overflow-x:hidden;">
       <div class="am-form-group">
         <div class="am-form am-form-horizontal" id="formSubmitData">
           <input type="hidden" id="id" name="id"/>
+          <input type="hidden" id="password" name="password"/>
           <div class="am-form-group">
-            <label for="name" class="am-u-sm-12 am-u-md-3 am-form-label">用户名称</label>
+            <label for="username" class="am-u-sm-12 am-u-md-3 am-form-label">用户名称</label>
             <div class="am-u-sm-12 am-u-md-9">
-              <input type="text" id="name" name="name" placeholder="输入用户名称" class="am-form-field am-radius">
+              <input type="text" id="username" name="username" placeholder="输入用户名" class="am-form-field am-radius">
+            </div>
+          </div>
+          <div class="am-form-group">
+            <label for="nick" class="am-u-sm-12 am-u-md-3 am-form-label">昵称</label>
+            <div class="am-u-sm-12 am-u-md-9">
+              <input type="text" id="nick" name="nick" placeholder="输入昵称" class="am-form-field am-radius">
+            </div>
+          </div>
+          <div class="am-form-group">
+            <label for="phone" class="am-u-sm-12 am-u-md-3 am-form-label">电话号</label>
+            <div class="am-u-sm-12 am-u-md-9">
+              <input type="text" id="phone" name="phone" placeholder="输入电话号" class="am-form-field am-radius">
+            </div>
+          </div>
+          <div class="am-form-group">
+            <label for="photo" class="am-u-sm-12 am-u-md-3 am-form-label">头像</label>
+            <div class="am-u-sm-12 am-u-md-9">
+              <input type="text" id="photo" name="photo" placeholder="选择头像" class="am-form-field am-radius">
+            </div>
+          </div>
+          <div class="am-form-group">
+            <label for="email" class="am-u-sm-12 am-u-md-3 am-form-label">邮箱</label>
+            <div class="am-u-sm-12 am-u-md-9">
+              <input type="text" id="email" name="email" placeholder="输入邮箱" class="am-form-field am-radius">
+            </div>
+          </div>
+          <div class="am-form-group">
+            <label for="weixin" class="am-u-sm-12 am-u-md-3 am-form-label">微信号</label>
+            <div class="am-u-sm-12 am-u-md-9">
+              <input type="text" id="weixin" name="weixin" placeholder="输入微信号" class="am-form-field am-radius">
+            </div>
+          </div>
+          <div class="am-form-group">
+            <label for="qq" class="am-u-sm-12 am-u-md-3 am-form-label">qq</label>
+            <div class="am-u-sm-12 am-u-md-9">
+              <input type="text" id="qq" name="qq" placeholder="输入qq" class="am-form-field am-radius">
             </div>
           </div>
           <div class="am-form-group">
             <label class="am-u-sm-12 am-u-md-3 am-form-label">所属组织</label>
             <div class="am-u-sm-12 am-u-md-9">
-              <div id="doc-dropdown-org" class="am-dropdown am-u-sm-12 am-u-md-9" data-am-dropdown>
-                <input id="menu_name" type="text" class="am-form-field am-radius am-dropdown-toggle" placeholder="请选择组织" readonly="readonly"/>
-                <input id="menu_id" type="hidden" />
+              <div id="doc-dropdown-org" class="am-dropdown droptree am-u-sm-12 am-u-md-9" data-am-dropdown>
+                <input id="org_name" type="text" class="am-form-field am-radius am-dropdown-toggle" placeholder="请选择组织" width="100%" readonly="readonly"/>
+                <input id="org_id" type="hidden" />
                 <div class="am-dropdown-content"  style="height: 220px;width: 250px;overflow:auto;overflow-x:hidden;">
                   <ul id="orgShowList" class="ztree"></ul>
                 </div>
@@ -32,26 +84,9 @@
             </div>
           </div>
           <div class="am-form-group">
-            <label class="am-u-sm-12 am-u-md-3 am-form-label">用户</label>
+            <label class="am-u-sm-12 am-u-md-3 am-form-label">角色</label>
             <div class="am-u-sm-12 am-u-md-9">
-              <label class="am-checkbox-inline">
-                <input id="a" name="rightCheckbox" type="checkbox">增
-              </label>
-              <label class="am-checkbox-inline">
-                <input id="d" name="rightCheckbox" type="checkbox">删
-              </label>
-              <label class="am-checkbox-inline">
-                <input id="u" name="rightCheckbox" type="checkbox">改
-              </label>
-              <label class="am-checkbox-inline">
-                <input id="s" name="rightCheckbox" type="checkbox">查
-              </label>
-              <label class="am-checkbox-inline">
-                <input id="i" name="rightCheckbox" type="checkbox">导入
-              </label>
-              <label class="am-checkbox-inline">
-                <input id="e" name="rightCheckbox" type="checkbox">导出
-              </label>
+               <select id="role" class="multipleSelect" multiple="multiple"></select>
             </div>
           </div>
         </div>
@@ -89,11 +124,11 @@
       <button id="delrow" class="form-control am-btn am-btn-danger">
         <i class="am-icon-trash-o"></i>删除
       </button>
-      <input id="username" name="username" class="form-control" placeholder="请输入用户名称"/>
-
+      <input id="name" name="name" class="form-control" placeholder="请输入用户名称"/>
+      <select id="searchRole" class="multipleSelect" multiple="multiple" style="width:167px;height:34px"></select>
       <div id="doc-dropdown" class="am-dropdown" data-am-dropdown>
-        <input id="orgName" class="form-control am-dropdown-toggle" placeholder="请选择组织" readonly="readonly"/>
-        <input id="orgId" type="hidden" />
+        <input id="userOrg_name" class="form-control am-dropdown-toggle" placeholder="请选择组织" readonly="readonly"/>
+        <input id="userOrg_id" type="hidden" />
         <div class="am-dropdown-content" style="max-height: 220px;width: 250px;overflow:auto;overflow-x:hidden;">
           <ul id="orgSearchList" class="ztree"></ul>
         </div>
@@ -141,10 +176,10 @@
   // 下拉zTree组件组织
   var showSetting = {
     view: {
-      selectedMulti: true
+      selectedMulti: false
     },
     check: {
-      enable: true
+      enable: false
     },
     data: {
       simpleData: {
@@ -155,15 +190,14 @@
       enable: false
     },
     callback:{
-      onCheck:onShowCheck,
       onClick:onShowClick
     }
   },searchSetting = {
     view: {
-      selectedMulti: true
+      selectedMulti: false
     },
     check: {
-      enable: true
+      enable: false
     },
     data: {
       simpleData: {
@@ -174,7 +208,6 @@
       enable: false
     },
     callback:{
-      onCheck:onSearchCheck,
       onClick:onSearchClick
     }
   };
@@ -224,9 +257,18 @@
       maintainSelected:true,
       sortable:true,
       queryParams:function(params){//查询参数
-        $("#toolbar :input").each(function(i,e){
-          if($(e).attr("id")!=undefined){
-            params[$(e).attr("id")] = $(e).val();
+        $("#toolbar :input").not("button").each(function(i,e){
+          var $obj = $(e);
+          var vid = $obj.attr("id");
+          if(vid!=undefined){
+            if(vid=="searchRole"){
+              if($("#searchRole").val()!=null){
+                params[vid] = $("#searchRole").multipleSelect("getSelects").join(",");
+                params[vid+"Name"] = $("#searchRole").multipleSelect("getSelects","text").join(",");
+              }
+            }else{
+              params[vid]=$obj.val();
+            }
           }
         });
         return params;
@@ -284,21 +326,21 @@
   function openModal(){
     $("#formSubmitData :input").not("[type='checkbox']").val("");
     showTreeObj.checkAllNodes(false);
-    $("#formSubmitData :input[type='checkbox']").prop("checked",false);
+    $("#role").multipleSelect("uncheckAll");
     $('#my-prompt').modal({
       relatedTarget: this,
       onConfirm: function(e) {
         var data = {};
         $("#formSubmitData :input").each(function(i,e){
           var $obj = $(e);
-          if($obj.attr("name")=="rightCheckbox"){
-            if($obj.is(":checked")){
-              data[$obj.attr("id")]=1;
+          var vid = $obj.attr("id");
+          if(vid!=undefined){
+            if(vid=="role"){
+              data[vid] = $("#"+vid).multipleSelect("getSelects").join(",");
+              data[vid+"_name"] = $("#"+vid).multipleSelect("getSelects","text").join(",");
             }else{
-              data[$obj.attr("id")]=0;
+              data[$obj.attr("id")]=$obj.val();
             }
-          }else{
-            data[$obj.attr("id")]=$obj.val();
           }
         });
         $.post(commonUrl+"/save",data,function(ret){
@@ -355,43 +397,20 @@
 
   /**点击树插件的枝叶*/
   function onShowClick(event, treeId, treeNode){
-    showTreeObj.checkNode(treeNode, true, true);
-  }
-
-  /**ztree保存下拉选中事件*/
-  function onShowCheck(event, treeId, treeNode) {
-    var id="",name="";
-    var nodes = showTreeObj.getCheckedNodes(true);
-    for (var i=0;i<nodes.length;i++) {
-      id += nodes[i].id+",";
-      name += nodes[i].name+",";
-    }
-    id = id.substring(0,id.length-1);
-    name = name.substring(0,name.length-1);
-    $("#menu_id").val(id);
-    $("#menu_name").val(name);
-    $("#menu_name").attr("title",name);
-
+      var id = treeNode.id;
+      var name = treeNode.name;
+      $("#org_id").val(id);
+      $("#org_name").val(name);
+      $("#org_name").attr("title",name);
   }
 
   /**点击树插件的枝叶*/
   function onSearchClick(event, treeId, treeNode){
-    searchTreeObj.checkNode(treeNode, true, true);
-  }
-
-  /** ztree查询下拉选中事件 */
-  function onSearchCheck(event, treeId, treeNode) {
-    var id="",name="";
-    var nodes = searchTreeObj.getCheckedNodes(true);
-    for (var i=0;i<nodes.length;i++) {
-      id += nodes[i].id+",";
-      name += nodes[i].name+",";
-    }
-    id = id.substring(0,id.length-1);
-    name = name.substring(0,name.length-1);
-    $("#rightMenuId").val(id);
-    $("#rightMenu").val(name);
-    $("#rightMenu").attr("title",name);
+    var id = treeNode.id;
+    var name = treeNode.name;
+    $("#userOrg_id").val(id);
+    $("#userOrg_name").val(name);
+    $("#userOrg_name").attr("title",name);
   }
 
   /**
@@ -400,7 +419,7 @@
   function buildDomTree() {
     var treeData = {},
             treeDataArr = [];
-    $.ajax({url:"/menu/list",data:{},async:false,type:"post",dataType:"json",
+    $.ajax({url:"/org/list",data:{},async:false,type:"post",dataType:"json",
       success:function(data) {
         treeData.id = "0";
         treeData.pId = "";
@@ -420,10 +439,37 @@
     });
     return treeDataArr;
   }
+
+  /** 初始化下拉多选组件 */
+  function initMultiSelect(){
+    var data={};
+    $.ajax({
+      url:"/role/slist",
+      data:data,
+      type:"post",
+      dataType:"json",
+      success:function(ret){
+        if(ret.status=="SUCCEED"){
+          var msg = ret.msg;
+          for(var m in msg){
+            $("#searchRole,#role").append("<option value='"+msg[m].id+"'>"+msg[m].name+"</option>");
+          }
+        }
+        $(".multipleSelect").multipleSelect({
+          placeholder: "选择权限信息",
+          selectAllText:"全选",
+          allSelected:"全部",
+          filter: true
+        });
+      }
+    });
+  }
+
   /**重置查询*/
   function reset(){
     $('#toolbar :input').val('');
     searchTreeObj.checkAllNodes(false);
+    $("#searchRole").multipleSelect("uncheckAll");
     query();
   }
   $(function () {
@@ -438,5 +484,6 @@
     searchTreeObj =  $.fn.zTree.init($("#orgSearchList"), searchSetting, treeData);
     showTreeObj.expandAll(true);
     searchTreeObj.expandAll(true);
+    initMultiSelect();
   });
 </script>

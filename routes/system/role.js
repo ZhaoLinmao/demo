@@ -18,7 +18,20 @@ router.post('/', function(req, res, next) {
 });
 
 /**
- *  角色管理获取.
+ *  角色信息获取.
+ *  url: /role/slist
+ */
+router.post('/slist', function(req, res, next) {
+    var dao = new Dao(req,res);
+    dao.getRoleList(dao,function(page){
+        if(page.status=="SUCCEED"){
+            res.send(page);
+        }
+    });
+});
+
+/**
+ *  角色信息管理获取.
  *  url: /role/list
  */
 router.post('/list', function(req, res, next) {

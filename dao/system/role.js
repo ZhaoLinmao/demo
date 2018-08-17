@@ -18,6 +18,30 @@ var Role = function (req,res,next){
 };
 
 var tableName = "sys_role";
+
+
+/**
+ * 角色信息管理列表获取
+ * @param params
+ * @param callback
+ */
+Role.prototype.getRoleList = function(params,callback){
+    var sql = "select * from "+tableName;
+    conn.query(sql,[],function(err,rows,fileds){
+        var result = {};
+        result.status = "FAILURE";
+        if(err){
+            console.log(err);
+            result.msg = err;
+        }else{
+            result.status = "SUCCEED";
+            result.msg = rows;
+            callback(result);
+        }
+    });
+};
+
+
 /**
  * 角色管理列表获取
  * @param params
