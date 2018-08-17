@@ -20,13 +20,13 @@
             </div>
           </div>
           <div class="am-form-group">
-            <label class="am-u-sm-12 am-u-md-3 am-form-label">管理菜单</label>
+            <label class="am-u-sm-12 am-u-md-3 am-form-label">所属组织</label>
             <div class="am-u-sm-12 am-u-md-9">
-              <div id="doc-dropdown-menu" class="am-dropdown am-u-sm-12 am-u-md-9" data-am-dropdown>
-                <input id="menu_name" type="text" class="am-form-field am-radius am-dropdown-toggle" placeholder="请选择菜单" readonly="readonly"/>
+              <div id="doc-dropdown-org" class="am-dropdown am-u-sm-12 am-u-md-9" data-am-dropdown>
+                <input id="menu_name" type="text" class="am-form-field am-radius am-dropdown-toggle" placeholder="请选择组织" readonly="readonly"/>
                 <input id="menu_id" type="hidden" />
                 <div class="am-dropdown-content"  style="height: 220px;width: 250px;overflow:auto;overflow-x:hidden;">
-                  <ul id="menuShowList" class="ztree"></ul>
+                  <ul id="orgShowList" class="ztree"></ul>
                 </div>
               </div>
             </div>
@@ -431,11 +431,12 @@
     initBootstrapTable(result,commonUrl+"/list");
     //初始化下拉树
     $('#doc-dropdown').dropdown({justify: '#doc-dropdown'});
-    $('#doc-dropdown-menu').dropdown({justify: '#doc-dropdown-menu'});
+    $('#doc-dropdown-org').dropdown({justify: '#doc-dropdown-org'});
+    var treeData = buildDomTree();
     //初始化ztree
-//    showTreeObj =  $.fn.zTree.init($("#menuShowList"), showSetting, buildDomTree());
-//    searchTreeObj =  $.fn.zTree.init($("#menuSearchList"), searchSetting, buildDomTree());
-//    showTreeObj.expandAll(true);
-//    searchTreeObj.expandAll(true);
+    showTreeObj =  $.fn.zTree.init($("#orgShowList"), showSetting,treeData);
+    searchTreeObj =  $.fn.zTree.init($("#orgSearchList"), searchSetting, treeData);
+    showTreeObj.expandAll(true);
+    searchTreeObj.expandAll(true);
   });
 </script>

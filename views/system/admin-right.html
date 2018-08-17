@@ -449,9 +449,10 @@
         //初始化下拉树
         $('#doc-dropdown').dropdown({justify: '#doc-dropdown'});
         $('#doc-dropdown-menu').dropdown({justify: '#doc-dropdown-menu'});
+        var treeData = buildDomTree();
         //初始化ztree
-        showTreeObj =  $.fn.zTree.init($("#menuShowList"), showSetting, buildDomTree());
-        searchTreeObj =  $.fn.zTree.init($("#menuSearchList"), searchSetting, buildDomTree());
+        showTreeObj =  $.fn.zTree.init($("#menuShowList"), showSetting, treeData);
+        searchTreeObj =  $.fn.zTree.init($("#menuSearchList"), searchSetting, treeData);
         showTreeObj.expandAll(true);
         searchTreeObj.expandAll(true);
     });
