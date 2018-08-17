@@ -106,7 +106,7 @@
 </div>
 
 <script>
-    var delIds = "";
+    var delIds = "",commonUrl="/right";
     window.events = {
         'click #edit': function (event, value, row, index) {
             openModal();
@@ -212,7 +212,7 @@
     });
 
     function query(){
-        initBootstrapTable(result,"/right/list");
+        initBootstrapTable(result,commonUrl+"/list");
     }
     //组织bootstrapTable
     function initBootstrapTable(result,url){
@@ -318,7 +318,7 @@
                         data[$obj.attr("id")]=$obj.val();
                     }
                 });
-                $.post("/right/save",data,function(ret){
+                $.post(commonUrl+"/save",data,function(ret){
                     if(ret.status=="SUCCEED"){
                         cheers.success({
                             title: '提示',
@@ -332,7 +332,7 @@
                             alert: ret.msg
                         });
                     }
-                    initBootstrapTable(result,"/right/list");
+                    initBootstrapTable(result,commonUrl+"/list");
                 });
             },
             onCancel: function(e) {
@@ -347,7 +347,7 @@
             onConfirm: function(options) {
                 var data={};
                 data.id = delIds;
-                $.post("/right/del", data, function (ret) {
+                $.post(commonUrl+"/del", data, function (ret) {
                     if(ret.status=="SUCCEED"){
                         cheers.success({
                             title: '提示',
@@ -361,7 +361,7 @@
                             alert: ret.msg
                         });
                     }
-                    initBootstrapTable(result,"/right/list");
+                    initBootstrapTable(result,commonUrl+"/list");
                 });
             },
             onCancel: function() {
@@ -445,7 +445,7 @@
     }
     $(function () {
         //组织bootstraptable
-        initBootstrapTable(result,"/right/list");
+        initBootstrapTable(result,commonUrl+"/list");
         //初始化下拉树
         $('#doc-dropdown').dropdown({justify: '#doc-dropdown'});
         $('#doc-dropdown-menu').dropdown({justify: '#doc-dropdown-menu'});
