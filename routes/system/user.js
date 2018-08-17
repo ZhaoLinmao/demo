@@ -14,7 +14,6 @@ var express = require('express'),
  */
 router.post('/', function(req, res, next) {
     var result = {};
-    console.error("123213123123==========");
     res.render("system/admin-user",result);
 });
 
